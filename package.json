@@ -1,0 +1,17 @@
+{
+    "name": "es.e-ucm.simva-unity-plugin",
+    "version": "0.0.1",
+    "displayName": "Simva Unity Plugin",
+    "description": "A Unity Package that connects to Simva using Xasu.",
+    "keywords": ["xapi", "learning analytics", "cmi5", "simva"],
+    "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.0.2",
+        "es.e-ucm.xasu": "https://github.com/e-ucm/xasu.git"
+    },
+    "untiy": "2019.4",
+    "author": {
+        "name": "e-UCM Learning Group",
+        "email": "info@e-ucm.es",
+        "url": "https://github.com/e-ucm/simva-unity-plugin"
+    }
+}
