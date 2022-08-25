@@ -6,12 +6,20 @@
     "keywords": ["xapi", "learning analytics", "cmi5", "simva"],
     "dependencies": {
         "com.unity.nuget.newtonsoft-json": "3.0.2",
-        "es.e-ucm.xasu": "https://github.com/e-ucm/xasu.git"
+        "es.e-ucm.xasu": "https://github.com/e-ucm/xasu.git",
+        "com.unity.editorcoroutines": "1.0.0"
     },
-    "untiy": "2019.4",
+    "unity": "2019.4",
     "author": {
         "name": "e-UCM Learning Group",
         "email": "info@e-ucm.es",
         "url": "https://github.com/e-ucm/simva-unity-plugin"
-    }
+    },
+    "samples": [
+        {
+            "displayName": "Demo",
+            "description": "Contains a scene and a tester.",
+            "path": "Samples~/Demo"
+        }
+    ]
 }
