@@ -12,14 +12,6 @@ namespace Simva
 {
     public static class RequestsUtil
     {
-        private static RequestRunner requestRunner;
-        private class RequestRunner : MonoBehaviour
-        {
-            public void RunRoutine(IEnumerator routine)
-            {
-                StartCoroutine(routine);
-            }
-        }
 
         public static IAsyncOperation<T> DoRequest<T>(UnityWebRequest webRequest)
         {
@@ -52,16 +44,9 @@ namespace Simva
 
         private static void RunRoutine(IEnumerator routine)
         {
-            if (requestRunner == null)
-            {
-                var requestRunnerGo = new GameObject("RequestRunner", typeof(RequestRunner))
-                {
-                    hideFlags = HideFlags.HideAndDontSave
-                };
-                GameObject.DontDestroyOnLoad(requestRunnerGo);
-                requestRunner = requestRunnerGo.GetComponent<RequestRunner>();
-            }
-            requestRunner.RunRoutine(routine);
+
+            CoroutineRunner.Instance.
+                RunRoutine(routine);
         }
 
         private static IEnumerator DoRequest(IAsyncCompletionSource<UnityWebRequest> op, UnityWebRequest webRequest, bool inBackground)

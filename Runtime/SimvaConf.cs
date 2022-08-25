@@ -27,7 +27,7 @@ namespace Simva
 
         public string Protocol { get; set; }
 
-        public string SSO { get; private set; }
+        public string SSO { get; set; }
 
         public string ClientId { get; set; }
 
@@ -41,21 +41,15 @@ namespace Simva
             }
         }
 
-        public bool TraceStorage { get; set; }
-        public bool Backup { get; set; }
-        public bool Realtime { get; set; }
-
         public SimvaConf()
         {
-            Debug.Log("[SIMVA CONF] Loading...");
-            Host = "localhost";
-            Port = "443";
-            Protocol = "https";
+            Debug.Log("[SIMVA CONF] Created...");
         }
 
         public IEnumerator LoadAsync()
         {
             string contents = "";
+            Debug.Log("[SIMVA CONF] Loading...");
 
             // WebGL and Android have to use WWW to load from streaming assets
 #if (UNITY_WEBPLAYER || UNITY_WEBGL || UNITY_ANDROID) && !UNITY_EDITOR
@@ -73,9 +67,9 @@ namespace Simva
             {
                 contents = System.IO.File.ReadAllText(filePath);
             }
-            yield return null;
 #endif
             ParseContents(contents);
+            yield return null;
         }
 
         private void ParseContents(string contents)
@@ -90,9 +84,6 @@ namespace Simva
                 Port = simvaconf.Value<string>("port");
                 SSO = simvaconf.Value<string>("sso");
                 ClientId = simvaconf.Value<string>("client_id");
-                TraceStorage = simvaconf.Value<bool>("trace_storage");
-                Backup = simvaconf.Value<bool>("backup");
-                Realtime = simvaconf.Value<bool>("realtime");
             }
         }
 
@@ -139,10 +130,8 @@ namespace Simva
                     ["sso"] = SSO,
                     ["client_id"] = ClientId,
                     ["url"] = URL,
-                    ["trace_storage"] = TraceStorage.ToString(),
-                    ["backup"] = Backup.ToString(),
-                    ["realtime"] = Realtime.ToString()
                 };
+                System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
                 System.IO.File.WriteAllText(path, simvaconf.ToString(Newtonsoft.Json.Formatting.Indented));
             }
         }
