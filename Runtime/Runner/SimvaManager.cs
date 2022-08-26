@@ -48,7 +48,7 @@ namespace Simva
         {
             get
             {
-                return this.API != null && this.auth != null && Schedule != null;
+                return this.API != null && this.auth != null && Schedule != null && Bridge != null;
             }
         }
 
@@ -329,6 +329,7 @@ namespace Simva
             if (activityId == null)
             {
                 Bridge.RunScene("Simva.End");
+                PlayerPrefs.DeleteKey("simva_auth");
                 Schedule = null;
             }
             else
@@ -413,6 +414,7 @@ namespace Simva
         private IEnumerator OnGameFinishedRoutine(System.Action done)
         {
             var readyToClose = false;
+            SimvaManager.Instance.Finalized = false;
             yield return new WaitUntil(() => SimvaManager.Instance.Finalized);
             Continue(SimvaManager.Instance.CurrentActivityId, true)
                 .Then(() => readyToClose = true);

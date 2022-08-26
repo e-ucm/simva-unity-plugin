@@ -7,6 +7,7 @@ using Xasu;
 using Xasu.Auth.Protocols;
 using Xasu.Auth.Protocols.OAuth2;
 using Xasu.Config;
+using UnityEngine.SceneManagement;
 
 namespace Simva
 {
@@ -16,12 +17,19 @@ namespace Simva
         public bool SaveAuthUntilCompleted = true;
         public bool ShowLoginOnStartup = true;
         public bool ContinueOnQuit = true;
+        public string GamePlayScene;
+        public string SimvaScene;
         private SimvaSceneController previousController;
         private OAuth2Token lastAuth;
 
         public IEnumerator Start()
         {
-            SimvaManager.Instance.Bridge = this;
+            if(SimvaManager.Instance.Bridge != null)
+            {
+                DestroyImmediate(this.gameObject);
+                yield break;
+            }
+
 
             Debug.Log("[SIMVA] Starting...");
             if (SimvaConf.Local == null)
@@ -36,12 +44,15 @@ namespace Simva
                 Debug.Log("[SIMVA] Study is not set! Stopping...");
                 yield break;
             }
-            else if (SimvaManager.Instance.IsActive)
+            else if (SimvaManager.Instance.IsActive && !SimvaManager.Instance.Finalized)
             {
                 Debug.Log("[SIMVA] Simva is already started...");
                 // No need to restart
                 yield break;
             }
+
+            SimvaManager.Instance.Bridge = this;
+            DontDestroyOnLoad(this.gameObject);
 
             if (ShowLoginOnStartup)
             {
@@ -96,6 +107,21 @@ namespace Simva
 
         public void RunScene(string name)
         {
+            if (SceneManager.GetActiveScene().name != SimvaScene)
+            {
+                SceneManager.LoadSceneAsync(SimvaScene).completed += ev =>
+                {
+                    DoRunScene(name);
+                };
+            }
+            else
+            {
+                DoRunScene(name);
+            }
+        }
+
+        private void DoRunScene(string name)
+        {
             DestroyPreviousSimvaScene();
             var go = SimvaSceneManager.LoadPrefabScene(name);
             var controller = go.GetComponent<SimvaSceneController>();
@@ -116,6 +142,10 @@ namespace Simva
         {
             DestroyPreviousSimvaScene();
             Debug.Log("Starting Gameplay");
+            if (SceneManager.GetActiveScene().name  != GamePlayScene)
+            {
+                SceneManager.LoadScene(GamePlayScene);
+            }
         }
 
         public IAsyncOperation StartTracker(TrackerConfig config, IAuthProtocol onlineProtocol, IAuthProtocol backupProtocol)
