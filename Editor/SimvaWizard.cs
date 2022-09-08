@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using Simva;
 using Simva.Api;
 using Simva.Model;
 using SimvaPlugin;
@@ -15,9 +14,9 @@ using UnityEngine;
 using UnityFx.Async;
 using UnityFx.Async.Promises;
 
-namespace uAdventure.Simva
+namespace Simva
 {
-    public class SimvaWizard : EditorWindow
+    public class SimvaWizard
     {
 
         private const string DEFAULT_SSO = "https://sso.simva.e-ucm.es/auth/realms/simva/protocol/openid-connect";
@@ -25,15 +24,6 @@ namespace uAdventure.Simva
         private const string DEFAULT_PROTOCOL = "https";
         private const string DEFAULT_PORT= "443";
         private const string DEFAULT_CLIENTID = "uadventure";
-
-        // Add menu named "My Window" to the Window menu
-        [MenuItem("Window/Simva/Configuration")]
-        static void Open()
-        {
-            // Get existing open window or if none, make a new one:
-            SimvaWizard window = (SimvaWizard)EditorWindow.GetWindow(typeof(SimvaWizard));
-            window.Show();
-        }
 
         [DllImport("User32.dll")]
         private static extern bool BringWindowToTop(IntPtr hWnd);
@@ -142,7 +132,7 @@ namespace uAdventure.Simva
             op.SetCompleted();
         }
 
-        private void OnGUI()
+        public void OnGUI()
         {
             if (!inited)
             {
