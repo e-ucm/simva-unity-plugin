@@ -16,6 +16,7 @@ namespace Simva
     {
         public bool SaveAuthUntilCompleted = true;
         public bool ShowLoginOnStartup = true;
+        public bool RunGameIfSimvaIsNotConfigured = true;
         public bool ContinueOnQuit = true;
         public string GamePlayScene;
         public string SimvaScene;
@@ -41,7 +42,15 @@ namespace Simva
 
             if (!SimvaManager.Instance.IsEnabled)
             {
-                Debug.Log("[SIMVA] Study is not set! Stopping...");
+                if (RunGameIfSimvaIsNotConfigured)
+                {
+                    Debug.Log("[SIMVA] Study is not set! Running the game without Simva...");
+                    StartGameplay();
+                }
+                else
+                {
+                    Debug.Log("[SIMVA] Study is not set! Stopping...");
+                }
                 yield break;
             }
             else if (SimvaManager.Instance.IsActive && !SimvaManager.Instance.Finalized)
