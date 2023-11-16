@@ -22,8 +22,8 @@ namespace Simva
         private const string DEFAULT_SSO = "https://sso.simva.e-ucm.es/auth/realms/simva/protocol/openid-connect";
         private const string DEFAULT_HOST = "simva-api.simva.e-ucm.es";
         private const string DEFAULT_PROTOCOL = "https";
-        private const string DEFAULT_PORT= "443";
-        private const string DEFAULT_CLIENTID = "uadventure";
+        private const string DEFAULT_PORT = "443";
+        private const string DEFAULT_CLIENTID = "simva-plugin";
 
         [DllImport("User32.dll")]
         private static extern bool BringWindowToTop(IntPtr hWnd);
@@ -39,9 +39,9 @@ namespace Simva
         protected bool isLogin;
         protected bool inited;
 
-        private bool preTest, postTest, saveTraces, realTime, backup;
+        private bool preTest, postTest, saveTraces = true, realTime, backup = true;
         private int preId, postId, participants;
-        private string email, registerUser, registerPassword, user, password;
+        private string email, registerUser, registerPassword, user, password, name;
         private bool tos;
         private List<ActivityType> activityTypes;
         private IAsyncOperation loadingPromise;
@@ -59,8 +59,8 @@ namespace Simva
             CoroutineRunner.Instance.RunRoutine(LoadSimvaConf(SimvaConf.Local.LoadAsync(), carga));
             carga.Then(() =>
             {
-                if (string.IsNullOrEmpty(SimvaConf.Local.Host) && EditorUtility.DisplayDialog("No config", 
-                    "The config file at StreamingAssets/Simva.conf seems to be missing or is incorrect. Do you want to set it to default?", 
+                if (string.IsNullOrEmpty(SimvaConf.Local.Host) && EditorUtility.DisplayDialog("No config",
+                    "The config file at StreamingAssets/Simva.conf seems to be missing or is incorrect. Do you want to set it to default?",
                     "Yes", "No"))
                 {
                     SimvaConf.Local.Host = DEFAULT_HOST;
@@ -69,6 +69,8 @@ namespace Simva
                     SimvaConf.Local.Protocol = DEFAULT_PROTOCOL;
                     SimvaConf.Local.ClientId = DEFAULT_CLIENTID;
                     SimvaConf.Local.Save();
+                    AssetDatabase.ImportAsset("StreamingAssets/Simva.conf");
+                    AssetDatabase.Refresh();
                 }
 
                 if (PlayerPrefs.HasKey("Simva.RefreshToken"))
@@ -92,7 +94,7 @@ namespace Simva
         private void Login()
         {
             SimvaConf.Local = new SimvaConf();
-            var carga = new AsyncCompletionSource(); 
+            var carga = new AsyncCompletionSource();
             CoroutineRunner.Instance.RunRoutine(LoadSimvaConf(SimvaConf.Local.LoadAsync(), carga));
             isLogin = true;
             carga.Then(() =>
@@ -175,6 +177,14 @@ namespace Simva
 
             DoBorderWithTitle("Create your study", () =>
             {
+                name = EditorGUILayout.TextField("Study name", name);
+                if (string.IsNullOrEmpty(name))
+                {
+                    EditorGUILayout.HelpBox("Please introduce a name", MessageType.Warning);
+                }
+
+                DoSeparator(" Structure ");
+
                 using (new GUILayout.HorizontalScope(GUILayout.ExpandWidth(true)))
                 {
                     preTest = GUILayout.Toggle(preTest, "Pre-Test", EditorStyles.toolbarButton);
@@ -203,7 +213,7 @@ namespace Simva
                     using (new GUILayout.VerticalScope(GUI.skin.box, GUILayout.ExpandWidth(true)))
                     {
                         saveTraces = EditorGUILayout.Toggle("Save traces in storage", saveTraces);
-                        realTime = EditorGUILayout.Toggle("Realtime analysis", realTime);
+                        //realTime = EditorGUILayout.Toggle("Realtime analysis", realTime);
                         backup = EditorGUILayout.Toggle("Do traces backup", backup);
                     }
                     // PostTest
@@ -225,94 +235,102 @@ namespace Simva
 
                 participants = Mathf.Clamp(1, EditorGUILayout.IntField("Participants", participants), 10000);
 
+                DoSeparator(" Create ");
 
-                if (GUILayout.Button("Create"))
+                using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(name)))
                 {
-                    EditorUtility.DisplayProgressBar("Simva.Study.Creation.Title", "Simva.Study.Creation.Info", 0);
-                    JObject creationData = null;
-                    var createStudy = simvaController.CreateStudyWithTestAndUsers("uAdventure", "uAdventure", DateTime.Now.ToString("dd-M-yyyy"), participants)
-                    .Then(result => creationData = result);
-
-                    createStudy.ProgressChanged += (sender, args) =>
+                    if (GUILayout.Button("Create"))
                     {
-                        EditorUtility.DisplayProgressBar("Simva.Study.Creation.Title", "Simva.Study.Creation.Info", createStudy.Progress);
-                    };
-
-                    EditorUtility.DisplayProgressBar("Simva.Study.Creation.Title", "Simva.Study.Activities.Info", 0);
-                    if (preTest)
-                    {
-                        EditorUtility.DisplayProgressBar("Simva.Study.Creation.Title", "Simva.Study.Activities.PreSurvey", 0.25f);
-                        createStudy = createStudy.Then(() =>
-                        {
-                            return simvaController.Api.AddActivityToTest(creationData["studyId"].Value<string>(), creationData["testId"].Value<string>(), new Activity
-                            {
-                                Name = "PreTest",
-                                Type = "limesurvey",
-                                CopySurvey = preId.ToString()
-                            });
-                        });
+                        CreateStudy();
                     }
-
-                    createStudy = createStudy.Then(() =>
-                    {
-                        EditorUtility.DisplayProgressBar("Simva.Study.Creation.Title", "Simva.Study.Activities.Gameplay", 0.50f);
-
-                        return simvaController.Api.AddActivityToTest(creationData["studyId"].Value<string>(), creationData["testId"].Value<string>(), new Activity
-                        {
-                            Name = "Gameplay",
-                            Type = "gameplay",
-                            Backup = backup,
-                            TraceStorage = saveTraces,
-                            Realtime = realTime
-                        });
-                    });
-
-                    if (postTest)
-                    {
-                        createStudy = createStudy.Then(() =>
-                        {
-                            EditorUtility.DisplayProgressBar("Simva.Study.Creation.Title", "Simva.Study.Activities.PostSurvey", 0.75f);
-                            return simvaController.Api.AddActivityToTest(creationData["studyId"].Value<string>(), creationData["testId"].Value<string>(), new Activity
-                            {
-                                Name = "PostTest",
-                                Type = "limesurvey",
-                                CopySurvey = postId.ToString()
-                            });
-                        });
-                    }
-
-                    createStudy.Then(() =>
-                    {
-                        EditorUtility.DisplayProgressBar("Simva.Study.Creation.Title", "Simva.Study.Activities.Completing", 0.99f);
-                        return simvaController.Api.GetStudy(creationData["studyId"].Value<string>());
-                    })
-                    .Then(study =>
-                    {
-                        EditorUtility.ClearProgressBar();
-                        simvaController.SimvaConf.Study = study.Id;
-                        simvaController.SimvaConf.Save();
-                    })
-                    .Catch(error =>
-                    {
-                        Debug.LogException(error);
-                        EditorUtility.DisplayDialog("Simva: Error happened!", error.Message, "Ok");
-                        var apiEx = error as ApiException;
-                        if (apiEx != null)
-                        {
-                            Debug.LogError(apiEx.Message + ": " + apiEx.ErrorContent);
-                        }
-                        else
-                        {
-                            Debug.LogError(error.Message);
-                        }
-                    })
-                    .Finally(() =>
-                    {
-                        EditorUtility.ClearProgressBar();
-                    });
-
                 }
 
+            });
+        }
+
+        private void CreateStudy()
+        {
+            EditorUtility.DisplayProgressBar("Simva.Study.Creation.Title", "Simva.Study.Creation.Info", 0);
+            JObject creationData = null;
+            var createStudy = simvaController.CreateStudyWithTestAndUsers(name, "uAdventure", DateTime.Now.ToString("dd-M-yyyy"), participants)
+            .Then(result => creationData = result);
+
+            createStudy.ProgressChanged += (sender, args) =>
+            {
+                EditorUtility.DisplayProgressBar("Simva.Study.Creation.Title", "Simva.Study.Creation.Info", createStudy.Progress);
+            };
+
+            EditorUtility.DisplayProgressBar("Simva.Study.Creation.Title", "Simva.Study.Activities.Info", 0);
+            if (preTest)
+            {
+                EditorUtility.DisplayProgressBar("Simva.Study.Creation.Title", "Simva.Study.Activities.PreSurvey", 0.25f);
+                createStudy = createStudy.Then(() =>
+                {
+                    return simvaController.Api.AddActivityToTest(creationData["studyId"].Value<string>(), creationData["testId"].Value<string>(), new Activity
+                    {
+                        Name = "PreTest",
+                        Type = "limesurvey",
+                        CopySurvey = preId.ToString()
+                    });
+                });
+            }
+
+            createStudy = createStudy.Then(() =>
+            {
+                EditorUtility.DisplayProgressBar("Simva.Study.Creation.Title", "Simva.Study.Activities.Gameplay", 0.50f);
+
+                return simvaController.Api.AddActivityToTest(creationData["studyId"].Value<string>(), creationData["testId"].Value<string>(), new Activity
+                {
+                    Name = "Gameplay",
+                    Type = "gameplay",
+                    Backup = backup,
+                    TraceStorage = saveTraces,
+                    Realtime = realTime
+                });
+            });
+
+            if (postTest)
+            {
+                createStudy = createStudy.Then(() =>
+                {
+                    EditorUtility.DisplayProgressBar("Simva.Study.Creation.Title", "Simva.Study.Activities.PostSurvey", 0.75f);
+                    return simvaController.Api.AddActivityToTest(creationData["studyId"].Value<string>(), creationData["testId"].Value<string>(), new Activity
+                    {
+                        Name = "PostTest",
+                        Type = "limesurvey",
+                        CopySurvey = postId.ToString()
+                    });
+                });
+            }
+
+            createStudy.Then(() =>
+            {
+                EditorUtility.DisplayProgressBar("Simva.Study.Creation.Title", "Simva.Study.Activities.Completing", 0.99f);
+                return simvaController.Api.GetStudy(creationData["studyId"].Value<string>());
+            })
+            .Then(study =>
+            {
+                EditorUtility.ClearProgressBar();
+                simvaController.SimvaConf.Study = study.Id;
+                simvaController.SimvaConf.Save();
+            })
+            .Catch(error =>
+            {
+                Debug.LogException(error);
+                EditorUtility.DisplayDialog("Simva: Error happened!", error.Message, "Ok");
+                var apiEx = error as ApiException;
+                if (apiEx != null)
+                {
+                    Debug.LogError(apiEx.Message + ": " + apiEx.ErrorContent);
+                }
+                else
+                {
+                    Debug.LogError(error.Message);
+                }
+            })
+            .Finally(() =>
+            {
+                EditorUtility.ClearProgressBar();
             });
         }
 
@@ -378,9 +396,9 @@ namespace Simva
                             Paralell(promises)
                                 .Then(groups =>
                                 {
-                                    foreach(var group in  groups)
+                                    foreach (var group in groups)
                                     {
-                                        if(EditorUtility.DisplayDialog("Download group", string.Format("Do you want to download the information of {0}", group.Name), "Yes", "Skip"))
+                                        if (EditorUtility.DisplayDialog("Download group", string.Format("Do you want to download the information of {0}", group.Name), "Yes", "Skip"))
                                         {
                                             DownloadGroup(group.Id);
                                         }
@@ -398,7 +416,7 @@ namespace Simva
 
                 DoSeparator(" or ");
 
-                
+
                 if (GUILayout.Button("Set up a new study") && EditorUtility.DisplayDialog("Warning", "Are you sure you wan't to unset the study?", "Yes", "Cancel"))
                 {
                     simvaController.SimvaConf.Study = null;
@@ -553,7 +571,7 @@ namespace Simva
                     drawInside();
                 }
 
-                GUILayout.Space(70);
+                //GUILayout.Space(70);
                 GUILayout.FlexibleSpace();
             }
             GUILayout.FlexibleSpace();
@@ -571,10 +589,10 @@ namespace Simva
 
         private static void DoSeparator(string content)
         {
-            GUILayout.Space(50);
-            GUILayoutUtility.GetRect(GUIContent.none, GUI.skin.box, GUILayout.ExpandWidth(true), GUILayout.Height(50));
+            GUILayout.Space(10);
+            GUILayoutUtility.GetRect(GUIContent.none, GUI.skin.box, GUILayout.ExpandWidth(true), GUILayout.Height(30));
             var lastRect = GUILayoutUtility.GetLastRect();
-            GUILayout.Space(50);
+            GUILayout.Space(10);
             var or = new GUIContent(content);
             var lineRect = lastRect;
             lineRect.height = 1;
@@ -626,4 +644,3 @@ namespace Simva
     }
 
 }
-

@@ -105,7 +105,7 @@ namespace Simva
 
             if (webRequest.isNetworkError || webRequest.isHttpError)
             {
-                Debug.Log(webRequest.downloadHandler.text);
+                Debug.Log(webRequest.error);
                 op.SetException(new ApiException((int)webRequest.responseCode, webRequest.error, webRequest.downloadHandler.text));
             }
             else if (inBackground && !string.IsNullOrEmpty(backgroundError))

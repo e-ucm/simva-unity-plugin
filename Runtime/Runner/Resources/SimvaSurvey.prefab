@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Continuar
+  m_Text: Continue
 --- !u!114 &6330377589730947202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Abrir encuesta
+  m_Text: Open Survey
 --- !u!114 &5904252528730061907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,6 +820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32534c86307a92c49b219b3713385a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  label: {fileID: 8186325771866910489}
 --- !u!1 &1915394580998662
 GameObject:
   m_ObjectHideFlags: 0
@@ -899,7 +900,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Comprobando...
+  m_Text: Loading...
 --- !u!114 &6497077720168249883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1008,7 +1009,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Para continuar debes rellenar la siguiente encuesta:'
+  m_Text: 'To continue you must complete the following survey:'
 --- !u!114 &6277113398994569718
 MonoBehaviour:
   m_ObjectHideFlags: 0

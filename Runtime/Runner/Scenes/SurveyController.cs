@@ -6,6 +6,8 @@ namespace Simva
     // Manager for "Simva.Survey"
     public class SurveyController : SimvaSceneController
     {
+        [SerializeField]
+        private UnityEngine.UI.Text label;
         private bool surveyOpened;
 
         public void OpenSurvey()
@@ -45,6 +47,7 @@ namespace Simva
         public override void Render() 
         {
             Ready = true;
+            label.text = SimvaManager.Instance.Schedule.Activities[SimvaManager.Instance.CurrentActivityId].Name;
             //var background = GameObject.Find("background").GetComponent<Image>();
             /*var backgroundPath = 
             var backgroundSprite = Game.Instance.ResourceManager.getSprite();

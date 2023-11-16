@@ -382,7 +382,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Subiendo copia de seguridad...
+  m_Text: Uploading backup...
 --- !u!114 &5622709180287694656
 MonoBehaviour:
   m_ObjectHideFlags: 0

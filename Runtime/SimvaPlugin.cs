@@ -106,7 +106,7 @@ namespace Simva
 
         public void Demo()
         {
-            Debug.Log("Demo!");
+            SceneManager.LoadSceneAsync(GamePlayScene);
         }
 
         public void OnAuthUpdated(OAuth2Token token)

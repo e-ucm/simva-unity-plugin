@@ -79,7 +79,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Subiendo copia de seguridad...
+  m_Text: Uploading backup...
 --- !u!114 &131985670465635854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -727,7 +727,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Error al subir la copia de seguridad:'
+  m_Text: 'Error while uploading the backup:'
 --- !u!114 &9139171787042218314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1191,7 +1191,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Reintentar
+  m_Text: Retry
 --- !u!114 &7401108917439176930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1262,7 +1262,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &423873756505857260
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1398,7 +1398,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Compartir
+  m_Text: Share
 --- !u!114 &565783626123088075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1639,10 +1639,21 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\n<size=25> Se necesita conexi\xF3n a internet \npara continuar... </size>\n\nAseg\xFArate
-    de que la conexi\xF3n de tu dispositivo \nest\xE1 habilitada y funciona correctamente.\n\n<b><color=red><size=20>\xA1Advertencia!
-    </size></color></b>\n\n<i><color=yellow>\xA1Si no conectas tu dispositivo a internet
-    \nes posible que tus resultados no se guarden!</color></i>"
+  m_Text: '
+
+    <size=25> You need an internet connection to continue... </size>
+
+
+    Make
+    sure that your device has the connection enabled and is working properly.
+
+
+    <b><color=red><size=20>Warning!
+    </size></color></b>
+
+
+    <i><color=yellow>If you do not restore the connection
+    you might lose your data!</color></i>'
 --- !u!114 &242788143913174051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2177,7 +2188,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Copia de seguridad realizada correctamente\n\n<color=green>\u2714</color>"
+  m_Text: "Backup successfully uploaded.\n\n<color=green>\u2714</color>"
 --- !u!114 &218391625228644631
 MonoBehaviour:
   m_ObjectHideFlags: 0

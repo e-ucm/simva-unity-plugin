@@ -323,7 +323,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Cargando usuario...
+  m_Text: Loading user...
 --- !u!114 &4512583229019442488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,7 +432,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Empezar
+  m_Text: Start
 --- !u!114 &5043458440696830885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1589,7 +1589,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "C\xF3digo"
+  m_Text: 'Code:'
 --- !u!114 &8565366572525659985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2192,7 +2192,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "He le\xEDdo, entiendo y acepto la informaci\xF3n"
+  m_Text: Accept
 --- !u!114 &9053820822374123444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2285,7 +2285,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Introduce un c\xF3digo"
+  m_Text: Insert a token
 --- !u!1 &8878863907519952284
 GameObject:
   m_ObjectHideFlags: 0
@@ -2586,11 +2586,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Simva <modify this text>. \n\nTus datos de juego (tus interacciones con
-    elementos, elecciones y tu ubicaci\xF3n) ser\xE1n recopilados durante la partida
-    an\xF3nimamente con un c\xF3digo que recibir\xE1s del investigador tras entregar
-    el consentimiento informado firmado. La aplicaci\xF3n NO recopila datos de caracter
-    personal. \n\nLa versi\xF3n \"Demo\" no recopila datos ni utiliza GPS."
+  m_Text: "Simva <modify this text>. \n\nYour gameplay data (your interactions, choices
+    and progresses) will be gathered during the gameplay anonymously using a user
+    token.\n\nThe application does NOT gather personal data. \n\n\"Demo\" version
+    does not capture any data."
 --- !u!114 &5209462643667968111
 MonoBehaviour:
   m_ObjectHideFlags: 0
