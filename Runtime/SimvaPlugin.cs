@@ -18,12 +18,21 @@ namespace Simva
         public bool ShowLoginOnStartup = true;
         public bool RunGameIfSimvaIsNotConfigured = true;
         public bool ContinueOnQuit = true;
+        public bool AutoStart = true;
         public string GamePlayScene;
         public string SimvaScene;
         private SimvaSceneController previousController;
         private OAuth2Token lastAuth;
+        
 
+        
         public IEnumerator Start()
+        {
+            if(AutoStart)
+                yield return ManualStart();
+        }
+
+        public IEnumerator ManualStart()
         {
             if(SimvaManager.Instance.Bridge != null)
             {
