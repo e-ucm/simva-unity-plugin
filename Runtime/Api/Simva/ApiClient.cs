@@ -99,7 +99,7 @@ namespace Simva
             return done;
         }
 
-		public IAsyncOperation InitOAuth(string username, string password, string clientId, string clientSecret = null,
+		public IAsyncOperation InitOAuth(string username, string password, string clientId, string login_hint = null, string clientSecret = null,
 		string realm = null, string appName = null, string scopeSeparator = ":", bool usePKCE = false,
 		Dictionary<string, string> aditionalQueryStringParams = null, bool scope_offline = false)
 		{
@@ -118,18 +118,20 @@ namespace Simva
 			var authUrl = AuthPath ?? "https://sso.simva.e-ucm.es/auth/realms/simva/protocol/openid-connect/auth";
 
 			var done = new AsyncCompletionSource();
-            
-            var authorization = AuthManager.InitAuth("oauth2", new Dictionary<string, string>()
-            {
-                { "grant_type", "password" },
-                { "token_endpoint", tokenUrl },
-                { "client_id", clientId },
-                { "username", username },
-                { "password", password },
-                { "code_challenge_method", "S256" },
-                { "scope", string.Join(scopeSeparator, scopes) }
-            }, null);
-
+            var dict = new Dictionary<string, string>()
+                {
+                    { "grant_type", "password" },
+                    { "token_endpoint", tokenUrl },
+                    { "client_id", clientId },
+                    { "username", username },
+                    { "password", password },
+                    { "code_challenge_method", "S256" },
+                    { "scope", string.Join(scopeSeparator, scopes) }
+                };
+            if(login_hint != null) {
+                dict.Add("login_hint", login_hint);
+            }
+            var authorization = AuthManager.InitAuth("oauth2", dict, null);
             authorization.ContinueWith(t =>
             {
                 if (t.IsFaulted)
@@ -145,7 +147,7 @@ namespace Simva
 			return done;
 		}
 
-		public IAsyncOperation InitOAuth(string refreshToken, string clientId)
+		public IAsyncOperation InitOAuth(string refreshToken, string clientId, string realm = null)
         {
             var scopes = new string[] { };
 

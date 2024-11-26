@@ -107,7 +107,7 @@ namespace SimvaPlugin
             Debug.Log("Use PKCE: " + (Application.platform != RuntimePlatform.WebGLPlayer));
 
             var result = new AsyncCompletionSource<SimvaApi<T>>();
-            apiClient.InitOAuth(SimvaConf.Local.ClientId, null, "simva", null, ":", Application.platform != RuntimePlatform.WebGLPlayer, null, offline_access)
+            apiClient.InitOAuth(SimvaConf.Local.ClientId, null, SimvaConf.Local.Realm, null, ":", Application.platform != RuntimePlatform.WebGLPlayer, null, offline_access)
                 .Then(() =>
                 {
                     if (Inherits<T, IAdminsApi>())
@@ -148,7 +148,7 @@ namespace SimvaPlugin
             };
 
             var result = new AsyncCompletionSource<SimvaApi<T>>();
-            apiClient.InitOAuth(refresh_token, SimvaConf.Local.ClientId).
+            apiClient.InitOAuth(refresh_token, SimvaConf.Local.ClientId, SimvaConf.Local.Realm).
                 Then(() =>
                 {
                     if (Inherits<T, IAdminsApi>())
@@ -196,7 +196,7 @@ namespace SimvaPlugin
 			};
 
 			var result = new AsyncCompletionSource<SimvaApi<T>>();
-			apiClient.InitOAuth(username, password, SimvaConf.Local.ClientId, null, "simva", null, ":", true, null, true)
+			apiClient.InitOAuth(username, password, SimvaConf.Local.ClientId, SimvaConf.Local.Study, null, SimvaConf.Local.Realm, null, ":", true, null, true)
                 .Then(() =>
 				{
 					if (Inherits<T, IAdminsApi>())

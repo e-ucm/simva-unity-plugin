@@ -33,6 +33,8 @@ namespace Simva
 
         public string Study { get; set; }
 
+        public string Realm { get; set; }
+
         public string URL
         {
             get
@@ -79,6 +81,7 @@ namespace Simva
                 Debug.Log("[SIMVA CONF] Simva.conf content: " + contents);
                 var simvaconf = JObject.Parse(contents);
                 Study = simvaconf.Value<string>("study");
+                Realm = simvaconf.Value<string>("realm");
                 Host = simvaconf.Value<string>("host");
                 Protocol = simvaconf.Value<string>("protocol");
                 Port = simvaconf.Value<string>("port");
