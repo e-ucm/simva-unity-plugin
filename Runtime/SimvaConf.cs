@@ -132,7 +132,6 @@ namespace Simva
                     ["port"] = Port,
                     ["sso"] = SSO,
                     ["client_id"] = ClientId,
-                    ["url"] = URL,
                 };
                 System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
                 System.IO.File.WriteAllText(path, simvaconf.ToString(Newtonsoft.Json.Formatting.Indented));
