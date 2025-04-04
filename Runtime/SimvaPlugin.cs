@@ -20,7 +20,7 @@ namespace Simva
         public bool RunGameIfSimvaIsNotConfigured = true;
         public bool ContinueOnQuit = true;
         public bool AutoStart = true;
-        public bool EnableDemo = true;
+        public bool EnableLoginDemoButton = true;
         public string GamePlayScene;
         public string SimvaScene;
         private SimvaSceneController previousController;
@@ -77,7 +77,7 @@ namespace Simva
             if (ShowLoginOnStartup)
             {
                 Debug.Log("[SIMVA] Setting current target to Simva.Login...");
-                if(EnableDemo) {
+                if(EnableLoginDemoButton) {
                     RunScene("Simva.Login.Demo");
                 } else {
                     RunScene("Simva.Login");
