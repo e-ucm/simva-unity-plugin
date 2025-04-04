@@ -20,6 +20,7 @@ namespace Simva
         public bool RunGameIfSimvaIsNotConfigured = true;
         public bool ContinueOnQuit = true;
         public bool AutoStart = true;
+        public bool EnableDemo = true;
         public string GamePlayScene;
         public string SimvaScene;
         private SimvaSceneController previousController;
@@ -76,7 +77,11 @@ namespace Simva
             if (ShowLoginOnStartup)
             {
                 Debug.Log("[SIMVA] Setting current target to Simva.Login...");
-                RunScene("Simva.Login");
+                if(EnableDemo) {
+                    RunScene("Simva.Login.Demo");
+                } else {
+                    RunScene("Simva.Login");
+                }
 
                 if (PlayerPrefs.HasKey("simva_auth") && SaveAuthUntilCompleted)
                 {
@@ -144,6 +149,7 @@ namespace Simva
 
         private void DoRunScene(string name)
         {
+            Debug.Log(name);
             DestroyPreviousSimvaScene();
             var go = SimvaSceneManager.LoadPrefabScene(name);
             var controller = go.GetComponent<SimvaSceneController>();
