@@ -134,16 +134,18 @@ namespace Simva
 
         public void RunScene(string name)
         {
-            if (SceneManager.GetActiveScene().name == SimvaScene)
-            {
-                SceneManager.LoadSceneAsync(SimvaScene).completed += ev =>
-                {
-                    DoRunScene(name);
-                };
-            }
-            else
-            {
+            if(SimvaScene == "") {
                 DoRunScene(name);
+            } else {
+                if (SceneManager.GetActiveScene().name != SimvaScene)
+                {
+                    SceneManager.LoadSceneAsync(SimvaScene).completed += ev =>
+                    {
+                        DoRunScene(name);
+                    };
+                } else {
+                    DoRunScene(name);
+                }
             }
         }
 
