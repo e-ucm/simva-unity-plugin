@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -115,7 +116,10 @@ namespace Simva
 
         public void Demo()
         {
-            SceneManager.LoadSceneAsync(GamePlayScene);
+            if (GamePlayScene != "")
+            {
+                SceneManager.LoadSceneAsync(GamePlayScene);
+            }
         }
 
         public void OnAuthUpdated(OAuth2Token token)
@@ -125,7 +129,7 @@ namespace Simva
 
         public void RunScene(string name)
         {
-            if (SceneManager.GetActiveScene().name != SimvaScene)
+            if (SceneManager.GetActiveScene().name == SimvaScene)
             {
                 SceneManager.LoadSceneAsync(SimvaScene).completed += ev =>
                 {
@@ -160,9 +164,13 @@ namespace Simva
         {
             DestroyPreviousSimvaScene();
             Debug.Log("Starting Gameplay");
-            if (SceneManager.GetActiveScene().name  != GamePlayScene)
-            {
-                SceneManager.LoadScene(GamePlayScene);
+            if(GamePlayScene != "") {
+                if (SceneManager.GetActiveScene().name != GamePlayScene)
+                {
+                    SceneManager.LoadScene(GamePlayScene);
+                }
+            } else {
+                throw new Exception("Please define GamePlayScene.");
             }
         }
 

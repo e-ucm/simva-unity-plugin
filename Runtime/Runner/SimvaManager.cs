@@ -347,6 +347,7 @@ namespace Simva
                             break;
                         case "gameplay":
                         default:
+                            Debug.Log("[SIMVA] Getting Xasu tracker Config...");
                             var xasuTrackerConfig = new Xasu.Config.TrackerConfig();
 
                             xasuTrackerConfig.Simva = true;
@@ -369,6 +370,7 @@ namespace Simva
                                 xasuTrackerConfig.Backup = true;
                                 xasuTrackerConfig.BackupEndpoint = API.SimvaConf.URL + string.Format("/activities/{0}/result", activityId);
                                 xasuTrackerConfig.BackupFileName = auth.Username + "_" + activityId + "_backup.log";
+                                xasuTrackerConfig.BackupTraceFormat = Xasu.Config.TraceFormats.XAPI;
                             }
 
                             if (ActivityHasDetails(activity, "realtime", "trace_storage", "backup"))
