@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -85,7 +85,7 @@ namespace Simva
 
             if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
-                Debug.Log(webRequest.error);
+                SimvaPlugin.Instance?.Log(webRequest.error);
                 op.SetException(new ApiException((int)webRequest.responseCode, webRequest.error, webRequest.downloadHandler.text));
             }
             else if (inBackground && !string.IsNullOrEmpty(backgroundError))

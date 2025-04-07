@@ -402,9 +402,9 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             var fileParams = new Dictionary<String, String>();
             String postBody = null;
     
-                                                postBody = ApiClient.Serialize(body); // http body (model) parameter
-            UnityEngine.Debug.Log(path);
-            UnityEngine.Debug.Log(postBody);
+            postBody = ApiClient.Serialize(body); // http body (model) parameter
+            SimvaPlugin.Instance?.UnityEngineLog(path);
+            SimvaPlugin.Instance?.UnityEngineLog(postBody);
             // authentication setting, if any
             String[] authSettings = new String[] { "OAuth2" };
     

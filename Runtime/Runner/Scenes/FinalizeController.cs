@@ -42,7 +42,7 @@ namespace Simva
 
             try
             {
-                Debug.Log("Finalize!");
+                SimvaPlugin.Instance?.Log("Finalize!");
                 await XasuTracker.Instance.Finalize(new Progress<float>(p => progressBar.size = p));
 
                 progressBar.transform.parent.parent.gameObject.SetActive(false);
@@ -85,7 +85,7 @@ namespace Simva
 
             new NativeShare().AddFile(filePath)
                 .SetSubject("Backup de " + username).SetText("Backup adjunto")
-                .SetCallback((result, shareTarget) => Debug.Log("Share result: " + result + ", selected app: " + shareTarget))
+                .SetCallback((result, shareTarget) => SimvaPlugin.Instance?.Log("Share result: " + result + ", selected app: " + shareTarget))
                 .Share();
         }
 

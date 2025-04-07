@@ -1,5 +1,4 @@
-﻿using uAdventure.Simva;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Simva
@@ -36,7 +35,7 @@ namespace Simva
 
             if (SimvaExtension.Instance.finalizeOperation != null)
             {
-                Debug.Log("Last progress: " + SimvaExtension.Instance.finalizeOperation.Progress);*/
+                SimvaPlugin.Instance?.Log("Last progress: " + SimvaExtension.Instance.finalizeOperation.Progress);*/
                 /*if (!progressCallbackAdded)
                 {
                     ((AsyncCompletionSource)SimvaExtension.Instance.backupOperation).AddProgressCallback((p) =>

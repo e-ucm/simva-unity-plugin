@@ -15,6 +15,7 @@ namespace Simva
 
     public class SimvaPlugin : MonoBehaviour, ISimvaBridge
     {
+        public static SimvaPlugin Instance { get; private set; }
         public bool SaveAuthUntilCompleted = true;
         public bool ShowLoginOnStartup = true;
         public bool RunGameIfSimvaIsNotConfigured = true;
@@ -23,6 +24,7 @@ namespace Simva
         public bool EnableLoginDemoButton = true;
         public string GamePlayScene;
         public string SimvaScene;
+        public bool EnableDebugLogging = false;
         private SimvaSceneController previousController;
         private OAuth2Token lastAuth;
         
@@ -36,6 +38,7 @@ namespace Simva
 
         public IEnumerator ManualStart()
         {
+            Instance = this;
             if(SimvaManager.Instance.Bridge != null)
             {
                 DestroyImmediate(this.gameObject);
@@ -43,30 +46,30 @@ namespace Simva
             }
 
 
-            Debug.Log("[SIMVA] Starting...");
+            Log("[SIMVA] Starting...");
             if (SimvaConf.Local == null)
             {
                 SimvaConf.Local = new SimvaConf();
                 yield return StartCoroutine(SimvaConf.Local.LoadAsync());
-                Debug.Log("[SIMVA] Conf Loaded...");
+                Log("[SIMVA] Conf Loaded...");
             }
 
             if (!SimvaManager.Instance.IsEnabled)
             {
                 if (RunGameIfSimvaIsNotConfigured)
                 {
-                    Debug.Log("[SIMVA] Study is not set! Running the game without Simva...");
+                    Log("[SIMVA] Study is not set! Running the game without Simva...");
                     StartGameplay();
                 }
                 else
                 {
-                    Debug.Log("[SIMVA] Study is not set! Stopping...");
+                    Log("[SIMVA] Study is not set! Stopping...");
                 }
                 yield break;
             }
             else if (SimvaManager.Instance.IsActive && !SimvaManager.Instance.Finalized)
             {
-                Debug.Log("[SIMVA] Simva is already started...");
+                Log("[SIMVA] Simva is already started...");
                 // No need to restart
                 yield break;
             }
@@ -76,7 +79,7 @@ namespace Simva
 
             if (ShowLoginOnStartup)
             {
-                Debug.Log("[SIMVA] Setting current target to Simva.Login...");
+                Log("[SIMVA] Setting current target to Simva.Login...");
                 if(EnableLoginDemoButton) {
                     RunScene("Simva.Login.Demo");
                 } else {
@@ -151,7 +154,7 @@ namespace Simva
 
         private void DoRunScene(string name)
         {
-            Debug.Log(name);
+            Log(name);
             DestroyPreviousSimvaScene();
             var go = SimvaSceneManager.LoadPrefabScene(name);
             var controller = go.GetComponent<SimvaSceneController>();
@@ -171,7 +174,7 @@ namespace Simva
         public void StartGameplay()
         {
             DestroyPreviousSimvaScene();
-            Debug.Log("Starting Gameplay");
+            Log("Starting Gameplay");
             if(GamePlayScene != "") {
                 if (SceneManager.GetActiveScene().name != GamePlayScene)
                 {
@@ -184,9 +187,9 @@ namespace Simva
 
         public IAsyncOperation StartTracker(TrackerConfig config, IAuthProtocol onlineProtocol, IAuthProtocol backupProtocol)
         {
-            Debug.Log("Starting Tracker");
+            Log("Starting Tracker");
             var result = new AsyncCompletionSource();
-            XasuTracker.Instance.Init(config, onlineProtocol, backupProtocol)
+            XasuTracker.Instance.Init(config, onlineProtocol, backupProtocol, EnableDebugLogging)
                 .ContinueWith(t =>
                 {
                     if (t.IsFaulted)
@@ -197,6 +200,38 @@ namespace Simva
                     result.SetCompleted();
                 }, TaskScheduler.FromCurrentSynchronizationContext());
             return result;
+        }
+
+        internal void Log(string message)
+        {
+            if (EnableDebugLogging)
+            {
+                Debug.Log("[SimvaUnityPlugin] " + message);
+            }
+        }
+
+        internal void UnityEngineLog(string message)
+        {
+            if (EnableDebugLogging)
+            {
+                UnityEngine.Debug.Log("[SimvaUnityPlugin] " + message);
+            }
+        }
+
+        internal void LogWarning(string message)
+        {
+            if (EnableDebugLogging)
+            {
+                Debug.LogWarning("[SimvaUnityPlugin] " + message);
+            }
+        }
+
+        internal void LogError(string message)
+        {
+            if (EnableDebugLogging)
+            {
+                Debug.LogError("[SimvaUnityPlugin] " + message);
+            }
         }
     }
 }
