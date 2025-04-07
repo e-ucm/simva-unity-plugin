@@ -2494,8 +2494,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "Simva <modify this text>. \n\nYour gameplay data (your interactions, choices
     and progresses) will be gathered during the gameplay anonymously using a user
-    token.\n\nThe application does NOT gather personal data. \n\n\"Demo\" version
-    does not capture any data."
+    token.\n\nThe application does NOT gather personal data. "
 --- !u!114 &5209462643667968111
 MonoBehaviour:
   m_ObjectHideFlags: 0
