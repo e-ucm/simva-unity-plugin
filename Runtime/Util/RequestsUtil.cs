@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -77,13 +77,13 @@ namespace Simva
             }
 
             // Sometimes the webrequest is finished but the download is not
-            while (!webRequest.isNetworkError && !webRequest.isHttpError && webRequest.downloadProgress != 1)
+            while (webRequest.result != UnityWebRequest.Result.ConnectionError && webRequest.result != UnityWebRequest.Result.ProtocolError && webRequest.downloadProgress != 1)
             {
                 yield return new WaitForFixedUpdate();
             }
 
 
-            if (webRequest.isNetworkError || webRequest.isHttpError)
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.Log(webRequest.error);
                 op.SetException(new ApiException((int)webRequest.responseCode, webRequest.error, webRequest.downloadHandler.text));
