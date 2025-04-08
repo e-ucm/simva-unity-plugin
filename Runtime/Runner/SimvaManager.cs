@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityFx.Async;
 using UnityFx.Async.Promises;
@@ -357,6 +357,9 @@ namespace Simva
                             xasuTrackerConfig.FlushInterval = 3;
                             xasuTrackerConfig.BatchSize = 256;
 
+                            if(API.SimvaConf.HomePage != null) {
+                                xasuTrackerConfig.HomePage = API.SimvaConf.HomePage;
+                            }
                             if (ActivityHasDetails(activity, "realtime", "trace_storage"))
                             {
                                 xasuTrackerConfig.Online = true;
