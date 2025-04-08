@@ -174,9 +174,14 @@ namespace Simva
             Log(name);
             DestroyPreviousSimvaScene();
             var go = SimvaSceneManager.LoadPrefabScene(name);
-            var controller = go.GetComponent<SimvaSceneController>();
-            controller.Render();
-            previousController = controller;
+            if (go == null) {
+                SimvaSceneManager.LoadScene(name);
+            } else {
+                var controller = go.GetComponent<SimvaSceneController>();
+                controller.Render();
+                previousController = controller;
+            }
+            
         }
 
         private void DestroyPreviousSimvaScene()

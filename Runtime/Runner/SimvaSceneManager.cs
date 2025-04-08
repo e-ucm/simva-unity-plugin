@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Simva
 {
@@ -26,6 +28,17 @@ namespace Simva
                     break;
             }
             return form;
+        }
+
+        public static Scene LoadScene(string name) {
+            // Set Scene2 as the active Scene
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(name));
+
+            // Ouput the name of the active Scene
+            // See now that the name is updated
+            SimvaPlugin.Instance.Log("Active Scene : " + SceneManager.GetActiveScene().name);
+
+            return SceneManager.GetActiveScene();
         }
     }
 }
