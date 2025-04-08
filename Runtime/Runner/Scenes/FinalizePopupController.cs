@@ -35,7 +35,7 @@ namespace Simva
 
             if (SimvaExtension.Instance.finalizeOperation != null)
             {
-                SimvaPlugin.Instance?.Log("Last progress: " + SimvaExtension.Instance.finalizeOperation.Progress);*/
+                SimvaPlugin.Instance.Log("Last progress: " + SimvaExtension.Instance.finalizeOperation.Progress);*/
                 /*if (!progressCallbackAdded)
                 {
                     ((AsyncCompletionSource)SimvaExtension.Instance.backupOperation).AddProgressCallback((p) =>

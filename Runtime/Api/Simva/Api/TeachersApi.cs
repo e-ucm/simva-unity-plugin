@@ -403,8 +403,8 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             String postBody = null;
     
             postBody = ApiClient.Serialize(body); // http body (model) parameter
-            SimvaPlugin.Instance?.UnityEngineLog(path);
-            SimvaPlugin.Instance?.UnityEngineLog(postBody);
+            SimvaPlugin.Instance.UnityEngineLog(path);
+            SimvaPlugin.Instance.UnityEngineLog(postBody);
             // authentication setting, if any
             String[] authSettings = new String[] { "OAuth2" };
     
