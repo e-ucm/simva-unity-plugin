@@ -135,7 +135,7 @@ namespace Simva
                 .Catch(error =>
                 {
                     NotifyLoading(false);
-                    NotifyManagers(error.Message);
+                    NotifyManagers("Failed to Login with this token");
                 });
         }
 
@@ -160,7 +160,7 @@ namespace Simva
                 .Catch(error =>
                 {
                     NotifyLoading(false);
-                    NotifyManagers(error.Message);
+                    NotifyManagers("Failed to Login with this token");
                 });
         }
 
