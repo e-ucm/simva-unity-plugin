@@ -64,6 +64,14 @@ namespace Simva
                 else
                 {
                     Log("[SIMVA] Study is not set! Stopping...");
+                    if (Application.isEditor)
+                    {
+#if UNITY_EDITOR
+                        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+                    } else {
+                        Application.Quit();
+                    }
                 }
                 yield break;
             }
