@@ -23,12 +23,14 @@ namespace Simva
         public bool AutoStart = true;
         public bool EnableLoginDemoButton = true;
         public string GamePlayScene;
-        public string SimvaScene;
+        public string SimvaLoginScene;
+        public string SimvaSurveyScene;
+        public string SimvaBackupPopupScene;
+        public string SimvaFinalizeScene;
+        public string SimvaEndScene;
         public bool EnableDebugLogging = false;
         private SimvaSceneController previousController;
         private OAuth2Token lastAuth;
-        
-
         
         public IEnumerator Start()
         {
@@ -44,7 +46,6 @@ namespace Simva
                 DestroyImmediate(this.gameObject);
                 yield break;
             }
-
 
             Log("[SIMVA] Starting...");
             if (SimvaConf.Local == null)
@@ -88,11 +89,7 @@ namespace Simva
             if (ShowLoginOnStartup)
             {
                 Log("[SIMVA] Setting current target to Simva.Login...");
-                if(EnableLoginDemoButton) {
-                    RunScene("Simva.Login.Demo");
-                } else {
-                    RunScene("Simva.Login");
-                }
+                RunScene("Simva.Login");
 
                 if (PlayerPrefs.HasKey("simva_auth") && SaveAuthUntilCompleted)
                 {
@@ -132,10 +129,8 @@ namespace Simva
 
         public void Demo()
         {
-            if (GamePlayScene != "")
-            {
-                SceneManager.LoadSceneAsync(GamePlayScene);
-            }
+            Log("Starting Demo Gameplay");
+            StartGameplay();
         }
 
         public void OnAuthUpdated(OAuth2Token token)
@@ -143,20 +138,34 @@ namespace Simva
             lastAuth = token;
         }
 
-        public void RunScene(string name)
+        public void RunScene(string sceneName)
         {
-            if(SimvaScene == "") {
+            var name="";
+            switch(sceneName) {
+                case "Simva.Login":
+                    if(SimvaLoginScene != "") { name=SimvaLoginScene; } else { if(EnableLoginDemoButton) { name="Simva.Login.Demo"; } else { name = "Simva.Login"; } }
+                    break;
+                case "Simva.Survey":
+                    if(SimvaSurveyScene != "") { name=SimvaSurveyScene; } else { name="Simva.Survey"; }
+                    break;
+                case "gameplay":
+                    if(GamePlayScene != "") { name=GamePlayScene; } else { throw new Exception("Please provide your GamePlay Scene name."); }
+                    break;
+                case "Simva.BackupPopup":
+                    if(SimvaBackupPopupScene != "") { name=SimvaBackupPopupScene; } else { name="Simva.BackupPopup"; }
+                    break;
+                case "Simva.Finalize":
+                    if(SimvaFinalizeScene != "") { name=SimvaFinalizeScene; } else { name="Simva.Finalize"; }
+                    break;
+                case "Simva.End":
+                    if(SimvaEndScene != "") { name=SimvaEndScene; } else { name="Simva.End"; }
+                    break;
+                default:
+                    throw new Exception("Invalid Scene Name.");
+            }
+            if (SceneManager.GetActiveScene().name != name)
+            {
                 DoRunScene(name);
-            } else {
-                if (SceneManager.GetActiveScene().name != SimvaScene)
-                {
-                    SceneManager.LoadSceneAsync(SimvaScene).completed += ev =>
-                    {
-                        DoRunScene(name);
-                    };
-                } else {
-                    DoRunScene(name);
-                }
             }
         }
 
@@ -183,14 +192,7 @@ namespace Simva
         {
             DestroyPreviousSimvaScene();
             Log("Starting Gameplay");
-            if(GamePlayScene != "") {
-                if (SceneManager.GetActiveScene().name != GamePlayScene)
-                {
-                    SceneManager.LoadScene(GamePlayScene);
-                }
-            } else {
-                throw new Exception("Please define GamePlayScene.");
-            }
+            RunScene("gameplay");
         }
 
         public IAsyncOperation StartTracker(TrackerConfig config, IAuthProtocol onlineProtocol, IAuthProtocol backupProtocol)
