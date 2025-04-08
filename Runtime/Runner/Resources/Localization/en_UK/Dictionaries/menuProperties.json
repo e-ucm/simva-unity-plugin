@@ -1,0 +1,12 @@
+{
+	"playButton": "Play",
+    "exitButton":"Exit",
+
+    "sessionText":"Session Key",
+    "inputSession": "Enter session Key",
+
+    "startButton":"Start",
+    "backButton":"Back",
+    "adviseTitle":"¡IMPORTANTE!",
+    "adviseText":"No introduzcas una contraseña que ya uses. Piensa en una buena. Sólo será utilizada dentro del juego."
+}

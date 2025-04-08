@@ -23,6 +23,8 @@ namespace Simva
         public bool AutoStart = true;
         public bool EnableLoginDemoButton = true;
         public string GamePlayScene;
+        public string LanguageScene;
+        public LanguageSelectorController languageSelector;
         public bool EnableDebugLogging = false;
         private SimvaSceneController previousController;
         private OAuth2Token lastAuth;
@@ -83,8 +85,8 @@ namespace Simva
 
             if (ShowLoginOnStartup)
             {
-                Log("Setting current target to Simva.Login...");
-                RunScene("Simva.Login");
+                Log("[SIMVA] Setting current target to Simva.Login...");
+                RunScene("Simva.Language");
 
                 if (PlayerPrefs.HasKey("simva_auth") && SaveAuthUntilCompleted)
                 {
@@ -150,6 +152,17 @@ namespace Simva
                     else
                     {
                         throw new Exception("Please provide your GamePlay Scene name.");
+                    }
+                    break;
+
+                case "Simva.Language":
+                    if (!string.IsNullOrEmpty(LanguageScene))
+                    {
+                        name = LanguageScene;
+                    }
+                    else
+                    {
+                        name = "Simva.Language";
                     }
                     break;
 

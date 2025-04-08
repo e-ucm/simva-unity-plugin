@@ -1,0 +1,12 @@
+{
+  "playButton": "Jouer",
+  "exitButton": "Quitter",
+
+  "sessionText": "Clé de la session",
+  "inputSession": "Entrez la clé de la session",
+
+  "startButton": "Démarrer",
+  "backButton": "Retour",
+  "adviseTitle": "IMPORTANT!",
+  "adviseText": "Ne mets pas un mot de passe que tu utilises déjà. Invente un bon mot de passe. Il ne sera utilisé qu'à l'intérieur du jeu."
+}
