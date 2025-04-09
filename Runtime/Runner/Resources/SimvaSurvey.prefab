@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 222292415899360656}
   - component: {fileID: 114459421977893642}
   - component: {fileID: 6330377589730947202}
+  - component: {fileID: 5322365673245875333}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ContinueButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,6 +96,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1, y: 1}
   m_UseGraphicAlpha: 1
+--- !u!114 &5322365673245875333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036166428810524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1036836997293014
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,8 +120,9 @@ GameObject:
   - component: {fileID: 222386598549794032}
   - component: {fileID: 114215678732173536}
   - component: {fileID: 5904252528730061907}
+  - component: {fileID: 5025848575622624707}
   m_Layer: 5
-  m_Name: Text
+  m_Name: OpenSurveyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -190,6 +204,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1, y: 1}
   m_UseGraphicAlpha: 1
+--- !u!114 &5025848575622624707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036836997293014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1137494892783728
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,7 +755,6 @@ GameObject:
   - component: {fileID: 114293266653176236}
   - component: {fileID: 114244203685167288}
   - component: {fileID: 5920813848899172622}
-  - component: {fileID: -728064624256901344}
   m_Layer: 5
   m_Name: SimvaSurvey
   m_TagString: Untagged
@@ -835,18 +860,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   label: {fileID: 8186325771866910489}
---- !u!114 &-728064624256901344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1787898011851498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1915394580998662
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,8 +873,9 @@ GameObject:
   - component: {fileID: 114400636155566570}
   - component: {fileID: 6497077720168249883}
   - component: {fileID: 7602961672185374167}
+  - component: {fileID: 1230155592746790876}
   m_Layer: 5
-  m_Name: Loading
+  m_Name: LoadingText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -958,6 +972,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &1230155592746790876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915394580998662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1992687276303310
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,8 +996,9 @@ GameObject:
   - component: {fileID: 222514340883153028}
   - component: {fileID: 114685669069344154}
   - component: {fileID: 6277113398994569718}
+  - component: {fileID: 4293165615101668123}
   m_Layer: 5
-  m_Name: Text
+  m_Name: SurveyTitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1053,6 +1080,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1, y: 1}
   m_UseGraphicAlpha: 1
+--- !u!114 &4293165615101668123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992687276303310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &747406854471359651
 GameObject:
   m_ObjectHideFlags: 0
@@ -1141,7 +1180,7 @@ GameObject:
   - component: {fileID: 6093208932096725114}
   - component: {fileID: 4554543368961930632}
   m_Layer: 5
-  m_Name: Text
+  m_Name: text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

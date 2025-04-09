@@ -284,11 +284,10 @@ namespace Simva
                     }
                     else
                     {
-                        NotifyManagers("Survey not completed");
                         NotifyLoading(false);
-                        var nullresult = new AsyncCompletionSource<Schedule>();
-                        nullresult.SetResult(null);
-                        return nullresult;
+                        var res = new AsyncCompletionSource<Schedule>();
+                        res.SetException(new Exception(LanguageSelectorController.instance.GetName("NotCompletedSurveyMsg")));
+                        return res;
                     }
                 })
                 .Then(schedule =>
@@ -300,7 +299,7 @@ namespace Simva
                     }
                     else
                     {
-                        result.SetException(new Exception("No schedule!"));
+                        result.SetException(new Exception(LanguageSelectorController.instance.GetName("NoScheduleMsg")));
                     }
                     return result;
                 })
