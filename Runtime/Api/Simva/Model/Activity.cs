@@ -83,13 +83,6 @@ namespace Simva.Model {
     public bool TraceStorage { get; set; }
 
     /// <summary>
-    /// Gets or Sets Type
-    /// </summary>
-    [DataMember(Name = "realtime", EmitDefaultValue = false)]
-    [JsonProperty(PropertyName = "realtime")]
-    public bool Realtime { get; set; }
-
-    /// <summary>
     /// Get the string presentation of the object
     /// </summary>
     /// <returns>String presentation of the object</returns>

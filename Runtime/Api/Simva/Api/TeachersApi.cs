@@ -113,12 +113,6 @@ namespace Simva.Api
         /// <returns>List&lt;string&gt;</returns>
         IAsyncOperation<List<string>> GetGroupParticipants (string id);
         /// <summary>
-        /// gets the printable PDF version of the group Usefull for assistance in the classroom, the printable version of the class allows the teacher to cut and give the codes to the students easily to anonymize them. 
-        /// </summary>
-        /// <param name="id">The class ID</param>
-        /// <returns>byte[]</returns>
-        IAsyncOperation<byte[]> GetGroupPrintable (string id);
-        /// <summary>
         /// gets the assigned studies to the group Obtains the list of studies assigned to the group 
         /// </summary>
         /// <param name="id">The group ID</param>
@@ -403,8 +397,6 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             String postBody = null;
     
             postBody = ApiClient.Serialize(body); // http body (model) parameter
-            SimvaPlugin.Instance.UnityEngineLog(path);
-            SimvaPlugin.Instance.UnityEngineLog(postBody);
             // authentication setting, if any
             String[] authSettings = new String[] { "OAuth2" };
     
@@ -1000,51 +992,6 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
                 .Catch(error => {
                     var apiEx = (ApiException)error;
                     result.SetException(new ApiException(apiEx.ErrorCode, "Error calling GetGroupParticipants: " + apiEx.Message, apiEx.ErrorContent));
-                });
-    
-            return result;
-        }
-    
-        /// <summary>
-        /// gets the printable PDF version of the group Usefull for assistance in the classroom, the printable version of the class allows the teacher to cut and give the codes to the students easily to anonymize them. 
-        /// </summary>
-        /// <param name="id">The class ID</param> 
-        /// <returns>byte[]</returns>            
-        public IAsyncOperation<byte[]> GetGroupPrintable (string id)
-        {
-            
-            // verify the required parameter 'id' is set
-            if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling GetGroupPrintable");
-            
-    
-            var path = "/groups/{id}/printable";
-            path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "id" + "}", ApiClient.ParameterToString(id));
-    
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, String>();
-            String postBody = null;
-    
-                                                    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "OAuth2" };
-    
-
-            var result = new AsyncCompletionSource<byte[]>();
-
-            // make the HTTP request
-            ApiClient.CallApi(path, UnityWebRequest.kHttpVerbGET, queryParams, postBody, headerParams, formParams, fileParams, authSettings)
-                .Then(webRequest => {
-                    var uniWebRequest = (UnityWebRequest)webRequest;
-                    var headers = uniWebRequest.GetResponseHeaders().Select(kv => string.Format("{0}={1}", kv.Key, kv.Value)).ToList();
-                    var data = webRequest.downloadHandler.data;
-                    result.SetResult(data);
-                })
-                .Catch(error => {
-                    var apiEx = (ApiException)error;
-                    result.SetException(new ApiException(apiEx.ErrorCode, "Error calling GetGroupPrintable: " + apiEx.Message, apiEx.ErrorContent));
                 });
     
             return result;
