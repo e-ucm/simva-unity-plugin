@@ -17,9 +17,14 @@
     },
     "samples": [
         {
-            "displayName": "Demo",
+            "displayName": "Demo Automatic",
             "description": "Contains a scene and a tester.",
-            "path": "Samples~/Demo"
+            "path": "Samples~/DemoAuto"
+        },
+        {
+            "displayName": "Demo Manual",
+            "description": "Contains a scene and a tester.",
+            "path": "Samples~/DemoManual"
         }
     ]
 }

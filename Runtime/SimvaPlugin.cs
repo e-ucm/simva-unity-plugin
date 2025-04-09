@@ -31,6 +31,11 @@ namespace Simva
         private LanguageSelectorController languageSelector;
         private OAuth2Token lastAuth;
         
+        void Awake()
+        {
+            Instance = this;
+        }
+
         public IEnumerator Start()
         {
             if(AutoStart)
@@ -39,13 +44,11 @@ namespace Simva
 
         public IEnumerator ManualStart(string selectedLanguage="")
         {
-            Instance = this;
             if(SimvaManager.Instance.Bridge != null)
             {
                 DestroyImmediate(this.gameObject);
                 yield break;
             }
-
             if (string.IsNullOrEmpty(GamePlayScene))
             {
                 throw new Exception("Please provide your GamePlay Scene name.");
