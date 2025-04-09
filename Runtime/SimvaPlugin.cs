@@ -46,7 +46,12 @@ namespace Simva
                 yield break;
             }
 
-            Log("Starting...");
+            if (string.IsNullOrEmpty(GamePlayScene))
+            {
+                throw new Exception("Please provide your GamePlay Scene name.");
+            }
+
+            Log("[SIMVA] Starting...");
             if (SimvaConf.Local == null)
             {
                 SimvaConf.Local = new SimvaConf();
@@ -166,7 +171,6 @@ namespace Simva
                         throw new Exception("Please provide your GamePlay Scene name.");
                     }
                     break;
-
                 default:
                     name = sceneName;
                     break;
