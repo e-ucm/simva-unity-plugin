@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 114758179462936092}
   - component: {fileID: 114437378224641564}
   - component: {fileID: 114569020186524680}
+  - component: {fileID: 270676031087692051}
   m_Layer: 5
   m_Name: SimvaLoginDemo
   m_TagString: Untagged
@@ -173,6 +174,18 @@ MonoBehaviour:
   login: {fileID: 9046868364057465734}
   preview: {fileID: 3220597356208727169}
   token: {fileID: 2768850628478712478}
+--- !u!114 &270676031087692051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674110468084272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &144246912846162063
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,7 +637,7 @@ GameObject:
   - component: {fileID: 5698126655348723954}
   - component: {fileID: 3219188865318179661}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -874,7 +887,7 @@ GameObject:
   - component: {fileID: 4009066667412226023}
   - component: {fileID: 4381227627329089151}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1776,7 +1789,7 @@ GameObject:
   - component: {fileID: 720082051224364726}
   - component: {fileID: 8970452861545771070}
   m_Layer: 5
-  m_Name: Text (1)
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
