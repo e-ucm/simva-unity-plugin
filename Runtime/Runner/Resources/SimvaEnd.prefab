@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 131985670465635855}
   - component: {fileID: 5458505914803558263}
   - component: {fileID: 2679890093284601816}
+  - component: {fileID: 3071514041076633803}
   m_Layer: 5
-  m_Name: Subtitle
+  m_Name: EndTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,6 +112,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &3071514041076633803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131985670465635852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &131985671261414080
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,8 +136,9 @@ GameObject:
   - component: {fileID: 131985671261414083}
   - component: {fileID: 131985671261414082}
   - component: {fileID: 5704395865160518377}
+  - component: {fileID: 2750071778810753518}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ExitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -206,6 +220,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.7372549}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &2750071778810753518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131985671261414080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &131985671943349302
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +245,6 @@ GameObject:
   - component: {fileID: 131985671943349296}
   - component: {fileID: 131985671943349303}
   - component: {fileID: 4088845592260483602}
-  - component: {fileID: 8388623977728739029}
   m_Layer: 5
   m_Name: SimvaEnd
   m_TagString: Untagged
@@ -323,18 +348,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2fa04299b6ce65440bf9ac5f654ffbd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8388623977728739029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131985671943349302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &131985672138742526
@@ -959,7 +972,7 @@ GameObject:
   - component: {fileID: 404380571733952186}
   - component: {fileID: 1593589538357852657}
   m_Layer: 5
-  m_Name: Text
+  m_Name: SimvaTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
