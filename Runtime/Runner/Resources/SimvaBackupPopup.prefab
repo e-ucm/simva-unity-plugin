@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 9061665789273049824}
   - component: {fileID: 4186779398523604681}
   - component: {fileID: 4635382982852971427}
+  - component: {fileID: 8282721231855629341}
   m_Layer: 5
-  m_Name: Error
+  m_Name: BackupErrorText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,6 +97,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1.1, y: 1.1}
   m_UseGraphicAlpha: 1
+--- !u!114 &8282721231855629341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184138025978727618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1389903964845138156
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,7 +217,6 @@ GameObject:
   - component: {fileID: 3005949609106030789}
   - component: {fileID: 6105515131266380499}
   - component: {fileID: 5402789474623851156}
-  - component: {fileID: -2459747761392592103}
   m_Layer: 5
   m_Name: SimvaBackupPopup
   m_TagString: Untagged
@@ -273,18 +285,6 @@ MonoBehaviour:
   progressBar: {fileID: 8659222573732543423}
   successText: {fileID: 5940800554414801591}
   errorText: {fileID: 4186779398523604681}
---- !u!114 &-2459747761392592103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3518543016207074465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4992484926807297097
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,8 +333,9 @@ GameObject:
   - component: {fileID: 3598921496042750292}
   - component: {fileID: 2292300253372100500}
   - component: {fileID: 5622709180287694656}
+  - component: {fileID: 7344852523111129817}
   m_Layer: 5
-  m_Name: Subtitle
+  m_Name: BackupTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -416,6 +417,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1.1, y: 1.1}
   m_UseGraphicAlpha: 1
+--- !u!114 &7344852523111129817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5132590782469218386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5591153430663560339
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,8 +553,9 @@ GameObject:
   - component: {fileID: 1217625944680764028}
   - component: {fileID: 5940800554414801591}
   - component: {fileID: 6345106943915838634}
+  - component: {fileID: 4468131751797558051}
   m_Layer: 5
-  m_Name: Ok
+  m_Name: BackupOkText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -623,6 +637,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1.1, y: 1.1}
   m_UseGraphicAlpha: 1
+--- !u!114 &4468131751797558051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7055962227557203775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7410785310572626489
 GameObject:
   m_ObjectHideFlags: 0

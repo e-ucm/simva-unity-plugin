@@ -1,0 +1,7 @@
+{
+    "BackupTitle":"Uploading backup...",
+    "BackupOkText":"Backup realizado correctamente ✅✅ \n<color=green>✔</color>",
+    "BackupErrorText":"No se pudo realizar el backup <color=Red>✘</color>",
+    "BackupJoinedMsg":"Backup adjunto",
+    "BackupOfMsg": "Backup de"
+}
