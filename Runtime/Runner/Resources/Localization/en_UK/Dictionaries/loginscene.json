@@ -8,5 +8,6 @@
     "ConnectButton": "Start",
     "BackButton": "Back",
     "EmptyLoginMsg": "Please insert a token",
-    "InvalidLoginMsg": "Failed to Login with this token"
+    "InvalidLoginMsg": "Failed to Login with this token",
+    "DemoButton": "Demo"
 }

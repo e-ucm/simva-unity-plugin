@@ -17,7 +17,7 @@ namespace Simva
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
-
+        gameObject.SetActive(true);
         DontDestroyOnLoad(gameObject);
     }
 
@@ -78,7 +78,7 @@ namespace Simva
     {
         if (!myDictionary.ContainsKey(objectName))
         {
-            Debug.LogWarning("The sequence with key " + objectName + " doesn't exit (Object " + this.gameObject.name + ")");
+            SimvaPlugin.Instance.LogError("The sequence with key " + objectName + " doesn't exit (Object " + this.gameObject.name + ")");
             return null;
         }
 
@@ -97,6 +97,7 @@ namespace Simva
 
     public override void Destroy()
     {
+        gameObject.SetActive(false);
     }
 }
 }

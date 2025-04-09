@@ -8,5 +8,6 @@
     "ConnectButton": "Lanzar",
     "BackButton": "Volver",
     "EmptyLoginMsg": "Introduzca una clave por favor",
-    "InvalidLoginMsg": "Error al iniciar sesión con este token"
+    "InvalidLoginMsg": "Error al iniciar sesión con este token",
+    "DemoButton": "Demo"
 }
