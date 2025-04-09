@@ -1,8 +1,12 @@
 {
     "SimvaTitle": "Simva",
     "AdviceText": "Simva.\n Your gameplay data (your interactions, choices and progresses) will be gathered during the gameplay anonymously using a user token.\nThe application does NOT gather personal data.",
-    "LoadingUser": "Loading user...",
-    "Accept": "Accept",
-    "Token":"Token :",
-    "TokenInputPlaceHolder":"Introduce your user token"
+    "LoadingUserText": "Loading user...",
+    "AcceptButton": "Accept",
+    "TokenText":"Token :",
+    "TokenInputPlaceHolder":"Introduce your token",
+    "ConnectButton": "Start",
+    "BackButton": "Back",
+    "EmptyLoginMsg": "Please insert a token",
+    "InvalidLoginMsg": "Failed to Login with this token"
 }

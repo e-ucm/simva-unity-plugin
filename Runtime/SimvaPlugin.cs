@@ -24,9 +24,10 @@ namespace Simva
         public bool EnableLoginDemoButton = true;
         public string GamePlayScene;
         public string LanguageScene;
-        public LanguageSelectorController languageSelector;
+        public bool SaveDisclaimerAccepted=false;
         public bool EnableDebugLogging = false;
         private SimvaSceneController previousController;
+        private LanguageSelectorController languageSelector;
         private OAuth2Token lastAuth;
         
         public IEnumerator Start()
@@ -50,6 +51,11 @@ namespace Simva
                 SimvaConf.Local = new SimvaConf();
                 yield return StartCoroutine(SimvaConf.Local.LoadAsync());
                 Log("Conf Loaded...");
+            }
+
+            if (PlayerPrefs.HasKey("simva_disclaimer_accepted") && !SaveDisclaimerAccepted)
+            {
+                PlayerPrefs.DeleteKey("simva_disclaimer_accepted");
             }
 
             if (!SimvaManager.Instance.IsEnabled)

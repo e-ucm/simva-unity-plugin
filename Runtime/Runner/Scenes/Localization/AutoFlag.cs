@@ -36,25 +36,18 @@ namespace Simva
             string path = "";
             Texture2D import = null;
 
-            var localizationPath = "Localization/" + gameObject.name + "/";
-            var all = Resources.LoadAll(localizationPath);
-            Debug.Log(localizationPath);
-            foreach (var item in all)
-            {
-                Debug.Log("Found: " + item.name + " (" + item.GetType() + ")");
-            }
-
-            path = localizationPath + "flag";
-            Debug.Log("Trying to load from: Resources/" + path);
+            path = "Localization/" + gameObject.name + "/flag";
+            SimvaPlugin.Instance.Log("Trying to load from: Resources/" + path);
             
             import = Resources.Load(path) as Texture2D;
 
             if (import == null)
             {
-                //Debug.LogError("Error: " + path+ " doesn't exit (Object " + gameObject.name + ")");
-                //return;
+                SimvaPlugin.Instance.LogError("Error: " + path+ " doesn't exit (Object " + gameObject.name + ")");
+                return;
             } else {
                 img.sprite = Sprite.Create(import, new Rect(0, 0, import.width, import.height), Vector2.zero);
+                SimvaPlugin.Instance.Log("Resources/" + path + " found and loaded");
             }
             
             button.onClick.AddListener(SelectLanguage);

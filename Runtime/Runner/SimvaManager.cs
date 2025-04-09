@@ -135,7 +135,7 @@ namespace Simva
                 .Catch(error =>
                 {
                     NotifyLoading(false);
-                    var msg = "Failed to Login with this token";
+                    var msg = LanguageSelectorController.instance.GetName("InvalidLoginMsg");
                     NotifyManagers(msg);
                     SimvaPlugin.Instance.LogError(msg);
                 });
@@ -162,7 +162,7 @@ namespace Simva
                 .Catch(error =>
                 {
                     NotifyLoading(false);
-                    var msg = "Failed to Login with this token";
+                    var msg = LanguageSelectorController.instance.GetName("InvalidLoginMsg");
                     NotifyManagers(msg);
                     SimvaPlugin.Instance.LogError(msg);
                 });

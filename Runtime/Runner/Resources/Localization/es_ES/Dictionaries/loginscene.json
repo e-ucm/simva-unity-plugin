@@ -1,4 +1,12 @@
 {
-    "Token":"Clave",
-    "TokenInput":"Introduce tu clave de usuario"
+    "SimvaTitle": "Simva",
+    "AdviceText": "Simva.\n Tus datos de juego (tus interacciones, elecciones y progresos) se recopilarán durante el juego de forma anónima mediante un token de usuario.\nLa aplicación NO recopila datos personales.",
+    "LoadingUserText": "Carga usuario...",
+    "AcceptButton": "Aceptar",
+    "TokenText":"Clave :",
+    "TokenInputPlaceHolder":"Introduce tu clave",
+    "ConnectButton": "Lanzar",
+    "BackButton": "Volver",
+    "EmptyLoginMsg": "Introduzca una clave por favor",
+    "InvalidLoginMsg": "Error al iniciar sesión con este token"
 }

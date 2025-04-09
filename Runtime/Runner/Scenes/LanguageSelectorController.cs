@@ -86,6 +86,7 @@ namespace Simva
         if (newWord.Contains("\\n"))
             newWord = myDictionary[objectName].Replace("\\n", "\n");
 
+        SimvaPlugin.Instance.Log(objectName + " : " + newWord);
         return newWord;
     }
 
