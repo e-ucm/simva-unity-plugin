@@ -1,0 +1,10 @@
+{
+    "BackupTitle":"Chargement de la sauvegarde...",
+    "BackupOkText":"Sauvegarde réussie ✅✅ \n<color=green>✔</color>",
+    "BackupErrorText":"La sauvegarde n'a pas pu être effectuée <color=Red>✘</color>",
+    "BackupJoinedMsg":"Sauvegarde jointe",
+    "BackupOfMsg": "Sauvegarde de",
+    "RetryButton": "Réessayer",
+    "ShareButton": "Partager",
+    "NoInternetMsg": "<size=25> Vous avez besoin d'une connexion internet pour continuer... </size> \n Assurez-vous que la connexion est activée sur votre appareil et qu'elle fonctionne correctement.\n\n<b><color=red><size=20>Attention! </size></color></b>\n<i><color=yellow>Si vous ne rétablissez pas la connexion, vous risquez de perdre vos données !</color></i>"
+}

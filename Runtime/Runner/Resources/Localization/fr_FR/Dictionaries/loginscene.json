@@ -1,4 +1,13 @@
 {
-    "Token":"Clé",
-    "TokenInput":"Entrez votre clé d'utilisateur"
+    "SimvaTitle": "Simva",
+    "AdviceText": "Simva.\n\n Vos données de jeu (vos interactions, vos choix et vos progrès) seront collectées pendant le jeu de manière anonyme par le biais d'un jeton d'utilisateur.\n\n L'application ne collecte PAS de données personnelles",
+    "LoadingUserText": "Chargement utilisateur...",
+    "AcceptButton": "Accepter",
+    "TokenText":"Jeton :",
+    "TokenInputPlaceHolder":"Inscris ton jeton",
+    "ConnectButton": "Démarrer",
+    "BackButton": "Retour",
+    "EmptyLoginMsg": "Veuillez saisir un jeton",
+    "InvalidLoginMsg": "Erreur de connexion avec ce jeton",
+    "DemoButton": "Demo"
 }
