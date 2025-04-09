@@ -17,6 +17,8 @@ namespace Simva
         public GameObject disclaimer;
         public GameObject login;
         public GameObject preview;
+        public GameObject back;
+        public GameObject adviceDemo;
 
         public InputField token;
 
@@ -33,8 +35,11 @@ namespace Simva
             }
         }
 
-        protected void OnApplicationResume()
+        public void Back()
         {
+            PlayerPrefs.DeleteKey(SIMVA_DISCLAIMER_ACCEPTED);
+            LanguageSelectorController.instance.SetActive(true);
+            Destroy();
         }
 
         public void Login()
@@ -92,7 +97,12 @@ namespace Simva
             var backgroundSprite = Game.Instance.ResourceManager.getSprite();
             background.sprite = Game.Instance.ResourceManager.getSprite()*/
             Ready = true;
+            if(SimvaPlugin.Instance.EnableLoginDemoButton) {
+                adviceDemo.SetActive(true);
+            }
+            if(SimvaPlugin.Instance.EnableLanguageScene) {
+                back.SetActive(true);
+            }
         }
     }
 }
-

@@ -1,6 +1,7 @@
 {
     "SimvaTitle": "Simva",
-    "AdviceText": "Simva.\n Tus datos de juego (tus interacciones, elecciones y progresos) se recopilarán durante el juego de forma anónima mediante un token de usuario.\nLa aplicación NO recopila datos personales.",
+    "AdviceText": "Simva.\n\nTus datos de juego (tus interacciones, elecciones y progresos) se recopilarán durante el juego de forma anónima mediante un token de usuario.\n\nLa aplicación NO recopila datos personales.",
+    "AdviceDemoText":"La versíon \"Demo\" no captura ningun dato.",
     "LoadingUserText": "Carga usuario...",
     "AcceptButton": "Aceptar",
     "TokenText":"Clave :",

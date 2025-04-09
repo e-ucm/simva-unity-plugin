@@ -1,6 +1,7 @@
 {
     "SimvaTitle": "Simva",
-    "AdviceText": "Simva.\n Your gameplay data (your interactions, choices and progresses) will be gathered during the gameplay anonymously using a user token.\nThe application does NOT gather personal data.",
+    "AdviceText": "Simva.\n\n Your gameplay data (your interactions, choices and progresses) will be gathered during the gameplay anonymously using a user token.\n\nThe application does NOT gather personal data.",
+    "AdviceDemoText":"\"Demo\" version does not capture any data.",
     "LoadingUserText": "Loading user...",
     "AcceptButton": "Accept",
     "TokenText":"Token :",
