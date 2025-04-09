@@ -124,7 +124,6 @@ GameObject:
   - component: {fileID: 131985671943349296}
   - component: {fileID: 131985671943349303}
   - component: {fileID: 21989385319649167}
-  - component: {fileID: -678494999767453109}
   m_Layer: 5
   m_Name: SimvaFinalize
   m_TagString: Untagged
@@ -232,18 +231,6 @@ MonoBehaviour:
   successText: {fileID: 8597239337773133071}
   errorText: {fileID: 4166208951075515315}
   networkPopup: {fileID: 5298474213978947132}
---- !u!114 &-678494999767453109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131985671943349302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &401006016487430822
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,8 +669,9 @@ GameObject:
   - component: {fileID: 4166208951075515315}
   - component: {fileID: 9139171787042218314}
   - component: {fileID: 4369316965677776165}
+  - component: {fileID: 744103677896603481}
   m_Layer: 5
-  m_Name: Error
+  m_Name: BackupError
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -783,6 +771,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.184}
   m_EffectDistance: {x: 3.1, y: -2.57}
   m_UseGraphicAlpha: 1
+--- !u!114 &744103677896603481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2466947350570883156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3124142836536933318
 GameObject:
   m_ObjectHideFlags: 0
@@ -887,8 +887,9 @@ GameObject:
   - component: {fileID: 2130575120928763949}
   - component: {fileID: 577137553229430621}
   - component: {fileID: 4078841337591964049}
+  - component: {fileID: 6897497240885008129}
   m_Layer: 5
-  m_Name: Text
+  m_Name: SimvaTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -985,6 +986,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 5, y: -5}
   m_UseGraphicAlpha: 1
+--- !u!114 &6897497240885008129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3266731009131914582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3384630128132376530
 GameObject:
   m_ObjectHideFlags: 0
@@ -1154,8 +1167,9 @@ GameObject:
   - component: {fileID: 3278563101637776629}
   - component: {fileID: 1279958102456896287}
   - component: {fileID: 7401108917439176930}
+  - component: {fileID: 1988207927051905202}
   m_Layer: 5
-  m_Name: Text
+  m_Name: RetryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1237,6 +1251,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &1988207927051905202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4277188526645539955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4795567161453883841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1363,8 +1389,9 @@ GameObject:
   - component: {fileID: 5319914044016498583}
   - component: {fileID: 1523786586114848258}
   - component: {fileID: 565783626123088075}
+  - component: {fileID: 6250322927097157806}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ShareButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1446,6 +1473,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &6250322927097157806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5688764404915976198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5696975671671896125
 GameObject:
   m_ObjectHideFlags: 0
@@ -1606,8 +1645,9 @@ GameObject:
   - component: {fileID: 6270214001135532486}
   - component: {fileID: 4441886844151179555}
   - component: {fileID: 242788143913174051}
+  - component: {fileID: 1500147247771805663}
   m_Layer: 5
-  m_Name: Text
+  m_Name: NoInternetMsg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1703,6 +1743,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1, y: 1}
   m_UseGraphicAlpha: 1
+--- !u!114 &1500147247771805663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6532448373255026831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6776511029821816599
 GameObject:
   m_ObjectHideFlags: 0
@@ -2162,8 +2214,9 @@ GameObject:
   - component: {fileID: 8597239337773133071}
   - component: {fileID: 218391625228644631}
   - component: {fileID: 5773477253826174960}
+  - component: {fileID: 2986631683192556465}
   m_Layer: 5
-  m_Name: Ok
+  m_Name: BackupOk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2260,6 +2313,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &2986631683192556465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8587434692205798166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8750038915966035509
 GameObject:
   m_ObjectHideFlags: 0
