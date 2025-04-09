@@ -37,7 +37,7 @@ namespace Simva
                 yield return ManualStart();
         }
 
-        public IEnumerator ManualStart()
+        public IEnumerator ManualStart(string selectedLanguage="")
         {
             Instance = this;
             if(SimvaManager.Instance.Bridge != null)
@@ -102,7 +102,11 @@ namespace Simva
                 if(!EnableLanguageScene) {
                     Log("Set language to " + LanguageByDefault);
                     LanguageSelectorController.instance.SetActive(false);
-                    LanguageSelectorController.instance.SetLanguage(LanguageByDefault);
+                    if(selectedLanguage != "") {
+                        LanguageSelectorController.instance.SetLanguage(selectedLanguage);
+                    } else {
+                        LanguageSelectorController.instance.SetLanguage(LanguageByDefault);
+                    }
                 }
 
                 if (PlayerPrefs.HasKey("simva_auth") && SaveAuthUntilCompleted)
