@@ -22,8 +22,9 @@ namespace Simva
         public bool ContinueOnQuit = true;
         public bool AutoStart = true;
         public bool EnableLoginDemoButton = true;
+        public bool EnableLanguageScene=true;
+        public string LanguageByDefault="en_UK";
         public string GamePlayScene;
-        public string LanguageScene;
         public bool SaveDisclaimerAccepted=false;
         public bool EnableDebugLogging = false;
         private SimvaSceneController previousController;
@@ -93,6 +94,11 @@ namespace Simva
             {
                 Log("[SIMVA] Setting current target to Simva.Login...");
                 RunScene("Simva.Language");
+                if(!EnableLanguageScene) {
+                    Log("Set language to " + LanguageByDefault);
+                    LanguageSelectorController.instance.SetActive(false);
+                    LanguageSelectorController.instance.SetLanguage(LanguageByDefault);
+                }
 
                 if (PlayerPrefs.HasKey("simva_auth") && SaveAuthUntilCompleted)
                 {
@@ -158,17 +164,6 @@ namespace Simva
                     else
                     {
                         throw new Exception("Please provide your GamePlay Scene name.");
-                    }
-                    break;
-
-                case "Simva.Language":
-                    if (!string.IsNullOrEmpty(LanguageScene))
-                    {
-                        name = LanguageScene;
-                    }
-                    else
-                    {
-                        name = "Simva.Language";
                     }
                     break;
 

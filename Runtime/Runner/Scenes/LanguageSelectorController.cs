@@ -17,7 +17,7 @@ namespace Simva
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
-        gameObject.SetActive(true);
+        SetActive(true);
         DontDestroyOnLoad(gameObject);
     }
 
@@ -27,8 +27,12 @@ namespace Simva
         Language = lang;
         SetUpJSONFiles();
         FillDictionary();
-        //SimvaPlugin.Instance.Language = lang;
         SimvaPlugin.Instance.RunScene("Simva.Login");
+    }
+
+    public void SetActive(bool active)
+    {
+        gameObject.SetActive(active);
     }
 
     public string GetCurrentLanguage() { return Language; }
@@ -51,7 +55,7 @@ namespace Simva
 
 #if UNITY_EDITOR
         foreach (var t in jsonFiles)
-            Debug.Log("JSON File added: " + t.name);
+            Debug.Log("JSON File added for Language " + Language + " : " + t.name);
 #endif
 
     }
@@ -64,6 +68,7 @@ namespace Simva
         string fileContents;
         foreach (var jsonFile in jsonFiles)
         {
+            SimvaPlugin.Instance.Log("JSON File added : " + jsonFile.name);
             fileContents = jsonFile.text;
             
             JObject jObject = JObject.Parse(fileContents);
@@ -97,7 +102,7 @@ namespace Simva
 
     public override void Destroy()
     {
-        gameObject.SetActive(false);
+        SetActive(false);
     }
 }
 }
