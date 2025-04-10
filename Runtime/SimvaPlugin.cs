@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityFx.Async;
@@ -20,14 +21,15 @@ namespace Simva
         public bool ShowLoginOnStartup = true;
         public bool RunGameIfSimvaIsNotConfigured = true;
         public bool ContinueOnQuit = true;
-        public bool AutoStart = true;
         public bool EnableLoginDemoButton = true;
+        public bool AutoStart = true;
         public bool EnableLanguageScene=true;
         public string LanguageByDefault="en_UK";
-        public string GamePlayScene;
         public string StartScene;
+        public string GamePlayScene;
         public bool SaveDisclaimerAccepted=false;
         public bool EnableDebugLogging = false;
+        public List<string> SelectedLanguages = new List<string>();
         private SimvaSceneController previousController;
         private LanguageSelectorController languageSelector;
         private OAuth2Token lastAuth;
@@ -40,6 +42,9 @@ namespace Simva
 
         public IEnumerator Start()
         {
+            Log("Selected languages :" + SelectedLanguages.Count);
+            foreach(var lang in SelectedLanguages)
+                Log(lang);
             if(SimvaManager.Instance.Bridge != null)
             {
                 DestroyImmediate(this.gameObject);

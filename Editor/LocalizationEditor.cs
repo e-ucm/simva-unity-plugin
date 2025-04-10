@@ -1,7 +1,9 @@
 using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 [CustomEditor(typeof(Simva.SimvaPlugin))]
 public class LocalizationEditor : Editor
@@ -13,6 +15,8 @@ public class LocalizationEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        // Lazy-load language options
+        LoadLanguageOptions();
         var settings = (Simva.SimvaPlugin)target;
         // Draw all other fields normally, except LanguageByDefault
         serializedObject.Update();
@@ -29,22 +33,30 @@ public class LocalizationEditor : Editor
                 }
             } else if (prop.name == "EnableLanguageScene") {
                 EnableLanguageScene=prop.boolValue;
-                enableProp=true;
-            }  else if (prop.name == "LanguageByDefault") {
+            } else if(prop.name == "SelectedLanguages") {
+                enableProp=false;
+                foreach (var lang in languageOptions)
+                {
+                    bool isSelected = settings.SelectedLanguages.Contains(lang);
+                    bool newSelected = EditorGUILayout.ToggleLeft(lang, isSelected);
+                    if (newSelected && !isSelected)
+                        settings.SelectedLanguages.Add(lang);
+                    else if (!newSelected && isSelected)
+                        settings.SelectedLanguages.Remove(lang);
+                }
+            } else if (prop.name == "LanguageByDefault") {
                 enableProp=false;
                 if(!EnableLanguageScene && AutoStart) {
-                    // Lazy-load language options
-                    if (languageOptions == null || languageOptions.Length == 0)
-                    {
-                        LoadLanguageOptions();
-                    }
+                    var languagesOptionsSelected=settings.SelectedLanguages
+                        .OrderBy(name=>name)
+                        .ToArray(); 
                     var actual = settings.LanguageByDefault;
                     // Set current selection
-                    selectedIndex = System.Array.IndexOf(languageOptions, actual);
+                    selectedIndex = System.Array.IndexOf(languagesOptionsSelected, actual);
                     if (selectedIndex < 0) selectedIndex = 0;
 
                     // Draw dropdown
-                    selectedIndex = EditorGUILayout.Popup("Language By Default", selectedIndex, languageOptions);
+                    selectedIndex = EditorGUILayout.Popup("Language By Default", selectedIndex, languagesOptionsSelected);
                     settings.LanguageByDefault = languageOptions[selectedIndex];
                 }
             }
@@ -63,22 +75,31 @@ public class LocalizationEditor : Editor
 
     private void LoadLanguageOptions()
     {
-    TextAsset[] allLanguageMarkers = Resources.LoadAll<TextAsset>("Localization");
+        TextAsset[] allLanguageMarkers = Resources.LoadAll<TextAsset>("Localization");
 
-    languageOptions = allLanguageMarkers
-        .Select(asset =>
-        {
+        Dictionary<string, string> languages = new Dictionary<string, string>();
+        foreach (TextAsset asset in allLanguageMarkers) {
             if(asset.name == "lang") {
-                string path = AssetDatabase.GetAssetPath(asset);
-                string folderName = Path.GetFileName(Path.GetDirectoryName(path));
-                return folderName;
-            } else {
-                return "";
+                JObject jObject = JObject.Parse(asset.text);
+                var code="";
+                var name="";
+                foreach (var entry in jObject) {
+                    if(entry.Key=="code") {
+                        code=(string)entry.Value;
+                    }
+                    if(entry.Key=="displayName") {
+                        name=(string)entry.Value;
+                    }
+                }
+                var modifName=name + " [" + code + "]";
+                if(!languages.ContainsKey(modifName)) {
+                    languages.Add(modifName, code);
+                }
             }
-        })
-        .Distinct()
-        .OrderBy(name => name)
-        .ToArray();
+        }
+        languageOptions=languages.Keys
+            .Distinct()
+            .OrderBy(name => name)
+            .ToArray();
     }
-
 }
