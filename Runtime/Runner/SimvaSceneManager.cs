@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections;
 
 namespace Simva
 {
@@ -30,15 +31,26 @@ namespace Simva
             return form;
         }
 
-        public static Scene LoadScene(string name) {
-            // Set Scene2 as the active Scene
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(name));
+        public static void LoadScene(string name)
+        {
+            CoroutineRunner.Instance.StartCoroutine(LoadSceneCoroutine(name));
+        }
 
-            // Ouput the name of the active Scene
-            // See now that the name is updated
-            SimvaPlugin.Instance.Log("Active Scene : " + SceneManager.GetActiveScene().name);
+        private static IEnumerator LoadSceneCoroutine(string name)
+        {
+            Scene currentScene = SceneManager.GetActiveScene();
 
-            return SceneManager.GetActiveScene();
+            // Load the new scene additively
+            AsyncOperation loadOp = SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
+            yield return new WaitUntil(() => loadOp.isDone);
+
+            // Set the newly loaded scene as active
+            Scene newScene = SceneManager.GetSceneByName(name);
+            SceneManager.SetActiveScene(newScene);
+
+            // Unload the previous scene
+            AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(currentScene);
+            yield return new WaitUntil(() => unloadOp.isDone);
         }
     }
 }

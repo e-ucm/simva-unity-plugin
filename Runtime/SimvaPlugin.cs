@@ -35,6 +35,7 @@ namespace Simva
         void Awake()
         {
             Instance = this;
+            DontDestroyOnLoad(Instance.gameObject);
         }
 
         public IEnumerator Start()
@@ -44,8 +45,15 @@ namespace Simva
                 DestroyImmediate(this.gameObject);
                 yield break;
             }
-            if(AutoStart)
+            if(AutoStart) {
                 yield return ManualStart();
+            } else {
+                if (string.IsNullOrEmpty(StartScene))
+                {
+                    throw new Exception("Please provide your StartScene Scene name if not Autostart.");
+                }
+                RunScene("StartMenu");
+            }
         }
 
         public IEnumerator ManualStart(string selectedLanguage="")
@@ -53,12 +61,6 @@ namespace Simva
             if (string.IsNullOrEmpty(GamePlayScene))
             {
                 throw new Exception("Please provide your GamePlay Scene name.");
-            }
-            if(!AutoStart) {
-                if (string.IsNullOrEmpty(StartScene))
-                {
-                    throw new Exception("Please provide your StartScene Scene name if not Autostart.");
-                }
             }
 
             Log("[SIMVA] Starting...");
