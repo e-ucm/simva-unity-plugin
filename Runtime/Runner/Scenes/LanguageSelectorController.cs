@@ -6,11 +6,10 @@ namespace Simva
     public class LanguageSelectorController : SimvaSceneController
 {
     public static LanguageSelectorController instance;
-
+    public GameObject back;
     private static List<TextAsset> jsonFiles;
     private static Dictionary<string, string> myDictionary;
     private static string Language;
-
     private void Awake()
     {
         if (instance == null)
@@ -19,6 +18,11 @@ namespace Simva
             Destroy(gameObject);
         SetActive(true);
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void Back()
+    {
+        GameObject.DestroyImmediate(this.gameObject);
     }
 
     //Selects a language by flag button in Title scene
@@ -32,7 +36,7 @@ namespace Simva
 
     public void SetActive(bool active)
     {
-        gameObject.SetActive(active);
+        this.gameObject.SetActive(active);
     }
 
     public string GetCurrentLanguage() { return Language; }
@@ -97,6 +101,10 @@ namespace Simva
 
     public override void Render()
     {
+        SetActive(true);
+        if(!SimvaPlugin.Instance.AutoStart) {
+            back.SetActive(true);
+        }
         Ready = true;
     }
 

@@ -38,8 +38,15 @@ namespace Simva
         public void Back()
         {
             PlayerPrefs.DeleteKey(SIMVA_DISCLAIMER_ACCEPTED);
-            LanguageSelectorController.instance.SetActive(true);
+            if(SimvaPlugin.Instance.EnableLanguageScene) {
+                LanguageSelectorController.instance.SetActive(true);
+            }
             Destroy();
+        }
+
+        public void SetActive(bool active)
+        {
+            gameObject.SetActive(active);
         }
 
         public void Login()
@@ -88,6 +95,8 @@ namespace Simva
 
         public override void Render()
         {
+            SetActive(true);
+            DontDestroyOnLoad(gameObject);
             if (DisclaimerAccepted)
             {
                 AcceptDisclaimer();
@@ -102,6 +111,10 @@ namespace Simva
             }
             if(SimvaPlugin.Instance.EnableLanguageScene) {
                 back.SetActive(true);
+            } else {
+                if(!SimvaPlugin.Instance.AutoStart) {
+                    back.SetActive(true);
+                }
             }
         }
     }

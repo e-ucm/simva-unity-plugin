@@ -25,6 +25,7 @@ namespace Simva
         public bool EnableLanguageScene=true;
         public string LanguageByDefault="en_UK";
         public string GamePlayScene;
+        public string StartScene;
         public bool SaveDisclaimerAccepted=false;
         public bool EnableDebugLogging = false;
         private SimvaSceneController previousController;
@@ -38,20 +39,26 @@ namespace Simva
 
         public IEnumerator Start()
         {
+            if(SimvaManager.Instance.Bridge != null)
+            {
+                DestroyImmediate(this.gameObject);
+                yield break;
+            }
             if(AutoStart)
                 yield return ManualStart();
         }
 
         public IEnumerator ManualStart(string selectedLanguage="")
         {
-            if(SimvaManager.Instance.Bridge != null)
-            {
-                DestroyImmediate(this.gameObject);
-                yield break;
-            }
             if (string.IsNullOrEmpty(GamePlayScene))
             {
                 throw new Exception("Please provide your GamePlay Scene name.");
+            }
+            if(!AutoStart) {
+                if (string.IsNullOrEmpty(StartScene))
+                {
+                    throw new Exception("Please provide your StartScene Scene name if not Autostart.");
+                }
             }
 
             Log("[SIMVA] Starting...");
@@ -177,6 +184,9 @@ namespace Simva
                     {
                         throw new Exception("Please provide your GamePlay Scene name.");
                     }
+                    break;
+                case "StartMenu":
+                    name=StartScene;
                     break;
                 default:
                     name = sceneName;
