@@ -8,14 +8,8 @@ namespace Simva
 {
     public class SimvaGameplayManualTester : MonoBehaviour
     {
-        public GameObject canvasStart;
-        public GameObject canvasGamePlay;
-        public async void StartGame()
+        public void StartGame()
         {
-            while (SimvaPlugin.Instance == null)
-                await Task.Yield();   
-            canvasStart.SetActive(false);
-            canvasGamePlay.SetActive(true);
             StartCoroutine(SimvaPlugin.Instance.ManualStart("en_UK"));
         }
 
