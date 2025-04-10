@@ -8,7 +8,7 @@ public class LocalizationEditor : Editor
 {
     private string[] languageOptions;
     private int selectedIndex = 0;
-
+    private bool AutoStart;
     private bool EnableLanguageScene;
 
     public override void OnInspectorGUI()
@@ -20,12 +20,19 @@ public class LocalizationEditor : Editor
         bool enterChildren = true;
         while (prop.NextVisible(enterChildren))
         {
-            if (prop.name == "EnableLanguageScene") {
+            bool enableProp=true;
+            if (prop.name == "AutoStart") {
+                AutoStart=prop.boolValue;
+            }  else if (prop.name == "StartScene") {
+                if(AutoStart) {
+                    enableProp=false;
+                }
+            } else if (prop.name == "EnableLanguageScene") {
                 EnableLanguageScene=prop.boolValue;
-                EditorGUILayout.PropertyField(prop, true);
-                enterChildren = false;
+                enableProp=true;
             }  else if (prop.name == "LanguageByDefault") {
-                if(!EnableLanguageScene) {
+                enableProp=false;
+                if(!EnableLanguageScene && AutoStart) {
                     // Lazy-load language options
                     if (languageOptions == null || languageOptions.Length == 0)
                     {
@@ -40,7 +47,8 @@ public class LocalizationEditor : Editor
                     selectedIndex = EditorGUILayout.Popup("Language By Default", selectedIndex, languageOptions);
                     settings.LanguageByDefault = languageOptions[selectedIndex];
                 }
-            } else {
+            }
+            if(enableProp) {
                 EditorGUILayout.PropertyField(prop, true);
                 enterChildren = false;
             }
