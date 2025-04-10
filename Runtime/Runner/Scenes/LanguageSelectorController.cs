@@ -76,8 +76,11 @@ namespace Simva
             fileContents = jsonFile.text;
             
             JObject jObject = JObject.Parse(fileContents);
-            foreach (var entry in jObject)
-                myDictionary.Add(entry.Key, (string)entry.Value);
+            foreach (var entry in jObject) {
+                if(!myDictionary.ContainsKey(entry.Key)) {
+                    myDictionary.Add(entry.Key, (string)entry.Value);
+                }
+            }
         }
     }
 
