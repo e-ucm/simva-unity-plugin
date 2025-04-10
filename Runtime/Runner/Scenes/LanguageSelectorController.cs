@@ -7,7 +7,10 @@ namespace Simva
 {
     public static LanguageSelectorController instance;
     public GameObject back;
+    public GameObject languageGridLayout;
+    public GameObject languageItemPrefab;
     private static List<TextAsset> jsonFiles;
+    private static Dictionary<string, string> languages;
     private static Dictionary<string, string> myDictionary;
     private static string Language;
     private void Awake()
@@ -17,6 +20,8 @@ namespace Simva
         else if (instance != this)
             Destroy(gameObject);
         SetActive(true);
+        GetLanguages();
+        RefreshLanguageList();
         DontDestroyOnLoad(gameObject);
     }
 
@@ -40,6 +45,50 @@ namespace Simva
     }
 
     public string GetCurrentLanguage() { return Language; }
+
+    public void RefreshLanguageList()
+    {
+        // Clear existing children
+        foreach (Transform child in languageGridLayout.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Spawn one UI item per selected language
+        foreach (string lang in SimvaPlugin.Instance.SelectedLanguages)
+        {
+            GameObject item = Instantiate(languageItemPrefab, languageGridLayout.transform);
+            item.name = languages[lang];
+            item.SetActive(true);
+        }
+    }
+
+    void GetLanguages()
+    {
+        languages = new Dictionary<string, string>();
+
+        TextAsset[] filler = Resources.LoadAll<TextAsset>("Localization");
+        foreach (TextAsset obj in filler) {
+            if (obj.name == "lang") {
+                JObject jObject = JObject.Parse(obj.text);
+                var code="";
+                var name="";
+                foreach (var entry in jObject) {
+                    if(entry.Key=="code") {
+                        code=(string)entry.Value;
+                    }
+                    if(entry.Key=="displayName") {
+                        name=(string)entry.Value;
+                    }
+                }
+                var modifName=name + " [" + code + "]";
+                if(!languages.ContainsKey(modifName)) {
+                    languages.Add(modifName, code);
+                }
+            }
+        }
+        Debug.Log("Languages : " + languages.Count);
+    }
 
     //Creates an initializes Json Files array to be used by myDictionary
     void SetUpJSONFiles()
