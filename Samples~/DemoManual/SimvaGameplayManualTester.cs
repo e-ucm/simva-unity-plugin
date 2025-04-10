@@ -12,7 +12,7 @@ namespace Simva
         {
             StartCoroutine(SimvaPlugin.Instance.ManualStart("en_UK"));
         }
-
+        
         public void SendTrace()
         {
             GameObjectTracker.Instance.Interacted("simple_button");
