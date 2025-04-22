@@ -77,13 +77,24 @@ namespace Simva
             }
 
             // Sometimes the webrequest is finished but the download is not
-            while (webRequest.result != UnityWebRequest.Result.ConnectionError && webRequest.result != UnityWebRequest.Result.ProtocolError && webRequest.downloadProgress != 1)
+            bool webRequestResult=false;
+            while (webRequestResult)
             {
                 yield return new WaitForFixedUpdate();
+                #if UNITY_2022_2_OR_NEWER
+                    webRequestResult=(webRequest.result != UnityWebRequest.Result.ConnectionError && webRequest.result != UnityWebRequest.Result.ProtocolError && webRequest.downloadProgress != 1);
+                #else
+                    webRequestResult=(webRequest.isNetworkError && !webRequest.isHttpError && webRequest.downloadProgress != 1);
+                #endif
             }
 
-
-            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            bool webrequestError=false;
+            #if UNITY_2022_2_OR_NEWER
+                webrequestError=(webRequest.result != UnityWebRequest.Result.ConnectionError || webRequest.result != UnityWebRequest.Result.ProtocolError);
+            #else
+                webrequestError=(webRequest.isNetworkError || !webRequest.isHttpError);
+            #endif
+            if (!webrequestError)
             {
                 SimvaPlugin.Instance.Log(webRequest.error);
                 op.SetException(new ApiException((int)webRequest.responseCode, webRequest.error, webRequest.downloadHandler.text));
