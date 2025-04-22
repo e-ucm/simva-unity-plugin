@@ -24,12 +24,12 @@ namespace Simva
         public bool EnableLoginDemoButton = true;
         public bool AutoStart = true;
         public bool EnableLanguageScene=true;
+        public List<string> SelectedLanguages = new List<string>();
         public string LanguageByDefault="en_UK";
         public string StartScene;
         public string GamePlayScene;
         public bool SaveDisclaimerAccepted=false;
         public bool EnableDebugLogging = false;
-        public List<string> SelectedLanguages = new List<string>();
         private SimvaSceneController previousController;
         private LanguageSelectorController languageSelector;
         private OAuth2Token lastAuth;
@@ -50,6 +50,14 @@ namespace Simva
                 DestroyImmediate(this.gameObject);
                 yield break;
             }
+            if (string.IsNullOrEmpty(GamePlayScene))
+            {
+                throw new Exception("Please provide your GamePlay Scene name.");
+            }
+            if (EnableLanguageScene && SelectedLanguages.Count == 0)
+            {
+                throw new Exception("Please select one or more languages for language scene name.");
+            }
             if(AutoStart) {
                 yield return ManualStart();
             } else {
@@ -63,11 +71,6 @@ namespace Simva
 
         public IEnumerator ManualStart(string selectedLanguage="")
         {
-            if (string.IsNullOrEmpty(GamePlayScene))
-            {
-                throw new Exception("Please provide your GamePlay Scene name.");
-            }
-
             Log("[SIMVA] Starting...");
             if (SimvaConf.Local == null)
             {

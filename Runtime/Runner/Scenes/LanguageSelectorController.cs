@@ -58,8 +58,13 @@ namespace Simva
         foreach (string lang in SimvaPlugin.Instance.SelectedLanguages)
         {
             GameObject item = Instantiate(languageItemPrefab, languageGridLayout.transform);
-            item.name = languages[lang];
-            item.SetActive(true);
+            foreach(string languageCode in languages.Keys) {
+                if(languages[languageCode] == lang) {
+                    item.name = languageCode;
+                    item.SetActive(true);
+                    continue;
+                }
+            }
         }
     }
 

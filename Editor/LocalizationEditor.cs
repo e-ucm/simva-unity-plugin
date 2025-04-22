@@ -35,28 +35,27 @@ public class LocalizationEditor : Editor
                 EnableLanguageScene=prop.boolValue;
             } else if(prop.name == "SelectedLanguages") {
                 enableProp=false;
-                foreach (var lang in languageOptions)
-                {
-                    bool isSelected = settings.SelectedLanguages.Contains(lang);
-                    bool newSelected = EditorGUILayout.ToggleLeft(lang, isSelected);
-                    if (newSelected && !isSelected)
-                        settings.SelectedLanguages.Add(lang);
-                    else if (!newSelected && isSelected)
-                        settings.SelectedLanguages.Remove(lang);
+                if(EnableLanguageScene) {
+                    foreach (var lang in languageOptions)
+                    {
+                        bool isSelected = settings.SelectedLanguages.Contains(lang);
+                        bool newSelected = EditorGUILayout.ToggleLeft(lang, isSelected);
+                        if (newSelected && !isSelected)
+                            settings.SelectedLanguages.Add(lang);
+                        else if (!newSelected && isSelected)
+                            settings.SelectedLanguages.Remove(lang);
+                    }
                 }
             } else if (prop.name == "LanguageByDefault") {
                 enableProp=false;
                 if(!EnableLanguageScene && AutoStart) {
-                    var languagesOptionsSelected=settings.SelectedLanguages
-                        .OrderBy(name=>name)
-                        .ToArray(); 
                     var actual = settings.LanguageByDefault;
                     // Set current selection
-                    selectedIndex = System.Array.IndexOf(languagesOptionsSelected, actual);
+                    selectedIndex = System.Array.IndexOf(languageOptions, actual);
                     if (selectedIndex < 0) selectedIndex = 0;
 
                     // Draw dropdown
-                    selectedIndex = EditorGUILayout.Popup("Language By Default", selectedIndex, languagesOptionsSelected);
+                    selectedIndex = EditorGUILayout.Popup("Language By Default", selectedIndex, languageOptions);
                     settings.LanguageByDefault = languageOptions[selectedIndex];
                 }
             }
@@ -92,12 +91,12 @@ public class LocalizationEditor : Editor
                     }
                 }
                 var modifName=name + " [" + code + "]";
-                if(!languages.ContainsKey(modifName)) {
-                    languages.Add(modifName, code);
+                if(!languages.ContainsKey(code)) {
+                    languages.Add(code, modifName);
                 }
             }
         }
-        languageOptions=languages.Keys
+        languageOptions=languages.Values
             .Distinct()
             .OrderBy(name => name)
             .ToArray();

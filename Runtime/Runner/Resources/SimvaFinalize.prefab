@@ -671,7 +671,7 @@ GameObject:
   - component: {fileID: 4369316965677776165}
   - component: {fileID: 744103677896603481}
   m_Layer: 5
-  m_Name: BackupError
+  m_Name: BackupErrorText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2216,7 +2216,7 @@ GameObject:
   - component: {fileID: 5773477253826174960}
   - component: {fileID: 2986631683192556465}
   m_Layer: 5
-  m_Name: BackupOk
+  m_Name: BackupOkText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

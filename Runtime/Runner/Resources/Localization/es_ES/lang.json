@@ -1,4 +1,6 @@
 {
     "displayName": "Español (ES)",
-    "code": "es_ES"
+    "code": "es_ES",
+    "default":true,
+    "custom":false
 }

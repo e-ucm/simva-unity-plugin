@@ -263,14 +263,18 @@ MonoBehaviour:
   ShowLoginOnStartup: 1
   RunGameIfSimvaIsNotConfigured: 1
   ContinueOnQuit: 1
-  AutoStart: 0
   EnableLoginDemoButton: 1
+  AutoStart: 0
   EnableLanguageScene: 1
-  LanguageByDefault: en_UK
-  GamePlayScene: SimvaBlankScene
+  SelectedLanguages:
+  - English (UK) [en_UK]
+  - French (FR) [fr_FR]
+  - "Espa\xF1ol (ES) [es_ES]"
+  LanguageByDefault: English (UK) [en_UK]
   StartScene: StartMenu
+  GamePlayScene: SimvaBlankScene
   SaveDisclaimerAccepted: 0
-  EnableDebugLogging: 1
+  EnableDebugLogging: 0
 --- !u!1 &563891275
 GameObject:
   m_ObjectHideFlags: 0

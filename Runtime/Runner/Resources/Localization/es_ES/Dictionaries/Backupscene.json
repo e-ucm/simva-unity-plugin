@@ -1,7 +1,7 @@
 {
     "BackupTitle":"Subiendo backup...",
-    "BackupOkText":"Backup realizado correctamente ✅✅ \n<color=green>✔</color>",
-    "BackupErrorText":"No se pudo realizar el backup <color=Red>✘</color>",
+    "BackupOkText":"Backup realizado correctamente ✅✅ \n\n<color=green>✔</color>",
+    "BackupErrorText":"No se pudo realizar el backup \n\n<color=Red>✘</color>",
     "BackupJoinedMsg":"Backup adjunto",
     "BackupOfMsg": "Backup de",
     "RetryButton": "Reintentar",

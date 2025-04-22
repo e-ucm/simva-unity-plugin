@@ -1,7 +1,7 @@
 {
     "BackupTitle":"Chargement de la sauvegarde...",
-    "BackupOkText":"Sauvegarde réussie ✅✅ \n<color=green>✔</color>",
-    "BackupErrorText":"La sauvegarde n'a pas pu être effectuée <color=Red>✘</color>",
+    "BackupOkText":"Sauvegarde réussie ✅✅ \n\n<color=green>✔</color>",
+    "BackupErrorText":"La sauvegarde n'a pas pu être effectuée \n\n<color=Red>✘</color>",
     "BackupJoinedMsg":"Sauvegarde jointe",
     "BackupOfMsg": "Sauvegarde de",
     "RetryButton": "Réessayer",

@@ -1,4 +1,6 @@
 {
     "displayName": "English (UK)",
-    "code": "en_UK"
+    "code": "en_UK",
+    "default":true,
+    "custom":false
 }
