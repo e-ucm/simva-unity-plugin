@@ -13,6 +13,7 @@ namespace Simva
     private static Dictionary<string, string> languages;
     private static Dictionary<string, string> myDictionary;
     private static string Language;
+
     private void Awake()
     {
         if (instance == null)
@@ -30,13 +31,27 @@ namespace Simva
         GameObject.DestroyImmediate(this.gameObject);
     }
 
+    public void SetLanguageFromTitle(string title) {
+        foreach(string languageCode in languages.Keys) {
+            if(languages[languageCode] == title) {
+                Language = languageCode;
+            }
+        }
+        Debug.LogError("Language not found.");
+    }
+
     //Selects a language by flag button in Title scene
-    public void SetLanguage(string lang)
+    public void fillDictionaryAndRunLoginScene()
     {
-        Language = lang;
         SetUpJSONFiles();
         FillDictionary();
         SimvaPlugin.Instance.RunScene("Simva.Login");
+    }
+
+      //Selects a language by flag button in Title scene
+    public void SetLanguageCode(string code)
+    {
+        Language = code;
     }
 
     public void SetActive(bool active)
@@ -49,9 +64,11 @@ namespace Simva
     public void RefreshLanguageList()
     {
         // Clear existing children
-        foreach (Transform child in languageGridLayout.transform)
-        {
-            Destroy(child.gameObject);
+        if(languageGridLayout) {
+            foreach (Transform child in languageGridLayout.transform)
+            {
+                Destroy(child.gameObject);
+            }
         }
 
         // Spawn one UI item per selected language
@@ -78,6 +95,7 @@ namespace Simva
                 JObject jObject = JObject.Parse(obj.text);
                 var code="";
                 var name="";
+                var custom=false;
                 foreach (var entry in jObject) {
                     if(entry.Key=="code") {
                         code=(string)entry.Value;
@@ -85,10 +103,17 @@ namespace Simva
                     if(entry.Key=="displayName") {
                         name=(string)entry.Value;
                     }
+                    if(entry.Key=="custom") {
+                        custom=(bool)entry.Value;
+                    }
                 }
                 var modifName=name + " [" + code + "]";
-                if(!languages.ContainsKey(modifName)) {
-                    languages.Add(modifName, code);
+                if(!languages.ContainsKey(code)) {
+                    languages.Add(code, modifName);
+                } else {
+                    //if(custom) {
+                    //    languages.Add(code, modifName);
+                    //}
                 }
             }
         }

@@ -107,14 +107,18 @@ namespace Simva
             background.sprite = Game.Instance.ResourceManager.getSprite()*/
             Ready = true;
             if(SimvaPlugin.Instance.EnableLoginDemoButton) {
-                adviceDemo.SetActive(true);
-            }
-            if(SimvaPlugin.Instance.EnableLanguageScene) {
-                back.SetActive(true);
-            } else {
-                if(!SimvaPlugin.Instance.AutoStart) {
-                    back.SetActive(true);
+                if(adviceDemo) {
+                    adviceDemo.SetActive(true);
                 }
+            }
+            if(back) {
+                if(SimvaPlugin.Instance.EnableLanguageScene) {
+                    back.SetActive(true);
+                } else {
+                    if(!SimvaPlugin.Instance.AutoStart) {
+                        back.SetActive(true);
+                    }
+                }        
             }
         }
     }

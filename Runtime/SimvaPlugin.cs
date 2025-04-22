@@ -42,7 +42,6 @@ namespace Simva
 
         public IEnumerator Start()
         {
-            Log("Selected languages :" + SelectedLanguages.Count);
             foreach(var lang in SelectedLanguages)
                 Log(lang);
             if(SimvaManager.Instance.Bridge != null)
@@ -65,7 +64,7 @@ namespace Simva
                 {
                     throw new Exception("Please provide your StartScene Scene name if not Autostart.");
                 }
-                RunScene("StartMenu");
+                RunScene("startMenu");
             }
         }
 
@@ -109,24 +108,28 @@ namespace Simva
             {
                 Log("Simva is already started...");
                 // No need to restart
-                yield break;
+                //yield break;
             }
-
             SimvaManager.Instance.Bridge = this;
             DontDestroyOnLoad(this.gameObject);
 
             if (ShowLoginOnStartup)
             {
                 Log("[SIMVA] Setting current target to Simva.Login...");
-                RunScene("Simva.Language");
                 if(!EnableLanguageScene) {
+                    if (LanguageSelectorController.instance == null) {
+                        Instance.gameObject.AddComponent<LanguageSelectorController>();
+                    }
                     Log("Set language to " + LanguageByDefault);
                     LanguageSelectorController.instance.SetActive(false);
                     if(selectedLanguage != "") {
-                        LanguageSelectorController.instance.SetLanguage(selectedLanguage);
+                        LanguageSelectorController.instance.SetLanguageCode(selectedLanguage);
                     } else {
-                        LanguageSelectorController.instance.SetLanguage(LanguageByDefault);
+                        LanguageSelectorController.instance.SetLanguageFromTitle(LanguageByDefault);
                     }
+                    LanguageSelectorController.instance.fillDictionaryAndRunLoginScene();
+                } else {
+                    RunScene("Simva.Language");
                 }
 
                 if (PlayerPrefs.HasKey("simva_auth") && SaveAuthUntilCompleted)
@@ -195,7 +198,7 @@ namespace Simva
                         throw new Exception("Please provide your GamePlay Scene name.");
                     }
                     break;
-                case "StartMenu":
+                case "startMenu":
                     name=StartScene;
                     break;
                 default:
