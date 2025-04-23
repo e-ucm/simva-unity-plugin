@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Simva
 {
-    public class GetStringName : MonoBehaviour
+    public class GetSimvaStringName : MonoBehaviour
 {
 
     private void Awake()

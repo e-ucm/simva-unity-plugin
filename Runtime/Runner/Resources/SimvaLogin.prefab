@@ -371,7 +371,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1088068307313258064}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1105583473446631885
@@ -479,7 +479,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1105583473446631885}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1216272074388110982
@@ -727,7 +727,7 @@ GameObject:
   - component: {fileID: 4785402728516684416}
   - component: {fileID: 1500418935886904790}
   - component: {fileID: 2053525981633422853}
-  - component: {fileID: 5566234929926811342}
+  - component: {fileID: 4050163328041348351}
   m_Layer: 5
   m_Name: DemoButton
   m_TagString: Untagged
@@ -811,7 +811,7 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 0.82, y: 0.82}
   m_UseGraphicAlpha: 1
---- !u!114 &5566234929926811342
+--- !u!114 &4050163328041348351
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -820,7 +820,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1624838759662095155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1915667412595026174
@@ -1253,7 +1253,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3507395793834817277}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4098933624371244269
@@ -1545,7 +1545,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4698334553765079694}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5052425210005760859
@@ -1897,7 +1897,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6213422412721542410}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6720853339701442500
@@ -2154,7 +2154,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6876012947670987527}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6973111639275884280
@@ -2669,7 +2669,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8292891934508986474}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8790610316240526791
@@ -2761,7 +2761,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8790610316240526791}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8878863907519952284
@@ -3097,6 +3097,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 9079948566642038965}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3780802aea069094db52ff1b614a8dbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
