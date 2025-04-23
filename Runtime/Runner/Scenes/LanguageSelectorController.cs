@@ -37,7 +37,7 @@ namespace Simva
                 Language = languageCode;
             }
         }
-        Debug.LogError("Language not found.");
+        Debug.LogError("Language not found. (" + title + ")");
     }
 
     //Selects a language by flag button in Title scene

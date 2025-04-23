@@ -56,7 +56,7 @@ namespace Simva
 
         void SelectLanguage()
         {
-            LanguageSelectorController.instance.SetLanguageFromTitle(gameObject.name);
+            LanguageSelectorController.instance.SetLanguageCode(gameObject.name);
             LanguageSelectorController.instance.fillDictionaryAndRunLoginScene();
         }
 
