@@ -10,8 +10,10 @@ namespace Simva
     public GameObject languageGridLayout;
     public GameObject languageItemPrefab;
     private static List<TextAsset> jsonFiles;
+    private static List<TextAsset> defaultJsonFiles;
     private static Dictionary<string, string> languages;
     private static Dictionary<string, string> myDictionary;
+    private static Dictionary<string, string> defaultDictionary;
     private static string Language;
 
     private void Awake()
@@ -23,6 +25,8 @@ namespace Simva
         SetActive(true);
         GetLanguages();
         RefreshLanguageList();
+        SetUpJSONFiles(true);
+        FillDictionary(true);
         DontDestroyOnLoad(gameObject);
     }
 
@@ -31,20 +35,29 @@ namespace Simva
         GameObject.DestroyImmediate(this.gameObject);
     }
 
-    public void SetLanguageFromTitle(string title) {
+    public string GetLanguageFromTitle(string title) {
         foreach(string languageCode in languages.Keys) {
             if(languages[languageCode] == title) {
-                Language = languageCode;
+                return languageCode;
             }
         }
-        Debug.LogError("Language not found. (" + title + ")");
+        return null;
+    }
+
+    public void SetLanguageFromTitle(string title) {
+        string  lang = GetLanguageFromTitle(title);
+        if (lang == null) {
+            Debug.LogError("Language not found. (" + title + ")");
+        } else {
+            Language = title;
+        }
     }
 
     //Selects a language by flag button in Title scene
     public void fillDictionaryAndRunLoginScene()
     {
-        SetUpJSONFiles();
-        FillDictionary();
+        SetUpJSONFiles(false);
+        FillDictionary(false);
         SimvaPlugin.Instance.RunScene("Simva.Login");
     }
 
@@ -121,45 +134,64 @@ namespace Simva
     }
 
     //Creates an initializes Json Files array to be used by myDictionary
-    void SetUpJSONFiles()
+    void SetUpJSONFiles(bool useDefault)
     {
-        Object[] filler = Resources.LoadAll("Localization/" + Language + "/" + "Dictionaries", typeof(TextAsset));
+        var lang=Language;
+        if (useDefault) {
+            lang = GetLanguageFromTitle(SimvaPlugin.Instance.LanguageByDefault);
+        }
+
+        Object[] filler = Resources.LoadAll("Localization/" + lang + "/" + "Dictionaries", typeof(TextAsset));
 
         if (filler == null || filler.Length == 0)
         {
-            Debug.LogError("No JSON Files in Dictionaries directory found (Localization/" + Language + "/" + "Dictionaries) !");
+            Debug.LogError("No JSON Files in Dictionaries directory found (Localization/" + lang + "/" + "Dictionaries) !");
         }
-
-        jsonFiles = new List<TextAsset>();
+        
+        List<TextAsset> json = new List<TextAsset>();
         foreach (Object file in filler)
         {
-            jsonFiles.Add((TextAsset)file);
+            json.Add((TextAsset)file);
         }
 
 #if UNITY_EDITOR
-        foreach (var t in jsonFiles)
-            Debug.Log("JSON File added for Language " + Language + " : " + t.name);
+        foreach (var t in json)
+            Debug.Log("JSON File added for Language " + lang + " : " + t.name);
 #endif
-
+        if(useDefault) {
+            defaultJsonFiles = json;
+        } else {
+            jsonFiles = json;
+        }
     }
 
     //Fills myDictionary with all JSON files
-    void FillDictionary()
+    void FillDictionary(bool useDefault)
     {
-        myDictionary = new Dictionary<string, string>();
-
+        List<TextAsset> json;
+        Dictionary<string, string> dictionary = new Dictionary<string, string>();
+        if(useDefault) {
+            json=defaultJsonFiles;
+        } else {
+            json=jsonFiles;
+        }
         string fileContents;
-        foreach (var jsonFile in jsonFiles)
+        foreach (var jsonFile in json)
         {
-            SimvaPlugin.Instance.Log("JSON File added : " + jsonFile.name);
+            SimvaPlugin.Instance.Log("JSON File added : " + jsonFile.name + " (Default : " + useDefault + ")");
             fileContents = jsonFile.text;
             
             JObject jObject = JObject.Parse(fileContents);
             foreach (var entry in jObject) {
-                if(!myDictionary.ContainsKey(entry.Key)) {
-                    myDictionary.Add(entry.Key, (string)entry.Value);
+                if(!dictionary.ContainsKey(entry.Key)) {
+                    dictionary.Add(entry.Key, (string)entry.Value);
                 }
             }
+        }
+        if(useDefault) {
+            defaultDictionary =  dictionary;
+        } else {
+            myDictionary = dictionary;
         }
     }
 
@@ -167,15 +199,25 @@ namespace Simva
     //otherwise returns the string of the given key.
     public string GetName(string objectName)
     {
+        bool useDefault=false;
         if (!myDictionary.ContainsKey(objectName))
         {
-            SimvaPlugin.Instance.LogError("The sequence with key " + objectName + " doesn't exit (Object " + this.gameObject.name + ")");
-            return null;
+            if(defaultDictionary.ContainsKey(objectName)) {
+                useDefault=true;
+            } else {
+                SimvaPlugin.Instance.LogError("The sequence with key " + objectName + " doesn't exit (Object " + this.gameObject.name + ")");
+                return null;
+            }
         }
-
-        string newWord = myDictionary[objectName];
+        Dictionary<string, string> dictionary;
+        if(useDefault) {
+            dictionary = defaultDictionary;
+        } else {
+            dictionary = myDictionary;
+        }
+        string newWord = dictionary[objectName];
         if (newWord.Contains("\\n"))
-            newWord = myDictionary[objectName].Replace("\\n", "\n");
+            newWord = dictionary[objectName].Replace("\\n", "\n");
 
         SimvaPlugin.Instance.Log(objectName + " : " + newWord);
         return newWord;

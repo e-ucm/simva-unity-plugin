@@ -44,6 +44,12 @@ namespace Simva
             SimvaManager.Instance.ContinueSurvey();
         }
 
+        public void Back()
+        {
+            PlayerPrefs.DeleteKey("simva_auth");
+            SimvaPlugin.Instance.RunScene("Simva.Login");
+        }
+
         public override void Render() 
         {
             Ready = true;

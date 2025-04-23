@@ -48,7 +48,7 @@ public class LocalizationEditor : Editor
                 }
             } else if (prop.name == "LanguageByDefault") {
                 enableProp=false;
-                if(!EnableLanguageScene && AutoStart) {
+                if(!EnableLanguageScene) {
                     var actual = settings.LanguageByDefault;
                     // Set current selection
                     selectedIndex = System.Array.IndexOf(languageOptions, actual);

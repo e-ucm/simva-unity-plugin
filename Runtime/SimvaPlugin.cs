@@ -25,7 +25,7 @@ namespace Simva
         public bool AutoStart = true;
         public bool EnableLanguageScene=true;
         public List<string> SelectedLanguages = new List<string>();
-        public string LanguageByDefault="en_UK";
+        public string LanguageByDefault;
         public string StartScene;
         public string GamePlayScene;
         public bool SaveDisclaimerAccepted=false;
@@ -106,16 +106,15 @@ namespace Simva
             }
             else if (SimvaManager.Instance.IsActive && !SimvaManager.Instance.Finalized)
             {
-                Log("Simva is already started...");
-                // No need to restart
-                //yield break;
+                Log("[SIMVA] Simva is already started...");
+                yield return null;
             }
             SimvaManager.Instance.Bridge = this;
             DontDestroyOnLoad(this.gameObject);
 
             if (ShowLoginOnStartup)
             {
-                Log("[SIMVA] Setting current target to Simva.Login...");
+                Log("[SIMVA] Setting current target to Simva.Language and to Simva.Login...");
                 if(!EnableLanguageScene) {
                     if (LanguageSelectorController.instance == null) {
                         Instance.gameObject.AddComponent<LanguageSelectorController>();
@@ -291,4 +290,3 @@ namespace Simva
         }
     }
 }
-
