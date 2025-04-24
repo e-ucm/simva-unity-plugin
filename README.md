@@ -11,7 +11,7 @@ Please find the full Simva Unity Plugin documentation in the Wiki section of thi
 
 # Quick Start Guide
 
-Simva Unity Plugin requires at least **Unity 2022.3 (LTS)**.
+Simva Unity Plugin requires at least **Unity 2019.4 (LTS)**.
 
 ## Installation
 
