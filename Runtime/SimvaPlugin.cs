@@ -22,10 +22,10 @@ namespace Simva
         public bool RunGameIfSimvaIsNotConfigured = true;
         public bool ContinueOnQuit = true;
         public bool EnableLoginDemoButton = true;
-        public bool AutoStart = true;
         public bool EnableLanguageScene=true;
         public List<string> SelectedLanguages = new List<string>();
         public string LanguageByDefault;
+        public bool AutoStart = true;
         public string StartScene;
         public string GamePlayScene;
         public bool SaveDisclaimerAccepted=false;

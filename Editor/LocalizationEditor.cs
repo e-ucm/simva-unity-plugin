@@ -48,16 +48,14 @@ public class LocalizationEditor : Editor
                 }
             } else if (prop.name == "LanguageByDefault") {
                 enableProp=false;
-                if(!EnableLanguageScene) {
-                    var actual = settings.LanguageByDefault;
-                    // Set current selection
-                    selectedIndex = System.Array.IndexOf(languageOptions, actual);
-                    if (selectedIndex < 0) selectedIndex = 0;
+                var actual = settings.LanguageByDefault;
+                // Set current selection
+                selectedIndex = System.Array.IndexOf(languageOptions, actual);
+                if (selectedIndex < 0) selectedIndex = 0;
 
-                    // Draw dropdown
-                    selectedIndex = EditorGUILayout.Popup("Language By Default", selectedIndex, languageOptions);
-                    settings.LanguageByDefault = languageOptions[selectedIndex];
-                }
+                // Draw dropdown
+                selectedIndex = EditorGUILayout.Popup("Language By Default", selectedIndex, languageOptions);
+                settings.LanguageByDefault = languageOptions[selectedIndex];
             }
             if(enableProp) {
                 EditorGUILayout.PropertyField(prop, true);
