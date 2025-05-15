@@ -58,6 +58,7 @@ namespace Simva
     {
         SetUpJSONFiles(false);
         FillDictionary(false);
+        SetActive(false);
         SimvaPlugin.Instance.RunScene("Simva.Login");
     }
 
