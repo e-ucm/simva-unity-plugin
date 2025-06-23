@@ -10,6 +10,7 @@ using System.Linq;
 using System.Collections;
 using Newtonsoft.Json;
 using Xasu.Auth.Protocols.OAuth2;
+using Xasu.HighLevel;
 
 namespace Simva
 {
@@ -63,6 +64,14 @@ namespace Simva
                 return null;
             }
         }
+
+        public Activity currentActivity;
+
+        private string attemptId;
+
+        private string activityUrl="";
+
+        private string homePage;
 
         public bool IsEnabled
         {
@@ -416,9 +425,22 @@ namespace Simva
                             {
                                 SimvaPlugin.Instance.Log("[SIMVA] Starting tracker...");
                                 var trackerStarted = false;
+                                currentActivity = activity;
+                                homePage = xasuTrackerConfig.HomePage;
+                                activityUrl=xasuTrackerConfig.HomePage + "/study/" + activity.Study + "/activity/" + activityId;
+                                SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
                                 Bridge.StartTracker(xasuTrackerConfig, API.Authorization, API.Authorization)
                                     .Then(() => trackerStarted = true);
-
+                                attemptId = new Guid().ToString();
+                                ScormTracker.Instance.Initialized(activityUrl).addContextActivityParent(
+                                    xasuTrackerConfig.HomePage + "/studies/" + currentActivity.Study,
+                                    currentActivity.Study,
+                                    "The activity representing the study"  + currentActivity.Study,
+                                    "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
+                                    xasuTrackerConfig.HomePage + "/studies/" + currentActivity.Study + "/activity/" + activityId + "?id="+ attemptId,
+                                    "Attempt of activity"  + currentActivity.Id,
+                                    "The activity representing an attempt of activity" + currentActivity.Id + " in study " + currentActivity.Study,
+                                    "http://adlnet.gov/expapi/activities/attempt");
                                 yield return new WaitUntil(() => trackerStarted);
                             }
 
@@ -430,8 +452,54 @@ namespace Simva
             }
         }
 
+        public void OnApplicationFocus(bool hasFocus)
+        {
+            if(activityUrl != "") {
+                SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
+                if (hasFocus)
+                {
+                    attemptId=new Guid().ToString();
+                    Debug.Log("Application is in focus.");
+                    ScormTracker.Instance.Resumed(activityUrl).addContextActivityParent(
+                                    homePage + "/studies/" + currentActivity.Study,
+                                    currentActivity.Study,
+                                    "The activity representing the study"  + currentActivity.Study,
+                                    "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
+                                    homePage + "/studies/" + currentActivity.Study + "/activity/" + currentActivity.Id + "?id="+ attemptId,
+                                    "Attempt of activity"  + currentActivity.Id,
+                                    "The activity representing an attempt of activity" + currentActivity.Id + " in study " + currentActivity.Study,
+                                    "http://adlnet.gov/expapi/activities/attempt");
+                }
+                else
+                {
+                    Debug.Log("Application lost focus.");
+                    ScormTracker.Instance.Suspended(activityUrl).addContextActivityParent(
+                                    homePage + "/studies/" + currentActivity.Study,
+                                    currentActivity.Study,
+                                    "The activity representing the study"  + currentActivity.Study,
+                                    "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
+                                    homePage + "/studies/" + currentActivity.Study + "/activity/" + currentActivity.Id + "?id="+ attemptId,
+                                    "Attempt of activity"  + currentActivity.Id,
+                                    "The activity representing an attempt of activity" + currentActivity.Id + " in study " + currentActivity.Study,
+                                    "http://adlnet.gov/expapi/activities/attempt");
+                }
+            }
+        }
+
         public IAsyncOperation OnGameFinished()
         {
+            Debug.Log("GamePlay terminated.");
+            SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
+            ScormTracker.Instance.Terminated(activityUrl).addContextActivityParent(
+                                    homePage + "/studies/" + currentActivity.Study,
+                                    currentActivity.Study,
+                                    "The activity representing the study"  + currentActivity.Study,
+                                    "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
+                                    homePage + "/studies/" + currentActivity.Study + "/activity/" + currentActivity.Id + "?id="+ attemptId,
+                                    "Attempt of activity"  + currentActivity.Id,
+                                    "The activity representing an attempt of activity" + currentActivity.Id + " in study " + currentActivity.Study,
+                                    "http://adlnet.gov/expapi/activities/attempt");
+            activityUrl="";
             var result = new AsyncCompletionSource();
             try
             {
@@ -444,6 +512,7 @@ namespace Simva
                 {
                     result.SetCompleted();
                 }
+                SimvaPlugin.Instance.StopTracker();
             }
             catch(Exception ex)
             {
