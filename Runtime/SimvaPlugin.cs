@@ -315,6 +315,25 @@ namespace Simva
         }
 
 
+        public IAsyncOperation StopTracker()
+        {
+            Log("Stopping Tracker");
+            var progress = new Progress<float>();
+            progress.ProgressChanged += (_, p) =>
+            {
+                Debug.Log("Finalization progress: " + p);
+            };
+            Xasu.XasuTracker.Instance.Finalize(progress)
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        return;
+                    }
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+            return null;
+        }
+
         internal void Log(string message)
         {
             if (EnableDebugLogging)
