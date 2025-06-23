@@ -48,6 +48,13 @@ namespace Simva.Model {
     public List<string> Owners { get; set; }
 
     /// <summary>
+    /// Gets or Sets Study
+    /// </summary>
+    [DataMember(Name="study", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "study")]
+    public string Study { get; set; }
+
+    /// <summary>
     /// Gets or Sets Test
     /// </summary>
     [DataMember(Name="test", EmitDefaultValue=false)]
