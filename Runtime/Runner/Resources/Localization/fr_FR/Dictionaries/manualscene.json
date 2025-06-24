@@ -1,0 +1,6 @@
+{
+    "ManualTitleText":"Pour continuer, vous devez suivre l'activite suivante :",
+    "OpenManualButton":"Ouvrir l'activite ",
+    "NotCompletedManualMsg": "Veuillez compléter l'activite avant de cliquer sur Continuer.",
+    "NotOpenedMsg":"Veillez ouvrir l'activite d'abord dans un premier temps !"
+}
