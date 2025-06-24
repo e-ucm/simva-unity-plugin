@@ -24,6 +24,14 @@ namespace Simva.Model {
     /// The next activity ID
     /// </summary>
     /// <value>The next activity ID</value>
+    [DataMember(Name="url", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "url")]
+    public string Url { get; set; }
+
+    /// <summary>
+    /// The next activity ID
+    /// </summary>
+    /// <value>The next activity ID</value>
     [DataMember(Name = "activities", EmitDefaultValue = false)]
     [JsonProperty(PropertyName = "activities")]
     public Dictionary<string, Activity> Activities { get; set; }
@@ -37,6 +45,7 @@ namespace Simva.Model {
       var sb = new StringBuilder();
       sb.Append("class InlineResponse200 {\n");
       sb.Append("  Next: ").Append(Next).Append("\n");
+      sb.Append("  Url: ").Append(Url).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

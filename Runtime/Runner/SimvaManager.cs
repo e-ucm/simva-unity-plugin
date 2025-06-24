@@ -224,7 +224,7 @@ namespace Simva
 
             var result = new AsyncCompletionSource();
 
-            var response = (AsyncCompletionSource)API.Api.SetResult(activityId, API.Authorization.Agent.name, body);
+            var response = (AsyncCompletionSource)API.Api.SetResult(activityId, API.Authorization.Agent.account.name, body);
             response.AddProgressCallback((p) =>
             {
                 SimvaPlugin.Instance.UnityEngineLog("SaveActivityAndContinue progress: " + p);
@@ -250,7 +250,7 @@ namespace Simva
         public IAsyncOperation Continue(string activityId, bool completed)
         {
             NotifyLoading(true);
-            return API.Api.SetCompletion(activityId, API.Authorization.Agent.name, completed)
+            return API.Api.SetCompletion(activityId, API.Authorization.Agent.account.name, completed)
                 .Then(() =>
                 {
                     return UpdateSchedule();
@@ -275,10 +275,10 @@ namespace Simva
         public IAsyncOperation ContinueSurvey()
         {
             NotifyLoading(true);
-            return API.Api.GetCompletion(CurrentActivityId, API.Authorization.Agent.name)
+            return API.Api.GetCompletion(CurrentActivityId, API.Authorization.Agent.account.name)
                 .Then(result =>
                 {
-                    if (result[API.Authorization.Agent.name])
+                    if (result[API.Authorization.Agent.account.name])
                     {
                         return UpdateSchedule();
                     }
@@ -305,6 +305,36 @@ namespace Simva
                 })
                 .Catch(error =>
                 {
+                    SimvaPlugin.Instance.Log("[SIMVA] GLOBAL : " + error.Message);
+                    NotifyManagers(error.Message);
+                    NotifyLoading(false);
+                });
+        }
+
+        public IAsyncOperation ContinueManual()
+        {
+            NotifyLoading(true);
+            return API.Api.SetCompletion(CurrentActivityId, API.Authorization.Agent.account.name, true)
+                .Then(() =>
+                {
+                    return UpdateSchedule();
+                })
+                .Then(schedule =>
+                {
+                    var result = new AsyncCompletionSource();
+                    if (schedule != null)
+                    {
+                        StartCoroutine(AsyncCoroutine(LaunchActivity(schedule.Next), result));
+                    }
+                    else
+                    {
+                        result.SetException(new Exception(LanguageSelectorController.instance.GetName("NoScheduleMsg")));
+                    }
+                    return result;
+                })
+                .Catch(error =>
+                {
+                    SimvaPlugin.Instance.Log("[SIMVA] GLOBAL : " + error.Message);
                     NotifyManagers(error.Message);
                     NotifyLoading(false);
                 });
@@ -344,6 +374,10 @@ namespace Simva
                     SimvaPlugin.Instance.Log("[SIMVA] Schedule: " + activity.Type + ". Name: " + activity.Name + " activityId " + activityId);
                     switch (activity.Type)
                     {
+                        case "manual":
+                            SimvaPlugin.Instance.Log("[SIMVA] Starting Manual activity...");
+                            Bridge.RunScene("Simva.Manual");
+                            break;
                         case "limesurvey":
                             SimvaPlugin.Instance.Log("[SIMVA] Starting Survey...");
                             Bridge.RunScene("Simva.Survey");
@@ -363,7 +397,7 @@ namespace Simva
                             if(String.IsNullOrEmpty(API.SimvaConf.HomePage)) {
                                 xasuTrackerConfig.HomePage = API.SimvaConf.HomePage;
                             }
-                            if (ActivityHasDetails(activity, "realtime", "trace_storage"))
+                            if (ActivityHasDetails(activity, "trace_storage"))
                             {
                                 xasuTrackerConfig.Online = true;
                                 xasuTrackerConfig.Fallback = true;
@@ -378,8 +412,7 @@ namespace Simva
                                 xasuTrackerConfig.BackupFileName = auth.Username + "_" + activityId + "_backup.log";
                                 xasuTrackerConfig.BackupTraceFormat = Xasu.Config.TraceFormats.XAPI;
                             }
-
-                            if (ActivityHasDetails(activity, "realtime", "trace_storage", "backup"))
+                            if (ActivityHasDetails(activity, "trace_storage", "backup"))
                             {
                                 SimvaPlugin.Instance.Log("[SIMVA] Starting tracker...");
                                 var trackerStarted = false;
