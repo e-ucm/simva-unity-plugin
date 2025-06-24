@@ -41,7 +41,7 @@ namespace Simva
 
         public void CheckSurvey()
         {
-            SimvaManager.Instance.ContinueSurvey();
+            SimvaManager.Instance.ContinueActivity();
         }
 
         public void Back()
