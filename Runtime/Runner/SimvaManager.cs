@@ -391,6 +391,7 @@ namespace Simva
 
                 if (activity != null)
                 {
+                    currentActivity = activity;
                     SimvaPlugin.Instance.Log("[SIMVA] Schedule: " + activity.Type + ". Name: " + activity.Name + " activityId " + activityId);
                     switch (activity.Type)
                     {
@@ -405,20 +406,20 @@ namespace Simva
                         case "gameplay":
                         default:
                             SimvaPlugin.Instance.Log("[SIMVA] Getting Xasu tracker Config...");
-                            var xasuTrackerConfig = new Xasu.Config.TrackerConfig();
-
-                            xasuTrackerConfig.Simva = true;
-                            xasuTrackerConfig.Offline = true;
-                            xasuTrackerConfig.TraceFormat = Xasu.Config.TraceFormats.XAPI;
-
-                            xasuTrackerConfig.FlushInterval = 3;
-                            xasuTrackerConfig.BatchSize = 256;
-
-                            if(String.IsNullOrEmpty(API.SimvaConf.HomePage)) {
+                            var trackerStarted = false;
+                            var xasuTrackerConfig = new Xasu.Config.TrackerConfig {
+                                Simva = true,
+                                Offline = true,
+                                TraceFormat = Xasu.Config.TraceFormats.XAPI,
+                                FlushInterval = 3,
+                                BatchSize = 256
+                            };                            
+                            if (API.SimvaConf.HomePage != null){
                                 xasuTrackerConfig.HomePage = API.SimvaConf.HomePage;
                             }
                             if (ActivityHasDetails(activity, "trace_storage"))
                             {
+                                SimvaPlugin.Instance.Log("[SIMVA] Starting trace storage tracker...");
                                 xasuTrackerConfig.Online = true;
                                 xasuTrackerConfig.Fallback = true;
                                 xasuTrackerConfig.LRSEndpoint = API.SimvaConf.URL + string.Format("/activities/{0}", activityId);
@@ -427,6 +428,7 @@ namespace Simva
                             if (ActivityHasDetails(activity, "backup"))
                             {
                                 // Backup
+                                SimvaPlugin.Instance.Log("[SIMVA] Starting backup tracker...");
                                 xasuTrackerConfig.Backup = true;
                                 xasuTrackerConfig.BackupEndpoint = API.SimvaConf.URL + string.Format("/activities/{0}/result", activityId);
                                 xasuTrackerConfig.BackupFileName = auth.Username + "_" + activityId + "_backup.log";
@@ -434,27 +436,25 @@ namespace Simva
                             }
                             if (ActivityHasDetails(activity, "trace_storage", "backup"))
                             {
-                                SimvaPlugin.Instance.Log("[SIMVA] Starting tracker...");
-                                var trackerStarted = false;
-                                currentActivity = activity;
                                 homePage = xasuTrackerConfig.HomePage;
                                 activityUrl=xasuTrackerConfig.HomePage + "/study/" + Schedule.Study + "/activity/" + activityId;
-                                SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
                                 Bridge.StartTracker(xasuTrackerConfig, API.Authorization, API.Authorization)
                                     .Then(() => trackerStarted = true);
-                                attemptId = new Guid().ToString();
-                                ScormTracker.Instance.Initialized(activityUrl).addContextActivityParent(
-                                    xasuTrackerConfig.HomePage + "/studies/" + Schedule.Study,
-                                    Schedule.StudyName,
-                                    "The activity representing the study"  +  Schedule.StudyName,
-                                    "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
-                                    xasuTrackerConfig.HomePage + "/studies/" +  Schedule.Study + "/activity/" + activityId + "?id="+ attemptId,
-                                    "Attempt of activity"  + currentActivity.Name,
-                                    "The activity representing an attempt of activity" + currentActivity.Name + " in study " +  Schedule.StudyName,
-                                    "http://adlnet.gov/expapi/activities/attempt");
+                                if (Schedule.Activities[CurrentActivityId].Details.ScormXapiByGame) {
+                                    attemptId = new Guid().ToString();
+                                    ScormTracker.Instance.Initialized(activityUrl).addContextActivityParent(
+                                        xasuTrackerConfig.HomePage + "/studies/" + Schedule.Study,
+                                        Schedule.StudyName,
+                                        "The activity representing the study" + Schedule.StudyName,
+                                        "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
+                                        xasuTrackerConfig.HomePage + "/studies/" + Schedule.Study + "/activity/" + activityId + "?id=" + attemptId,
+                                        "Attempt of activity" + currentActivity.Name,
+                                        "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
+                                        "http://adlnet.gov/expapi/activities/attempt");
+                                }
                                 yield return new WaitUntil(() => trackerStarted);
                             }
-                            
+
                             SimvaPlugin.Instance.Log("[SIMVA] Starting Gameplay...");
                             Bridge.StartGameplay();
                             break;
@@ -465,7 +465,7 @@ namespace Simva
 
         public void OnApplicationFocus(bool hasFocus)
         {
-            if(activityUrl != "") {
+            if(Schedule.Activities[CurrentActivityId].Details.ScormXapiByGame) {
                 SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
                 if (hasFocus)
                 {
@@ -500,17 +500,20 @@ namespace Simva
         public IAsyncOperation OnGameFinished()
         {
             Debug.Log("GamePlay terminated.");
-            SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
-            ScormTracker.Instance.Terminated(activityUrl).addContextActivityParent(
+            if (Schedule.Activities[CurrentActivityId].Details.ScormXapiByGame)
+            {
+                SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
+                ScormTracker.Instance.Terminated(activityUrl).addContextActivityParent(
                                     homePage + "/studies/" + Schedule.Study,
                                     Schedule.StudyName,
-                                    "The activity representing the study"  + Schedule.StudyName,
+                                    "The activity representing the study" + Schedule.StudyName,
                                     "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
                                     homePage + "/studies/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
                                     "Attempt of activity" + currentActivity.Name,
                                     "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
                                     "http://adlnet.gov/expapi/activities/attempt");
-            activityUrl="";
+                activityUrl="";
+            }
             var result = new AsyncCompletionSource();
             try
             {
