@@ -281,7 +281,7 @@ namespace Simva
                 });
         }
 
-        public IAsyncOperation ContinueSurvey()
+        public IAsyncOperation ContinueActivity()
         {
             NotifyLoading(true);
             return API.Api.GetCompletion(CurrentActivityId, API.Authorization.Agent.account.name)
@@ -295,7 +295,18 @@ namespace Simva
                     {
                         NotifyLoading(false);
                         var res = new AsyncCompletionSource<Schedule>();
-                        res.SetException(new Exception(LanguageSelectorController.instance.GetName("NotCompletedSurveyMsg")));
+                        switch (Schedule.Activities[CurrentActivityId].Type)
+                        {
+                            case "manual":
+                                res.SetException(new Exception(LanguageSelectorController.instance.GetName("NotCompletedManualMsg")));
+                                break;
+                            case "survey":
+                                res.SetException(new Exception(LanguageSelectorController.instance.GetName("NotCompletedSurveyMsg")));
+                                break;
+                            default:
+                                res.SetException(new Exception());
+                                break;
+                        }
                         return res;
                     }
                 })
@@ -320,7 +331,7 @@ namespace Simva
                 });
         }
 
-        public IAsyncOperation ContinueManual()
+        public IAsyncOperation SetCompletionAndUpdateSchedule()
         {
             NotifyLoading(true);
             return API.Api.SetCompletion(CurrentActivityId, API.Authorization.Agent.account.name, true)
@@ -427,23 +438,23 @@ namespace Simva
                                 var trackerStarted = false;
                                 currentActivity = activity;
                                 homePage = xasuTrackerConfig.HomePage;
-                                activityUrl=xasuTrackerConfig.HomePage + "/study/" + activity.Study + "/activity/" + activityId;
+                                activityUrl=xasuTrackerConfig.HomePage + "/study/" + Schedule.Study + "/activity/" + activityId;
                                 SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
                                 Bridge.StartTracker(xasuTrackerConfig, API.Authorization, API.Authorization)
                                     .Then(() => trackerStarted = true);
                                 attemptId = new Guid().ToString();
                                 ScormTracker.Instance.Initialized(activityUrl).addContextActivityParent(
-                                    xasuTrackerConfig.HomePage + "/studies/" + currentActivity.Study,
-                                    currentActivity.Study,
-                                    "The activity representing the study"  + currentActivity.Study,
+                                    xasuTrackerConfig.HomePage + "/studies/" + Schedule.Study,
+                                    Schedule.StudyName,
+                                    "The activity representing the study"  +  Schedule.StudyName,
                                     "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
-                                    xasuTrackerConfig.HomePage + "/studies/" + currentActivity.Study + "/activity/" + activityId + "?id="+ attemptId,
-                                    "Attempt of activity"  + currentActivity.Id,
-                                    "The activity representing an attempt of activity" + currentActivity.Id + " in study " + currentActivity.Study,
+                                    xasuTrackerConfig.HomePage + "/studies/" +  Schedule.Study + "/activity/" + activityId + "?id="+ attemptId,
+                                    "Attempt of activity"  + currentActivity.Name,
+                                    "The activity representing an attempt of activity" + currentActivity.Name + " in study " +  Schedule.StudyName,
                                     "http://adlnet.gov/expapi/activities/attempt");
                                 yield return new WaitUntil(() => trackerStarted);
                             }
-
+                            
                             SimvaPlugin.Instance.Log("[SIMVA] Starting Gameplay...");
                             Bridge.StartGameplay();
                             break;
@@ -461,26 +472,26 @@ namespace Simva
                     attemptId=new Guid().ToString();
                     Debug.Log("Application is in focus.");
                     ScormTracker.Instance.Resumed(activityUrl).addContextActivityParent(
-                                    homePage + "/studies/" + currentActivity.Study,
-                                    currentActivity.Study,
-                                    "The activity representing the study"  + currentActivity.Study,
+                                    homePage + "/studies/" + Schedule.Study,
+                                    Schedule.StudyName,
+                                    "The activity representing the study"  + Schedule.StudyName,
                                     "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
-                                    homePage + "/studies/" + currentActivity.Study + "/activity/" + currentActivity.Id + "?id="+ attemptId,
-                                    "Attempt of activity"  + currentActivity.Id,
-                                    "The activity representing an attempt of activity" + currentActivity.Id + " in study " + currentActivity.Study,
+                                    homePage + "/studies/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id="+ attemptId,
+                                    "Attempt of activity"  + currentActivity.Name,
+                                    "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
                                     "http://adlnet.gov/expapi/activities/attempt");
                 }
                 else
                 {
                     Debug.Log("Application lost focus.");
                     ScormTracker.Instance.Suspended(activityUrl).addContextActivityParent(
-                                    homePage + "/studies/" + currentActivity.Study,
-                                    currentActivity.Study,
-                                    "The activity representing the study"  + currentActivity.Study,
+                                    homePage + "/studies/" + Schedule.Study,
+                                    Schedule.StudyName,
+                                    "The activity representing the study"  + Schedule.StudyName,
                                     "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
-                                    homePage + "/studies/" + currentActivity.Study + "/activity/" + currentActivity.Id + "?id="+ attemptId,
-                                    "Attempt of activity"  + currentActivity.Id,
-                                    "The activity representing an attempt of activity" + currentActivity.Id + " in study " + currentActivity.Study,
+                                    homePage + "/studies/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id="+ attemptId,
+                                    "Attempt of activity"  + currentActivity.Name,
+                                    "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
                                     "http://adlnet.gov/expapi/activities/attempt");
                 }
             }
@@ -491,13 +502,13 @@ namespace Simva
             Debug.Log("GamePlay terminated.");
             SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
             ScormTracker.Instance.Terminated(activityUrl).addContextActivityParent(
-                                    homePage + "/studies/" + currentActivity.Study,
-                                    currentActivity.Study,
-                                    "The activity representing the study"  + currentActivity.Study,
+                                    homePage + "/studies/" + Schedule.Study,
+                                    Schedule.StudyName,
+                                    "The activity representing the study"  + Schedule.StudyName,
                                     "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
-                                    homePage + "/studies/" + currentActivity.Study + "/activity/" + currentActivity.Id + "?id="+ attemptId,
-                                    "Attempt of activity"  + currentActivity.Id,
-                                    "The activity representing an attempt of activity" + currentActivity.Id + " in study " + currentActivity.Study,
+                                    homePage + "/studies/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
+                                    "Attempt of activity" + currentActivity.Name,
+                                    "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
                                     "http://adlnet.gov/expapi/activities/attempt");
             activityUrl="";
             var result = new AsyncCompletionSource();
@@ -544,9 +555,16 @@ namespace Simva
             return details.Any(d => IsTrue(activity.Details, d));
         }
 
-        private static bool IsTrue(Dictionary<string, object> details, string key)
+        private static bool IsTrue(ActivityDetails details, string key)
         {
-            return details.ContainsKey(key) && details[key] is bool && (bool)details[key];
+            var propertyInfo = details.GetType().GetProperty(key, System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            if (propertyInfo == null)
+            {
+                return false;
+            }
+
+            var value = propertyInfo.GetValue(details);
+            return value is bool && (bool)value;
         }
 
         internal IEnumerator AsyncCoroutine(IEnumerator coroutine, IAsyncCompletionSource op)
