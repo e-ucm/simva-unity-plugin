@@ -13,20 +13,6 @@ namespace Simva.Model {
   [DataContract]
   public class Activity {
     /// <summary>
-    /// Gets or Sets ExtraData
-    /// </summary>
-    [DataMember(Name="extra_data", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "extra_data")]
-    public Object ExtraData { get; set; }
-
-    /// <summary>
-    /// Gets or Sets ExtraData
-    /// </summary>
-    [DataMember(Name = "details", EmitDefaultValue = false)]
-    [JsonProperty(PropertyName = "details")]
-    public Dictionary<string, object> Details { get; set; }
-
-    /// <summary>
     /// Gets or Sets Id
     /// </summary>
     [DataMember(Name="_id", EmitDefaultValue=false)]
@@ -48,13 +34,6 @@ namespace Simva.Model {
     public List<string> Owners { get; set; }
 
     /// <summary>
-    /// Gets or Sets Study
-    /// </summary>
-    [DataMember(Name="study", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "study")]
-    public string Study { get; set; }
-
-    /// <summary>
     /// Gets or Sets Test
     /// </summary>
     [DataMember(Name="test", EmitDefaultValue=false)]
@@ -67,6 +46,13 @@ namespace Simva.Model {
     [DataMember(Name="type", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "type")]
     public string Type { get; set; }
+
+    /// <summary>
+    /// Gets or Sets ExtraData
+    /// </summary>
+    [DataMember(Name = "details", EmitDefaultValue = false)]
+    [JsonProperty(PropertyName = "details")]
+    public ActivityDetails Details { get; set; }
 
     /// <summary>
     /// Gets or Sets Type
@@ -96,7 +82,6 @@ namespace Simva.Model {
     public override string ToString()  {
       var sb = new StringBuilder();
       sb.Append("class Activity {\n");
-      sb.Append("  ExtraData: ").Append(ExtraData).Append("\n");
       sb.Append("  Id: ").Append(Id).Append("\n");
       sb.Append("  Name: ").Append(Name).Append("\n");
       sb.Append("  Owners: ").Append(Owners).Append("\n");
