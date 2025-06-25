@@ -417,7 +417,7 @@ namespace Simva
                             if (API.SimvaConf.HomePage != null){
                                 xasuTrackerConfig.HomePage = API.SimvaConf.HomePage;
                             }
-                            if (ActivityHasDetails(activity, "trace_storage"))
+                            if (activity.Details.TraceStorage)
                             {
                                 SimvaPlugin.Instance.Log("[SIMVA] Starting trace storage tracker...");
                                 xasuTrackerConfig.Online = true;
@@ -425,7 +425,7 @@ namespace Simva
                                 xasuTrackerConfig.LRSEndpoint = API.SimvaConf.URL + string.Format("/activities/{0}", activityId);
                             }
 
-                            if (ActivityHasDetails(activity, "backup"))
+                            if (activity.Details.Backup)
                             {
                                 // Backup
                                 SimvaPlugin.Instance.Log("[SIMVA] Starting backup tracker...");
@@ -434,13 +434,13 @@ namespace Simva
                                 xasuTrackerConfig.BackupFileName = auth.Username + "_" + activityId + "_backup.log";
                                 xasuTrackerConfig.BackupTraceFormat = Xasu.Config.TraceFormats.XAPI;
                             }
-                            if (ActivityHasDetails(activity, "trace_storage", "backup"))
+                            if (activity.Details.TraceStorage || activity.Details.Backup)
                             {
                                 homePage = xasuTrackerConfig.HomePage;
                                 activityUrl=xasuTrackerConfig.HomePage + "/study/" + Schedule.Study + "/activity/" + activityId;
                                 Bridge.StartTracker(xasuTrackerConfig, API.Authorization, API.Authorization)
                                     .Then(() => trackerStarted = true);
-                                if (Schedule.Activities[CurrentActivityId].Details.ScormXapiByGame) {
+                                if (activity.Details.ScormXapiByGame) {
                                     attemptId = new Guid().ToString();
                                     ScormTracker.Instance.Initialized(activityUrl).addContextActivityParent(
                                         xasuTrackerConfig.HomePage + "/studies/" + Schedule.Study,
@@ -465,36 +465,41 @@ namespace Simva
 
         public void OnApplicationFocus(bool hasFocus)
         {
-            if(Schedule.Activities[CurrentActivityId].Details.ScormXapiByGame) {
-                SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
-                if (hasFocus)
+            if (CurrentActivityId != null)
+            {
+                if (Schedule.Activities[CurrentActivityId].Details.ScormXapiByGame)
                 {
-                    attemptId=new Guid().ToString();
-                    Debug.Log("Application is in focus.");
-                    ScormTracker.Instance.Resumed(activityUrl).addContextActivityParent(
-                                    homePage + "/studies/" + Schedule.Study,
-                                    Schedule.StudyName,
-                                    "The activity representing the study"  + Schedule.StudyName,
-                                    "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
-                                    homePage + "/studies/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id="+ attemptId,
-                                    "Attempt of activity"  + currentActivity.Name,
-                                    "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
-                                    "http://adlnet.gov/expapi/activities/attempt");
-                }
-                else
-                {
-                    Debug.Log("Application lost focus.");
-                    ScormTracker.Instance.Suspended(activityUrl).addContextActivityParent(
-                                    homePage + "/studies/" + Schedule.Study,
-                                    Schedule.StudyName,
-                                    "The activity representing the study"  + Schedule.StudyName,
-                                    "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
-                                    homePage + "/studies/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id="+ attemptId,
-                                    "Attempt of activity"  + currentActivity.Name,
-                                    "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
-                                    "http://adlnet.gov/expapi/activities/attempt");
+                    SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
+                    if (hasFocus)
+                    {
+                        attemptId = new Guid().ToString();
+                        Debug.Log("Application is in focus.");
+                        ScormTracker.Instance.Resumed(activityUrl).addContextActivityParent(
+                                        homePage + "/studies/" + Schedule.Study,
+                                        Schedule.StudyName,
+                                        "The activity representing the study" + Schedule.StudyName,
+                                        "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
+                                        homePage + "/studies/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
+                                        "Attempt of activity" + currentActivity.Name,
+                                        "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
+                                        "http://adlnet.gov/expapi/activities/attempt");
+                    }
+                    else
+                    {
+                        Debug.Log("Application lost focus.");
+                        ScormTracker.Instance.Suspended(activityUrl).addContextActivityParent(
+                                        homePage + "/studies/" + Schedule.Study,
+                                        Schedule.StudyName,
+                                        "The activity representing the study" + Schedule.StudyName,
+                                        "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
+                                        homePage + "/studies/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
+                                        "Attempt of activity" + currentActivity.Name,
+                                        "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
+                                        "http://adlnet.gov/expapi/activities/attempt");
+                    }
                 }
             }
+            
         }
 
         public IAsyncOperation OnGameFinished()
@@ -547,29 +552,6 @@ namespace Simva
         }
 
         #region Private
-
-        private bool ActivityHasDetails(Activity activity, params string[] details)
-        {
-            if (activity.Details == null)
-            {
-                return false;
-            }
-
-            return details.Any(d => IsTrue(activity.Details, d));
-        }
-
-        private static bool IsTrue(ActivityDetails details, string key)
-        {
-            var propertyInfo = details.GetType().GetProperty(key, System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-            if (propertyInfo == null)
-            {
-                return false;
-            }
-
-            var value = propertyInfo.GetValue(details);
-            return value is bool && (bool)value;
-        }
-
         internal IEnumerator AsyncCoroutine(IEnumerator coroutine, IAsyncCompletionSource op)
         {
             yield return coroutine;
