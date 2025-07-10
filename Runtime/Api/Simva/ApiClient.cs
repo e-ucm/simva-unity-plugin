@@ -128,10 +128,10 @@ namespace Simva
                     { "code_challenge_method", "S256" },
                     { "scope", string.Join(scopeSeparator, scopes) }
                 };
-            if(login_hint != null) {
+            if(!string.IsNullOrEmpty(login_hint)) {
                 dict.Add("login_hint", login_hint);
             }
-            if(homepage != null) {
+            if(!string.IsNullOrEmpty(homepage)) {
                 dict.Add("homepage", homepage);
             }
             var authorization = AuthManager.InitAuth("oauth2", dict, null);
@@ -166,7 +166,7 @@ namespace Simva
                 { "client_id", clientId },
                 { "refresh_token", refreshToken }
             };
-            if(homepage != null) {
+            if(!string.IsNullOrEmpty(homepage)) {
                 dict.Add("homepage", homepage);
             }
 			try

@@ -42,24 +42,24 @@ namespace Simva
                 yield break;
             }
 
-            Log("[SIMVA] Starting...");
+            Log("Starting...");
             if (SimvaConf.Local == null)
             {
                 SimvaConf.Local = new SimvaConf();
                 yield return StartCoroutine(SimvaConf.Local.LoadAsync());
-                Log("[SIMVA] Conf Loaded...");
+                Log("Conf Loaded...");
             }
 
             if (!SimvaManager.Instance.IsEnabled)
             {
                 if (RunGameIfSimvaIsNotConfigured)
                 {
-                    Log("[SIMVA] Study is not set! Running the game without Simva...");
+                    Log("Study is not set! Running the game without Simva...");
                     StartGameplay();
                 }
                 else
                 {
-                    Log("[SIMVA] Study is not set! Stopping...");
+                    Log("Study is not set! Stopping...");
                     if (Application.isEditor)
                     {
 #if UNITY_EDITOR
@@ -73,7 +73,7 @@ namespace Simva
             }
             else if (SimvaManager.Instance.IsActive && !SimvaManager.Instance.Finalized)
             {
-                Log("[SIMVA] Simva is already started...");
+                Log("Simva is already started...");
                 // No need to restart
                 yield break;
             }
@@ -83,7 +83,7 @@ namespace Simva
 
             if (ShowLoginOnStartup)
             {
-                Log("[SIMVA] Setting current target to Simva.Login...");
+                Log("Setting current target to Simva.Login...");
                 RunScene("Simva.Login");
 
                 if (PlayerPrefs.HasKey("simva_auth") && SaveAuthUntilCompleted)
@@ -141,8 +141,8 @@ namespace Simva
                 case "Simva.Login":
                     name = EnableLoginDemoButton ? "Simva.Login.Demo" : "Simva.Login";
                     break;
-                    
-                case "gameplay":
+
+                case "Gameplay":
                     if (!string.IsNullOrEmpty(GamePlayScene))
                     {
                         name = GamePlayScene;
@@ -165,7 +165,7 @@ namespace Simva
 
         private void DoRunScene(string name)
         {
-            Log(name);
+            Log("Running scene: " + name);
             DestroyPreviousSimvaScene();
             var go = SimvaSceneManager.LoadPrefabScene(name);
             if (go == null) {
@@ -190,7 +190,7 @@ namespace Simva
         {
             DestroyPreviousSimvaScene();
             Log("Starting Gameplay");
-            RunScene("gameplay");
+            RunScene("Gameplay");
         }
 
         public IAsyncOperation StartTracker(TrackerConfig config, IAuthProtocol onlineProtocol, IAuthProtocol backupProtocol)

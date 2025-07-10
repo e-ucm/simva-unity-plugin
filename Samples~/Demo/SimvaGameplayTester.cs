@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Xasu.HighLevel;
 
-public class SimvaGameplayTester : MonoBehaviour
+namespace Simva
 {
+    public class SimvaGameplayTester : MonoBehaviour
+    {
         public void SendTrace()
         {
             GameObjectTracker.Instance.Interacted("simple_button");
@@ -13,17 +15,20 @@ public class SimvaGameplayTester : MonoBehaviour
 
         public void End()
         {
-            var wants = Simva.SimvaPlugin.Instance.WantsToQuit();
+            var wants = SimvaPlugin.Instance.WantsToQuit();
             if (wants)
             {
                 if (Application.isEditor)
                 {
 #if UNITY_EDITOR
-                    UnityEditor.EditorApplication.isPlaying = false;
+                        UnityEditor.EditorApplication.isPlaying = false;
 #endif
-                } else {
+                }
+                else
+                {
                     Application.Quit();
                 }
             }
         }
+    }
 }

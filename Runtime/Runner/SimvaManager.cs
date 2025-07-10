@@ -135,7 +135,9 @@ namespace Simva
                 .Catch(error =>
                 {
                     NotifyLoading(false);
-                    NotifyManagers("Failed to Login with this token");
+                    var msg = "Failed to Login with this token";
+                    NotifyManagers(msg);
+                    SimvaPlugin.Instance.LogError(msg);
                 });
         }
 
@@ -160,7 +162,9 @@ namespace Simva
                 .Catch(error =>
                 {
                     NotifyLoading(false);
-                    NotifyManagers("Failed to Login with this token");
+                    var msg = "Failed to Login with this token";
+                    NotifyManagers(msg);
+                    SimvaPlugin.Instance.LogError(msg);
                 });
         }
 
@@ -357,7 +361,7 @@ namespace Simva
                             xasuTrackerConfig.FlushInterval = 3;
                             xasuTrackerConfig.BatchSize = 256;
 
-                            if(API.SimvaConf.HomePage != null) {
+                            if(String.IsNullOrEmpty(API.SimvaConf.HomePage)) {
                                 xasuTrackerConfig.HomePage = API.SimvaConf.HomePage;
                             }
                             if (ActivityHasDetails(activity, "realtime", "trace_storage"))
