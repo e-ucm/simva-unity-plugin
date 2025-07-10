@@ -23,13 +23,13 @@ namespace Simva
 
             if(img == null)
             {
-                Debug.LogError("The component " + img.GetType().ToString() + " doesn't exit (Object " + this.gameObject.name + ")");
+                SimvaPlugin.Instance.LogError("The component " + img.GetType().ToString() + " doesn't exit (Object " + this.gameObject.name + ")");
                 return;
             }
 
             if(button == null)
             {
-                Debug.LogError("The component " + button.GetType().ToString() + " doesn't exit (Object " + this.gameObject.name + ")");
+                SimvaPlugin.Instance.LogError("The component " + button.GetType().ToString() + " doesn't exit (Object " + this.gameObject.name + ")");
                 return;
             }
 
@@ -57,19 +57,7 @@ namespace Simva
         void SelectLanguage()
         {
             LanguageSelectorController.instance.SetLanguageCode(gameObject.name);
-            LanguageSelectorController.instance.fillDictionaryAndRunLoginScene();
-        }
-
-
-        // VISUAL EFFECT ONLY. DOES NOT AFFECT EXECUTION AND CAN BE DELETED.
-        public void Expand()
-        {
-            transform.localScale = new Vector2(1.2f, 1.2f);
-        }
-
-        public void Contract()
-        {
-            transform.localScale = new Vector2(1.0f, 1.0f);
+            LanguageSelectorController.instance.FillDictionaryAndRunLoginScene();
         }
     }
 }
