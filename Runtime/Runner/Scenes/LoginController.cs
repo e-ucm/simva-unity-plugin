@@ -9,7 +9,6 @@ namespace Simva
     // Manager for "Simva.Survey"
     public class LoginController : SimvaSceneController
     {
-        private const string SIMVA_DISCLAIMER_ACCEPTED = "simva_disclaimer_accepted";
         private const int SIMVA_DISCLAIMER_ACCEPTED_TRUE = 1;
         private const int SIMVA_DISCLAIMER_ACCEPTED_FALSE = 0;
 
@@ -26,18 +25,18 @@ namespace Simva
         { 
             get 
             {
-                return PlayerPrefs.HasKey(SIMVA_DISCLAIMER_ACCEPTED) ? PlayerPrefs.GetInt(SIMVA_DISCLAIMER_ACCEPTED) == SIMVA_DISCLAIMER_ACCEPTED_TRUE : false;
+                return PlayerPrefs.HasKey(SimvaPlugin.Instance.SIMVA_DISCLAIMER_ACCEPTED) ? PlayerPrefs.GetInt(SimvaPlugin.Instance.SIMVA_DISCLAIMER_ACCEPTED) == SimvaPlugin.Instance.SIMVA_DISCLAIMER_ACCEPTED_TRUE : false;
             }
             set
             {
-                PlayerPrefs.SetInt(SIMVA_DISCLAIMER_ACCEPTED, value ? SIMVA_DISCLAIMER_ACCEPTED_TRUE : SIMVA_DISCLAIMER_ACCEPTED_FALSE);
+                PlayerPrefs.SetInt(SimvaPlugin.Instance.SIMVA_DISCLAIMER_ACCEPTED, value ? SimvaPlugin.Instance.SIMVA_DISCLAIMER_ACCEPTED_TRUE : SimvaPlugin.Instance.SIMVA_DISCLAIMER_ACCEPTED_FALSE);
                 PlayerPrefs.Save();
             }
         }
 
         public void Back()
         {
-            PlayerPrefs.DeleteKey(SIMVA_DISCLAIMER_ACCEPTED);
+            PlayerPrefs.DeleteKey(SimvaPlugin.Instance.SIMVA_DISCLAIMER_ACCEPTED);
             if(SimvaPlugin.Instance.EnableLanguageScene) {
                 LanguageSelectorController.instance.SetActive(true);
             }

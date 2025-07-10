@@ -16,6 +16,7 @@ namespace Simva
 
     public class SimvaPlugin : MonoBehaviour, ISimvaBridge
     {
+        private const string SIMVA_DISCLAIMER_ACCEPTED = "simva_disclaimer_accepted";
         public static SimvaPlugin Instance { get; private set; }
         public bool SaveAuthUntilCompleted = true;
         public bool ShowLoginOnStartup = true;
@@ -78,9 +79,9 @@ namespace Simva
                 Log("Conf Loaded...");
             }
 
-            if (PlayerPrefs.HasKey("simva_disclaimer_accepted") && !SaveDisclaimerAccepted)
+            if (PlayerPrefs.HasKey(SIMVA_DISCLAIMER_ACCEPTED) && !SaveDisclaimerAccepted)
             {
-                PlayerPrefs.DeleteKey("simva_disclaimer_accepted");
+                PlayerPrefs.DeleteKey(SIMVA_DISCLAIMER_ACCEPTED);
             }
 
             if (!SimvaManager.Instance.IsEnabled)
@@ -126,7 +127,7 @@ namespace Simva
                     } else {
                         LanguageSelectorController.instance.SetLanguageFromTitle(LanguageByDefault);
                     }
-                    LanguageSelectorController.instance.fillDictionaryAndRunLoginScene();
+                    LanguageSelectorController.instance.FillDictionaryAndRunLoginScene();
                 } else {
                     RunScene("Simva.Language");
                 }
