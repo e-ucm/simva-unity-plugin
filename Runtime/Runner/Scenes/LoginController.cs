@@ -37,8 +37,18 @@ namespace Simva
         public void Back()
         {
             PlayerPrefs.DeleteKey(SimvaPlugin.SIMVA_DISCLAIMER_ACCEPTED);
-            if(SimvaPlugin.Instance.EnableLanguageScene) {
+            if (SimvaPlugin.Instance.EnableLanguageScene)
+            {
+                SimvaPlugin.Instance.RunScene("Simva.Language");
+                if (LanguageSelectorController.instance == null)
+                {
+                    SimvaPlugin.Instance.gameObject.AddComponent<LanguageSelectorController>();
+                }
                 LanguageSelectorController.instance.SetActive(true);
+            }
+            else if (!SimvaPlugin.Instance.AutoStart)
+            {
+                SimvaPlugin.Instance.RunScene("StartMenu");
             }
             Destroy();
         }
