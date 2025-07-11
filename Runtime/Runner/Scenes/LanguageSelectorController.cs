@@ -32,11 +32,6 @@ namespace Simva
         DontDestroyOnLoad(gameObject);
     }
 
-    public void Back()
-    {
-        GameObject.DestroyImmediate(this.gameObject);
-    }
-
     public string GetLanguageFromTitle(string title) {
         foreach(string languageCode in languages.Keys) {
             if(languages[languageCode] == title) {
@@ -219,6 +214,11 @@ namespace Simva
         Ready = true;
     }
 
+    public void Back()
+    {
+        GameObject.DestroyImmediate(this.gameObject);
+    }
+    
     public override void Destroy()
     {
         SetActive(false);
