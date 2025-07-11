@@ -124,6 +124,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 131985670465635855}
+  textMeshComponent: {fileID: 0}
+  languageKey: BackupTitle
 --- !u!1 &131985671943349302
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,6 +799,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 4166208951075515315}
+  textMeshComponent: {fileID: 0}
+  languageKey: BackupErrorText
 --- !u!1 &3124142836536933318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,6 +1017,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 2130575120928763949}
+  textMeshComponent: {fileID: 0}
+  languageKey: SimvaTitle
 --- !u!1 &3384630128132376530
 GameObject:
   m_ObjectHideFlags: 0
@@ -1276,6 +1285,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 1279958102456896287}
+  textMeshComponent: {fileID: 0}
+  languageKey: RetryButton
 --- !u!1 &4795567161453883841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1498,6 +1510,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 1523786586114848258}
+  textMeshComponent: {fileID: 0}
+  languageKey: ShareButton
 --- !u!1 &5696975671671896125
 GameObject:
   m_ObjectHideFlags: 0
@@ -1768,6 +1783,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 4441886844151179555}
+  textMeshComponent: {fileID: 0}
+  languageKey: NoInternetMsg
 --- !u!1 &6776511029821816599
 GameObject:
   m_ObjectHideFlags: 0
@@ -2338,6 +2356,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 8597239337773133071}
+  textMeshComponent: {fileID: 0}
+  languageKey: BackupOkText
 --- !u!1 &8750038915966035509
 GameObject:
   m_ObjectHideFlags: 0

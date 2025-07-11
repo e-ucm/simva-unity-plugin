@@ -124,6 +124,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 131985670465635855}
+  textMeshComponent: {fileID: 0}
+  languageKey: EndTitle
 --- !u!1 &131985671261414080
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,6 +235,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 131985671261414082}
+  textMeshComponent: {fileID: 0}
+  languageKey: ExitButton
 --- !u!1 &131985671943349302
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,6 +1088,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 7937194687436363736}
+  textMeshComponent: {fileID: 0}
+  languageKey: SimvaTitle
 --- !u!1 &8714166819884347033
 GameObject:
   m_ObjectHideFlags: 0

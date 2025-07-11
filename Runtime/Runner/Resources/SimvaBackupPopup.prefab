@@ -109,6 +109,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 4186779398523604681}
+  textMeshComponent: {fileID: 0}
+  languageKey: BackupErrorText
 --- !u!1 &1389903964845138156
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,6 +432,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 2292300253372100500}
+  textMeshComponent: {fileID: 0}
+  languageKey: BackupTitle
 --- !u!1 &5591153430663560339
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,6 +655,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 5940800554414801591}
+  textMeshComponent: {fileID: 0}
+  languageKey: BackupOkText
 --- !u!1 &7410785310572626489
 GameObject:
   m_ObjectHideFlags: 0

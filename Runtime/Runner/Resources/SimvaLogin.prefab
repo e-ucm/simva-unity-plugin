@@ -374,6 +374,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 4056826450818921616}
+  textMeshComponent: {fileID: 0}
+  languageKey: LoadingUserText
 --- !u!1 &1105583473446631885
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,6 +485,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 6280014825039109164}
+  textMeshComponent: {fileID: 0}
+  languageKey: ConnectButton
 --- !u!1 &1216272074388110982
 GameObject:
   m_ObjectHideFlags: 0
@@ -823,6 +829,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 1500418935886904790}
+  textMeshComponent: {fileID: 0}
+  languageKey: DemoButton
 --- !u!1 &1915667412595026174
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,7 +844,7 @@ GameObject:
   - component: {fileID: 2309934653669836531}
   - component: {fileID: 3151532715183812313}
   m_Layer: 5
-  m_Name: TokenText
+  m_Name: TokenTextValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1256,6 +1265,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 6177417561542524095}
+  textMeshComponent: {fileID: 0}
+  languageKey: AdviceDemoText
 --- !u!1 &4098933624371244269
 GameObject:
   m_ObjectHideFlags: 0
@@ -1548,6 +1560,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 3852578647127192023}
+  textMeshComponent: {fileID: 0}
+  languageKey: BackButton
 --- !u!1 &5052425210005760859
 GameObject:
   m_ObjectHideFlags: 0
@@ -1900,6 +1915,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 94866941447770360}
+  textMeshComponent: {fileID: 0}
+  languageKey: TokenText
 --- !u!1 &6720853339701442500
 GameObject:
   m_ObjectHideFlags: 0
@@ -2157,6 +2175,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 6601124607733012793}
+  textMeshComponent: {fileID: 0}
+  languageKey: SimvaTitle
 --- !u!1 &6973111639275884280
 GameObject:
   m_ObjectHideFlags: 0
@@ -2672,6 +2693,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 6248268874304774064}
+  textMeshComponent: {fileID: 0}
+  languageKey: AcceptButton
 --- !u!1 &8790610316240526791
 GameObject:
   m_ObjectHideFlags: 0
@@ -2764,6 +2788,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 7887348075913262658}
+  textMeshComponent: {fileID: 0}
+  languageKey: TokenInputPlaceHolder
 --- !u!1 &8878863907519952284
 GameObject:
   m_ObjectHideFlags: 0
@@ -3100,3 +3127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 2049600702042961184}
+  textMeshComponent: {fileID: 0}
+  languageKey: AdviceText
