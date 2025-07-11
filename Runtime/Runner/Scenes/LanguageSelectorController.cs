@@ -47,7 +47,7 @@ namespace Simva
     public void SetLanguageFromTitle(string title) {
         string  lang = GetLanguageFromTitle(title);
         if (lang == null) {
-            Debug.LogError("Language not found. (" + title + ")");
+            SimvaPlugin.Instance.LogError("Language not found. (" + title + ")");
         } else {
             Language = title;
         }
@@ -131,7 +131,7 @@ namespace Simva
                 }
             }
         }
-        Debug.Log("Languages : " + languages.Count);
+        SimvaPlugin.Instance.Log("Languages : " + languages.Count);
     }
 
     //Creates an initializes Json Files array to be used by myDictionary
@@ -146,7 +146,7 @@ namespace Simva
 
         if (filler == null || filler.Length == 0)
         {
-            Debug.LogError("No JSON Files in Dictionaries directory found (Localization/" + lang + "/" + "Dictionaries) !");
+            SimvaPlugin.Instance.LogError("No JSON Files in Dictionaries directory found (Localization/" + lang + "/" + "Dictionaries) !");
         }
         
         List<TextAsset> json = new List<TextAsset>();
@@ -157,7 +157,7 @@ namespace Simva
 
 #if UNITY_EDITOR
         foreach (var t in json)
-            Debug.Log("JSON File added for Language " + lang + " : " + t.name);
+            SimvaPlugin.Instance.Log("JSON File added for Language " + lang + " : " + t.name);
 #endif
         if(useDefault) {
             defaultJsonFiles = json;
