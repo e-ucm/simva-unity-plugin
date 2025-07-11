@@ -54,7 +54,7 @@ namespace Simva
     }
 
     //Selects a language by flag button in Title scene
-    public void fillDictionaryAndRunLoginScene()
+    public void FillDictionaryAndRunLoginScene()
     {
         SetUpJSONFiles(false);
         FillDictionary(false);
