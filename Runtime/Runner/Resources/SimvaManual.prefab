@@ -108,6 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 114459421977893642}
+  textMeshComponent: {fileID: 0}
+  languageKey: BackButton
 --- !u!1 &1036836997293014
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,6 +219,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 114215678732173536}
+  textMeshComponent: {fileID: 0}
+  languageKey: OpenManualButton
 --- !u!1 &1137494892783728
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,6 +991,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 114400636155566570}
+  textMeshComponent: {fileID: 0}
+  languageKey: LoadingText
 --- !u!1 &1992687276303310
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,6 +1102,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 114685669069344154}
+  textMeshComponent: {fileID: 0}
+  languageKey: ManualTitleText
 --- !u!1 &747406854471359651
 GameObject:
   m_ObjectHideFlags: 0
@@ -1538,6 +1550,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textComponent: {fileID: 4685009907199427954}
+  textMeshComponent: {fileID: 0}
+  languageKey: ContinueButton
 --- !u!1 &6250513045272126973
 GameObject:
   m_ObjectHideFlags: 0
