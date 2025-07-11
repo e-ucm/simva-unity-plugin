@@ -53,7 +53,7 @@ namespace Simva
             var simvaExtension = SimvaManager.Instance;
             if (token == null || string.IsNullOrEmpty(token.text))
             {
-                simvaExtension.NotifyManagers(LanguageSelectorController.instance.GetName("EmptyLoginMsg"));
+                simvaExtension.NotifyManagers(SimvaPlugin.Instance.GetName("EmptyLoginMsg"));
                 return;
             }
 

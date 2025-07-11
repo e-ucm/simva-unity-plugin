@@ -84,7 +84,7 @@ namespace Simva
             File.WriteAllBytes(filePath, Encoding.UTF8.GetBytes(traces));
 
             new NativeShare().AddFile(filePath)
-                .SetSubject(LanguageSelectorController.instance.GetName("BackupOfMsg") + username).SetText(LanguageSelectorController.instance.GetName("BackupJoinedMsg"))
+                .SetSubject(SimvaPlugin.Instance.GetName("BackupOfMsg") + username).SetText(SimvaPlugin.Instance.GetName("BackupJoinedMsg"))
                 .SetCallback((result, shareTarget) => SimvaPlugin.Instance.Log("Share result: " + result + ", selected app: " + shareTarget))
                 .Share();
         }

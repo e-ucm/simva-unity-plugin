@@ -34,6 +34,8 @@ namespace Simva
         private SimvaSceneController previousController;
         private LanguageSelectorController languageSelector;
         private OAuth2Token lastAuth;
+        private static Dictionary<string, string> myDictionary;
+        private static Dictionary<string, string> defaultDictionary;
         
         void Awake()
         {
@@ -65,11 +67,11 @@ namespace Simva
                 {
                     throw new Exception("Please provide your StartScene Scene name if not Autostart.");
                 }
-                RunScene("startMenu");
+                RunScene("StartMenu");
             }
         }
 
-        public IEnumerator ManualStart(string selectedLanguage="")
+        public IEnumerator ManualStart(string selectedLanguage = "")
         {
             Log("[SIMVA] Starting...");
             if (SimvaConf.Local == null)
@@ -99,7 +101,9 @@ namespace Simva
 #if UNITY_EDITOR
                         UnityEditor.EditorApplication.isPlaying = false;
 #endif
-                    } else {
+                    }
+                    else
+                    {
                         Application.Quit();
                     }
                 }
@@ -116,19 +120,25 @@ namespace Simva
             if (ShowLoginOnStartup)
             {
                 Log("[SIMVA] Setting current target to Simva.Language and to Simva.Login...");
-                if(!EnableLanguageScene) {
-                    if (LanguageSelectorController.instance == null) {
+                if (!EnableLanguageScene)
+                {
+                    if (LanguageSelectorController.instance == null)
+                    {
                         Instance.gameObject.AddComponent<LanguageSelectorController>();
                     }
                     Log("Set language to " + LanguageByDefault);
                     LanguageSelectorController.instance.SetActive(false);
-                    if(selectedLanguage != "") {
-                        LanguageSelectorController.instance.SetLanguageCode(selectedLanguage);
-                    } else {
-                        LanguageSelectorController.instance.SetLanguageFromTitle(LanguageByDefault);
+                    if (string.IsNullOrEmpty(selectedLanguage))
+                    {
+                        LanguageSelectorController.instance.FillDictionaryAndRunLoginScene(LanguageByDefault);
                     }
-                    LanguageSelectorController.instance.FillDictionaryAndRunLoginScene();
-                } else {
+                    else
+                    {
+                        LanguageSelectorController.instance.FillDictionaryAndRunLoginScene(selectedLanguage);
+                    }
+                }
+                else
+                {
                     RunScene("Simva.Language");
                 }
 
@@ -198,7 +208,7 @@ namespace Simva
                         throw new Exception("Please provide your GamePlay Scene name.");
                     }
                     break;
-                case "startMenu":
+                case "StartMenu":
                     name=StartScene;
                     break;
                 default:
@@ -257,6 +267,53 @@ namespace Simva
                 }, TaskScheduler.FromCurrentSynchronizationContext());
             return result;
         }
+
+        public void SetLanguageDictionary(Dictionary<string, string> dictionary, bool defaultDict)
+        {
+            if (defaultDict)
+            {
+                defaultDictionary = dictionary;
+            }
+            else
+            {
+                myDictionary = dictionary;
+            }
+        }
+
+        //Checks if the given key "objectName" is in myDictionary, if it's not, logs error; 
+        //otherwise returns the string of the given key.
+        public string GetName(string objectName)
+        {
+            bool useDefault = false;
+            if (!myDictionary.ContainsKey(objectName))
+            {
+                if (defaultDictionary.ContainsKey(objectName))
+                {
+                    useDefault = true;
+                }
+                else
+                {
+                    LogError("The sequence with key " + objectName + " doesn't exit (Object " + ")");
+                    return null;
+                }
+            }
+            Dictionary<string, string> dictionary;
+            if (useDefault)
+            {
+                dictionary = defaultDictionary;
+            }
+            else
+            {
+                dictionary = myDictionary;
+            }
+            string newWord = dictionary[objectName];
+            if (newWord.Contains("\\n"))
+                newWord = dictionary[objectName].Replace("\\n", "\n");
+
+            Log(objectName + " : " + newWord);
+            return newWord;
+        }
+
 
         internal void Log(string message)
         {

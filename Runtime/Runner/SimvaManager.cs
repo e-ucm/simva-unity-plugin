@@ -135,7 +135,7 @@ namespace Simva
                 .Catch(error =>
                 {
                     NotifyLoading(false);
-                    var msg = LanguageSelectorController.instance.GetName("InvalidLoginMsg");
+                    var msg = SimvaPlugin.Instance.GetName("InvalidLoginMsg");
                     NotifyManagers(msg);
                     SimvaPlugin.Instance.LogError(msg);
                 });
@@ -162,7 +162,7 @@ namespace Simva
                 .Catch(error =>
                 {
                     NotifyLoading(false);
-                    var msg = LanguageSelectorController.instance.GetName("InvalidLoginMsg");
+                    var msg = SimvaPlugin.Instance.GetName("InvalidLoginMsg");
                     NotifyManagers(msg);
                     SimvaPlugin.Instance.LogError(msg);
                 });
@@ -286,7 +286,7 @@ namespace Simva
                     {
                         NotifyLoading(false);
                         var res = new AsyncCompletionSource<Schedule>();
-                        res.SetException(new Exception(LanguageSelectorController.instance.GetName("NotCompletedSurveyMsg")));
+                        res.SetException(new Exception(SimvaPlugin.Instance.GetName("NotCompletedSurveyMsg")));
                         return res;
                     }
                 })
@@ -299,7 +299,7 @@ namespace Simva
                     }
                     else
                     {
-                        result.SetException(new Exception(LanguageSelectorController.instance.GetName("NoScheduleMsg")));
+                        result.SetException(new Exception(SimvaPlugin.Instance.GetName("NoScheduleMsg")));
                     }
                     return result;
                 })

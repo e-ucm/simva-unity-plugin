@@ -15,7 +15,7 @@ namespace Simva
         }
         void FillName()
         {
-            var name = LanguageSelectorController.instance.GetName(languageKey);
+            var name = SimvaPlugin.Instance.GetName(languageKey);
             if (textComponent != null)
             {
                 textComponent.text = name;
