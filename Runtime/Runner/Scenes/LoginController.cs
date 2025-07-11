@@ -12,7 +12,6 @@ namespace Simva
         private const int SIMVA_DISCLAIMER_ACCEPTED_TRUE = 1;
         private const int SIMVA_DISCLAIMER_ACCEPTED_FALSE = 0;
 
-        private bool ready;
         public GameObject disclaimer;
         public GameObject login;
         public GameObject preview;
@@ -50,7 +49,6 @@ namespace Simva
             {
                 SimvaPlugin.Instance.RunScene("StartMenu");
             }
-            Destroy();
         }
 
         public void SetActive(bool active)
@@ -105,7 +103,6 @@ namespace Simva
         public override void Render()
         {
             SetActive(true);
-            DontDestroyOnLoad(gameObject);
             if (DisclaimerAccepted)
             {
                 AcceptDisclaimer();
