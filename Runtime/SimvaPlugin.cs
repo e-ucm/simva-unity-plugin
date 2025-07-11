@@ -16,7 +16,7 @@ namespace Simva
 
     public class SimvaPlugin : MonoBehaviour, ISimvaBridge
     {
-        private const string SIMVA_DISCLAIMER_ACCEPTED = "simva_disclaimer_accepted";
+        public const string SIMVA_DISCLAIMER_ACCEPTED = "simva_disclaimer_accepted";
         public static SimvaPlugin Instance { get; private set; }
         public bool SaveAuthUntilCompleted = true;
         public bool ShowLoginOnStartup = true;
