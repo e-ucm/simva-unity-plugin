@@ -328,7 +328,7 @@ namespace Simva
                     }
                     else
                     {
-                        result.SetException(new Exception(LanguageSelectorController.instance.GetName("NoScheduleMsg")));
+                        result.SetException(new Exception(SimvaPlugin.Instance.GetName("NoScheduleMsg")));
                     }
                     return result;
                 })
@@ -475,9 +475,16 @@ namespace Simva
             return details.Any(d => IsTrue(activity.Details, d));
         }
 
-        private static bool IsTrue(Dictionary<string, object> details, string key)
+        private static bool IsTrue(ActivityDetails details, string key)
         {
-            return details.ContainsKey(key) && details[key] is bool && (bool)details[key];
+            var propertyInfo = details.GetType().GetProperty(key, System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            if (propertyInfo == null)
+            {
+                return false;
+            }
+
+            var value = propertyInfo.GetValue(details);
+            return value is bool v && v;
         }
 
         internal IEnumerator AsyncCoroutine(IEnumerator coroutine, IAsyncCompletionSource op)
