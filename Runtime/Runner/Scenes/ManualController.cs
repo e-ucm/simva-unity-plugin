@@ -40,7 +40,7 @@ namespace Simva
             {
                 if (!manualOpened)
                 {
-                    SimvaManager.Instance.NotifyManagers(LanguageSelectorController.instance.GetName("NotOpenedManual"));
+                    SimvaManager.Instance.NotifyManagers(SimvaPlugin.Instance.GetName("NotOpenedManual"));
                 }
                 else
                 {

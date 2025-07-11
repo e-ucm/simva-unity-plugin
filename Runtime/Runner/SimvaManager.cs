@@ -272,7 +272,7 @@ namespace Simva
                 });
         }
 
-        public IAsyncOperation ContinueSurvey()
+        public IAsyncOperation ContinueActivity()
         {
             NotifyLoading(true);
             return API.Api.GetCompletion(CurrentActivityId, API.Authorization.Agent.account.name)
