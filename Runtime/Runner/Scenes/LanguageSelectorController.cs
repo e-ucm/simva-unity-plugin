@@ -20,8 +20,10 @@ namespace Simva
     {
         if (instance == null)
             instance = this;
-        else if (instance != this)
-            Destroy(gameObject);
+        else if (instance != this) {
+            GameObject.DestroyImmediate(gameObject);
+            return;
+        }
         SetActive(true);
         GetLanguages();
         RefreshLanguageList();
