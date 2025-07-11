@@ -107,27 +107,11 @@ namespace Simva
         foreach (TextAsset obj in filler) {
             if (obj.name == "lang") {
                 JObject jObject = JObject.Parse(obj.text);
-                var code="";
-                var name="";
-                var custom=false;
-                foreach (var entry in jObject) {
-                    if(entry.Key=="code") {
-                        code=(string)entry.Value;
-                    }
-                    if(entry.Key=="displayName") {
-                        name=(string)entry.Value;
-                    }
-                    if(entry.Key=="custom") {
-                        custom=(bool)entry.Value;
-                    }
-                }
+                var code = (string)jObject["code"];
+                var name = (string)jObject["displayName"];
                 var modifName=name + " [" + code + "]";
                 if(!languages.ContainsKey(code)) {
                     languages.Add(code, modifName);
-                } else {
-                    //if(custom) {
-                    //    languages.Add(code, modifName);
-                    //}
                 }
             }
         }
