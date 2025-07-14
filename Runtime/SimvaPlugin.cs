@@ -219,6 +219,13 @@ namespace Simva
             {
                 DoRunScene(name);
             }
+            else
+            {
+                if (previousController)
+                {
+                    DestroyPreviousSimvaScene();
+                }
+            }
         }
 
         private void DoRunScene(string name)
