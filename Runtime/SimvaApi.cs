@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using Simva;
 using Simva.Api;
+using Simva.Model;
 using Newtonsoft.Json.Linq;
 using Xasu.Auth.Protocols;
 
@@ -272,23 +273,29 @@ namespace SimvaPlugin
             return result;
         }
 
-        public IAsyncOperation<bool> Register(string username, string email, string password, bool teacher)
+        public IAsyncOperation<User> Register(string username, string email, string password, bool teacher, string groupid=null)
         {
-            var result = new AsyncCompletionSource<bool>();
+            var result = new AsyncCompletionSource<User>();
             ApiClient.CallApi("/users", UnityWebRequest.kHttpVerbPOST, new Dictionary<string, string>(), new JObject {
+                { "groupid", groupid},
                 { "username", username },
                 { "password", password },
                 { "email", email },
+                { "isToken", teacher ? false : true},
+			    { "useNewGeneration", true },
                 { "role", teacher ? "teacher" : "student" }
             }.ToString(Newtonsoft.Json.Formatting.None), new Dictionary<string, string>(), new Dictionary<string, string>(), new Dictionary<string, string>(), new string[] { "OAuth2" })
-                .Then(_ =>
+                .Then(webRequest =>
                 {
-                    result.SetResult(true);
+                    var uniWebRequest = (UnityWebRequest)webRequest;
+                    var headers = uniWebRequest.GetResponseHeaders().Select(kv => string.Format("{0}={1}", kv.Key, kv.Value)).ToList();
+                    var data = (User)ApiClient.Deserialize(uniWebRequest.downloadHandler.text, typeof(User), headers);
+                    result.SetResult(data);
                 })
                 .Catch(error =>
                 {
                     Debug.LogError(error.Message);
-                    result.SetResult(false);
+                    result.SetResult(null);
                 });
             return result;
         }
@@ -305,12 +312,12 @@ namespace SimvaPlugin
 
             var teachersApi = (ITeachersApi)Api;
 
-            teachersApi.AddGroup(new Simva.Model.AddGroupBody { Name = groupName })
+            teachersApi.AddGroup(new Simva.Model.AddGroupBody { Name = groupName, Version=1 })
                 .Then(group =>
                 {
                     createdGroup = group;
                     groupId = group.Id;
-                    var createUsers = CreateBatchUsers(numberOfUsers);
+                    var createUsers = CreateBatchUsers(groupId, numberOfUsers);
                     createUsers.ProgressChanged += (sender, args) =>
                     {
                         result.SetProgress(numberOfUsers * createUsers.Progress / totalOperations);
@@ -366,7 +373,7 @@ namespace SimvaPlugin
             return result;
         }
 
-        public IAsyncOperation<string[]> CreateBatchUsers(int number)
+        public IAsyncOperation<string[]> CreateBatchUsers(string groupid, int number)
         {
             var result = new AsyncCompletionSource<string[]>();
             var listOfIds = new string[number];
@@ -375,9 +382,11 @@ namespace SimvaPlugin
             {
                 var newUser = GenerateRandomBase58Key(4);
                 listOfIds[i] = newUser;
-                Register(newUser, newUser + "@simva.e-ucm.es", newUser, false)
+                Register(newUser, newUser + "@simva.e-ucm.es", newUser, false, groupid)
                     .Then(registered =>
                     {
+                        var index = Array.IndexOf(listOfIds, registered.Token);
+                        listOfIds[index] = registered.Username;
                         lock (listOfIds)
                         {
                             amountDone++;

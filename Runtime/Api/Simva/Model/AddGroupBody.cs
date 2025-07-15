@@ -20,6 +20,14 @@ namespace Simva.Model {
     public string Name { get; set; }
 
     /// <summary>
+    /// Gets or Sets Version
+    /// </summary>
+    [DataMember(Name="version", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "version")]
+    public int Version { get; set; }
+
+
+    /// <summary>
     /// The amount of codes to be created randomly when the group is created 
     /// </summary>
     /// <value>The amount of codes to be created randomly when the group is created </value>
@@ -36,6 +44,7 @@ namespace Simva.Model {
       var sb = new StringBuilder();
       sb.Append("class AddGroupBody {\n");
       sb.Append("  Name: ").Append(Name).Append("\n");
+      sb.Append("  Version: ").Append(Version).Append("\n");
       sb.Append("  RandomParticipants: ").Append(RandomParticipants).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
