@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: LoginTable_fr
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: 34794480ea7c08d43a3201291bdc0dfa, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 148333817856
+    m_Localized: Simva - Un SIMple VAlidator
+    m_Metadata:
+      m_Items: []
+  - m_Id: 223307001856
+    m_Localized: "Simva.\n\nVos donn\xE9es de jeu (vos interactions, vos choix et
+      vos progr\xE8s) seront collect\xE9es pendant le jeu de mani\xE8re anonyme par
+      le biais d'un jeton d'utilisateur.\n\nL'application ne collecte PAS de donn\xE9es
+      personnelles"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1199011164160
+    m_Localized: Demo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1118732185600
+    m_Localized: Erreur de connexion avec ce jeton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 518778941440
+    m_Localized: Veuillez saisir un jeton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 495341170688
+    m_Localized: Retour
+    m_Metadata:
+      m_Items: []
+  - m_Id: 487036448768
+    m_Localized: "D\xE9marrer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 452760596480
+    m_Localized: Inscris ton jeton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 398511468544
+    m_Localized: 'Jeton :'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 369960841216
+    m_Localized: Accepter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 311848759296
+    m_Localized: Chargement utilisateur...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 257176006656
+    m_Localized: "La version \"Demo\" ne capture aucune donn\xE9e."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

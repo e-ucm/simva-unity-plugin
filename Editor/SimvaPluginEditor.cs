@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+//using UnityEngine.Localization.Settings;
 
 [CustomEditor(typeof(Simva.SimvaPlugin))]
 public class SimvaPluginEditor : Editor
@@ -70,10 +71,11 @@ public class SimvaPluginEditor : Editor
         }
     }
 
+
     private void LoadLanguageOptions()
     {
         TextAsset[] allLanguageMarkers = Resources.LoadAll<TextAsset>("Localization");
-
+        
         Dictionary<string, string> languages = new Dictionary<string, string>();
         foreach (TextAsset asset in allLanguageMarkers) {
             if(asset.name == "lang") {
@@ -98,5 +100,14 @@ public class SimvaPluginEditor : Editor
             .Distinct()
             .OrderBy(name => name)
             .ToArray();
+
+        // Wait for the localization system to initialize
+        //yield return LocalizationSettings.InitializationOperation;
+//
+        //for (int i = 0; i < LocalizationSettings.AvailableLocales.Locales.Count; ++i)
+        //{
+        //    var locale = LocalizationSettings.AvailableLocales.Locales[i];
+        //    languageOptions.Add(locale.name, locale.value);
+        //}  
     }
 }

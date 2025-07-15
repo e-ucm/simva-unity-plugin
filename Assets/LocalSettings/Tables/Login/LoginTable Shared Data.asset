@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: LoginTable Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: LoginTable
+  m_TableCollectionNameGuidString: 34794480ea7c08d43a3201291bdc0dfa
+  m_Entries:
+  - m_Id: 148333817856
+    m_Key: SimvaTitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 223307001856
+    m_Key: AdviceText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 257176006656
+    m_Key: AdviceDemoText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 311848759296
+    m_Key: LoadingUserText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 369960841216
+    m_Key: AcceptButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 398511468544
+    m_Key: TokenText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 452760596480
+    m_Key: TokenInputPlaceHolder
+    m_Metadata:
+      m_Items: []
+  - m_Id: 487036448768
+    m_Key: ConnectButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 495341170688
+    m_Key: BackButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 518778941440
+    m_Key: EmptyLoginMsg
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1118732185600
+    m_Key: InvalidLoginMsg
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1199011164160
+    m_Key: DemoButton
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 8660061796626333696
+  references:
+    version: 2
+    RefIds:
+    - rid: 8660061796626333696
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1752588214797

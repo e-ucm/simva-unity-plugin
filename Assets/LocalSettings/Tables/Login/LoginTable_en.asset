@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: LoginTable_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 34794480ea7c08d43a3201291bdc0dfa, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 148333817856
+    m_Localized: Simva - A SIMple VAlidator
+    m_Metadata:
+      m_Items: []
+  - m_Id: 223307001856
+    m_Localized: 'Simva.
+
+
+      Your gameplay data (your interactions, choices and
+      progresses) will be gathered during the gameplay anonymously using a user token.
+
+
+      The
+      application does NOT gather personal data.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 311848759296
+    m_Localized: Loading user...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 257176006656
+    m_Localized: '"Demo" version does not capture any data.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 369960841216
+    m_Localized: Accept
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1118732185600
+    m_Localized: Failed to Login with this token
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1199011164160
+    m_Localized: Demo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 518778941440
+    m_Localized: Please insert a token
+    m_Metadata:
+      m_Items: []
+  - m_Id: 495341170688
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 487036448768
+    m_Localized: Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 452760596480
+    m_Localized: Introduce your token
+    m_Metadata:
+      m_Items: []
+  - m_Id: 398511468544
+    m_Localized: 'Token :'
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

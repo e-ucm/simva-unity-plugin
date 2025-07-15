@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Newtonsoft.Json.Linq;
+using UnityEngine;
+//using UnityEngine.Localization.Settings;
+
 namespace Simva
 {
     public class LanguageSelectorController : SimvaSceneController
@@ -13,12 +15,14 @@ namespace Simva
         private static List<TextAsset> jsonFiles;
         private static List<TextAsset> defaultJsonFiles;
         private static Dictionary<string, string> languages;
+        private bool active = false;
 
         private void Awake()
         {
             if (instance == null)
                 instance = this;
-            else if (instance != this) {
+            else if (instance != this)
+            {
                 GameObject.DestroyImmediate(gameObject);
                 return;
             }
@@ -27,9 +31,36 @@ namespace Simva
             RefreshLanguageList();
         }
 
-        public string GetLanguageFromTitle(string title) {
-            foreach(string languageCode in languages.Keys) {
-                if(languages[languageCode] == title) {
+        public void ChangeLocale(string locale)
+        {
+            if (active)
+            {
+                return;
+            }
+            //StartCoroutine(SetLocale(locale));
+            return;
+        }
+//IEnumerator<object> SetLocale(string _locale)
+
+        void SetLocale(string _locale)
+        {
+            active = true;
+            //yield return LocalizationSettings.InitializationOperation;
+            //
+            //if (LocalizationSettings.AvailableLocale.Locales.Contains(_locale))
+            //{
+            //    LocalizationSettings.SelectedLocate = _locale;
+            //}
+            //PlayerPrefs.setInt("Locale", _locale);
+            active = false;
+         }
+
+        public string GetLanguageFromTitle(string title)
+        {
+            foreach (string languageCode in languages.Keys)
+            {
+                if (languages[languageCode] == title)
+                {
                     return languageCode;
                 }
             }
@@ -40,13 +71,14 @@ namespace Simva
         //Selects a language by flag button in Title scene
         public void FillDictionaryAndRunLoginScene(string language)
         {
-            if (!String.IsNullOrEmpty(language))
-            {
-                jsonFiles = LoadLanguageJSON(language);
-                SimvaPlugin.Instance.SetLanguageDictionary(LoadDictionary(jsonFiles), false);
-            }
-            defaultJsonFiles = LoadLanguageJSON(language);
-            SimvaPlugin.Instance.SetLanguageDictionary(LoadDictionary(defaultJsonFiles), true);
+            //if (!String.IsNullOrEmpty(language))
+            //{
+            //    jsonFiles = LoadLanguageJSON(language);
+            //    SimvaPlugin.Instance.SetLanguageDictionary(LoadDictionary(jsonFiles), false);
+            //}
+            //defaultJsonFiles = LoadLanguageJSON(language);
+            //SimvaPlugin.Instance.SetLanguageDictionary(LoadDictionary(defaultJsonFiles), true);
+            ChangeLocale(language);
             SimvaPlugin.Instance.RunScene("Simva.Login");
         }
 
@@ -59,7 +91,8 @@ namespace Simva
         public void RefreshLanguageList()
         {
             // Clear existing children
-            if(languageGridLayout) {
+            if (languageGridLayout)
+            {
                 foreach (Transform child in languageGridLayout.transform)
                 {
                     Destroy(child.gameObject);
@@ -70,8 +103,10 @@ namespace Simva
             foreach (string lang in SimvaPlugin.Instance.SelectedLanguages)
             {
                 GameObject item = Instantiate(languageItemPrefab, languageGridLayout.transform);
-                foreach(string languageCode in languages.Keys) {
-                    if(languages[languageCode] == lang) {
+                foreach (string languageCode in languages.Keys)
+                {
+                    if (languages[languageCode] == lang)
+                    {
                         item.name = languageCode;
                         item.SetActive(true);
                         continue;
@@ -148,7 +183,8 @@ namespace Simva
         public override void Render()
         {
             SetActive(true);
-            if(!SimvaPlugin.Instance.AutoStart) {
+            if (!SimvaPlugin.Instance.AutoStart)
+            {
                 back.SetActive(true);
             }
             Ready = true;
@@ -158,7 +194,7 @@ namespace Simva
         {
             SimvaPlugin.Instance.RunScene("StartMenu");
         }
-        
+
         public override void Destroy()
         {
             GameObject.DestroyImmediate(this.gameObject);
