@@ -434,6 +434,7 @@ namespace Simva
                                 xasuTrackerConfig.BackupFileName = auth.Username + "_" + activityId + "_backup.log";
                                 xasuTrackerConfig.BackupTraceFormat = Xasu.Config.TraceFormats.XAPI;
                             }
+                            
                             if (activity.Details.TraceStorage || activity.Details.Backup)
                             {
                                 homePage = xasuTrackerConfig.HomePage;
