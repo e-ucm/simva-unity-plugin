@@ -135,7 +135,9 @@ namespace Simva
                 .Catch(error =>
                 {
                     NotifyLoading(false);
-                    NotifyManagers(error.Message);
+                    var msg = "Failed to Login with this token";
+                    NotifyManagers(msg);
+                    SimvaPlugin.Instance.LogError(msg);
                 });
         }
 
@@ -160,7 +162,9 @@ namespace Simva
                 .Catch(error =>
                 {
                     NotifyLoading(false);
-                    NotifyManagers(error.Message);
+                    var msg = "Failed to Login with this token";
+                    NotifyManagers(msg);
+                    SimvaPlugin.Instance.LogError(msg);
                 });
         }
 
@@ -201,7 +205,7 @@ namespace Simva
                     {
                         schedule.Activities[a.Key].Id = a.Key;
                     }
-                    Debug.Log("[SIMVA] Schedule: " + JsonConvert.SerializeObject(schedule));
+                    SimvaPlugin.Instance.Log("[SIMVA] Schedule: " + JsonConvert.SerializeObject(schedule));
                     result.SetResult(schedule);
                 })
                 .Catch(result.SetException);
@@ -223,7 +227,7 @@ namespace Simva
             var response = (AsyncCompletionSource)API.Api.SetResult(activityId, API.Authorization.Agent.name, body);
             response.AddProgressCallback((p) =>
             {
-                UnityEngine.Debug.Log("SaveActivityAndContinue progress: " + p);
+                SimvaPlugin.Instance.UnityEngineLog("SaveActivityAndContinue progress: " + p);
                 if (!result.IsCompleted && !result.IsCanceled)
                 {
                     result.SetProgress(p);
@@ -338,15 +342,16 @@ namespace Simva
 
                 if (activity != null)
                 {
-                    Debug.Log("[SIMVA] Schedule: " + activity.Type + ". Name: " + activity.Name + " activityId " + activityId);
+                    SimvaPlugin.Instance.Log("[SIMVA] Schedule: " + activity.Type + ". Name: " + activity.Name + " activityId " + activityId);
                     switch (activity.Type)
                     {
                         case "limesurvey":
-                            Debug.Log("[SIMVA] Starting Survey...");
+                            SimvaPlugin.Instance.Log("[SIMVA] Starting Survey...");
                             Bridge.RunScene("Simva.Survey");
                             break;
                         case "gameplay":
                         default:
+                            SimvaPlugin.Instance.Log("[SIMVA] Getting Xasu tracker Config...");
                             var xasuTrackerConfig = new Xasu.Config.TrackerConfig();
 
                             xasuTrackerConfig.Simva = true;
@@ -356,6 +361,9 @@ namespace Simva
                             xasuTrackerConfig.FlushInterval = 3;
                             xasuTrackerConfig.BatchSize = 256;
 
+                            if(String.IsNullOrEmpty(API.SimvaConf.HomePage)) {
+                                xasuTrackerConfig.HomePage = API.SimvaConf.HomePage;
+                            }
                             if (ActivityHasDetails(activity, "realtime", "trace_storage"))
                             {
                                 xasuTrackerConfig.Online = true;
@@ -369,11 +377,12 @@ namespace Simva
                                 xasuTrackerConfig.Backup = true;
                                 xasuTrackerConfig.BackupEndpoint = API.SimvaConf.URL + string.Format("/activities/{0}/result", activityId);
                                 xasuTrackerConfig.BackupFileName = auth.Username + "_" + activityId + "_backup.log";
+                                xasuTrackerConfig.BackupTraceFormat = Xasu.Config.TraceFormats.XAPI;
                             }
 
                             if (ActivityHasDetails(activity, "realtime", "trace_storage", "backup"))
                             {
-                                Debug.Log("[SIMVA] Starting tracker...");
+                                SimvaPlugin.Instance.Log("[SIMVA] Starting tracker...");
                                 var trackerStarted = false;
                                 Bridge.StartTracker(xasuTrackerConfig, API.Authorization, API.Authorization)
                                     .Then(() => trackerStarted = true);
@@ -381,7 +390,7 @@ namespace Simva
                                 yield return new WaitUntil(() => trackerStarted);
                             }
 
-                            Debug.Log("[SIMVA] Starting Gameplay...");
+                            SimvaPlugin.Instance.Log("[SIMVA] Starting Gameplay...");
                             Bridge.StartGameplay();
                             break;
                     }

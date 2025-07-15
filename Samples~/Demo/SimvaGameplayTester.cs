@@ -15,19 +15,19 @@ namespace Simva
 
         public void End()
         {
-            if (Application.isEditor)
+            var wants = SimvaPlugin.Instance.WantsToQuit();
+            if (wants)
             {
-#if UNITY_EDITOR
-                var wants = ((SimvaPlugin)SimvaManager.Instance.Bridge).WantsToQuit();
-                if (wants)
+                if (Application.isEditor)
                 {
-                    UnityEditor.EditorApplication.isPlaying = false;
-                }
+#if UNITY_EDITOR
+                        UnityEditor.EditorApplication.isPlaying = false;
 #endif
-            }
-            else
-            {
-                Application.Quit();
+                }
+                else
+                {
+                    Application.Quit();
+                }
             }
         }
     }

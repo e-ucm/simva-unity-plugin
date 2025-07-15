@@ -56,7 +56,7 @@ namespace Simva
 
         public IAsyncOperation InitOAuth(string clientId, string clientSecret = null,
             string realm = null, string appName = null, string scopeSeparator = ":", bool usePKCE = false,
-            Dictionary<string, string> aditionalQueryStringParams = null , bool scope_offline = false)
+            Dictionary<string, string> aditionalQueryStringParams = null , bool scope_offline = false, string homepage=null)
         {
             String[] scopes = null;
             if (scope_offline)
@@ -99,9 +99,9 @@ namespace Simva
             return done;
         }
 
-		public IAsyncOperation InitOAuth(string username, string password, string clientId, string clientSecret = null,
+		public IAsyncOperation InitOAuth(string username, string password, string clientId, string login_hint = null, string clientSecret = null,
 		string realm = null, string appName = null, string scopeSeparator = ":", bool usePKCE = false,
-		Dictionary<string, string> aditionalQueryStringParams = null, bool scope_offline = false)
+		Dictionary<string, string> aditionalQueryStringParams = null, bool scope_offline = false, string homepage=null)
 		{
 			String[] scopes = null;
 			if (scope_offline)
@@ -118,18 +118,23 @@ namespace Simva
 			var authUrl = AuthPath ?? "https://sso.simva.e-ucm.es/auth/realms/simva/protocol/openid-connect/auth";
 
 			var done = new AsyncCompletionSource();
-            
-            var authorization = AuthManager.InitAuth("oauth2", new Dictionary<string, string>()
-            {
-                { "grant_type", "password" },
-                { "token_endpoint", tokenUrl },
-                { "client_id", clientId },
-                { "username", username },
-                { "password", password },
-                { "code_challenge_method", "S256" },
-                { "scope", string.Join(scopeSeparator, scopes) }
-            }, null);
-
+            var dict = new Dictionary<string, string>()
+                {
+                    { "grant_type", "password" },
+                    { "token_endpoint", tokenUrl },
+                    { "client_id", clientId },
+                    { "username", username },
+                    { "password", password },
+                    { "code_challenge_method", "S256" },
+                    { "scope", string.Join(scopeSeparator, scopes) }
+                };
+            if(!string.IsNullOrEmpty(login_hint)) {
+                dict.Add("login_hint", login_hint);
+            }
+            if(!string.IsNullOrEmpty(homepage)) {
+                dict.Add("homepage", homepage);
+            }
+            var authorization = AuthManager.InitAuth("oauth2", dict, null);
             authorization.ContinueWith(t =>
             {
                 if (t.IsFaulted)
@@ -145,7 +150,7 @@ namespace Simva
 			return done;
 		}
 
-		public IAsyncOperation InitOAuth(string refreshToken, string clientId)
+		public IAsyncOperation InitOAuth(string refreshToken, string clientId, string realm = null, string homepage=null)
         {
             var scopes = new string[] { };
 
@@ -154,15 +159,19 @@ namespace Simva
 
             var done = new AsyncCompletionSource();
 
+            var dict = new Dictionary<string, string>()
+            {
+                { "grant_type", "refresh_token" },
+                { "token_endpoint", tokenUrl },
+                { "client_id", clientId },
+                { "refresh_token", refreshToken }
+            };
+            if(!string.IsNullOrEmpty(homepage)) {
+                dict.Add("homepage", homepage);
+            }
 			try
 			{
-                var authorization = AuthManager.InitAuth("oauth2", new Dictionary<string, string>()
-                {
-                    { "grant_type", "refresh_token" },
-                    { "token_endpoint", tokenUrl },
-                    { "client_id", clientId },
-                    { "refresh_token", refreshToken }
-                }, null);
+                var authorization = AuthManager.InitAuth("oauth2", dict, null);
 
                 authorization.ContinueWith(t =>
                 {

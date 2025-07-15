@@ -66,7 +66,9 @@ namespace Simva
             DisclaimerAccepted = true;
             disclaimer.SetActive(false);
             login.SetActive(true);
-            preview.SetActive(true);
+            if(SimvaPlugin.Instance.EnableLoginDemoButton) {
+                preview.SetActive(true);
+            }
         }
 
         public void Demo()

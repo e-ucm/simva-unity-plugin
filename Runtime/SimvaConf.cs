@@ -21,6 +21,7 @@ namespace Simva
             }
         }
 
+        public string HomePage { get; set; }
         public string Host { get; set; }
 
         public string Port { get; set; }
@@ -33,6 +34,8 @@ namespace Simva
 
         public string Study { get; set; }
 
+        public string Realm { get; set; }
+
         public string URL
         {
             get
@@ -43,22 +46,22 @@ namespace Simva
 
         public SimvaConf()
         {
-            Debug.Log("[SIMVA CONF] Created...");
+            SimvaPlugin.Instance.Log("[SIMVA CONF] Created...");
         }
 
         public IEnumerator LoadAsync()
         {
             string contents = "";
-            Debug.Log("[SIMVA CONF] Loading...");
+            SimvaPlugin.Instance.Log("[SIMVA CONF] Loading...");
 
             // WebGL and Android have to use WWW to load from streaming assets
 #if (UNITY_WEBPLAYER || UNITY_WEBGL || UNITY_ANDROID) && !UNITY_EDITOR
-            Debug.Log("[SIMVA CONF] Doing WebGL / Android read...");
+            SimvaPlugin.Instance.Log("[SIMVA CONF] Doing WebGL / Android read...");
             UnityWebRequest reader = GetReader();
             yield return reader.SendWebRequest();
             if (string.IsNullOrEmpty(reader.error))
             {
-                Debug.Log("[SIMVA CONF] Request failed: (" + reader.responseCode + " ) " + reader.error + " - " + reader.downloadHandler.data);
+                SimvaPlugin.Instance.Log("[SIMVA CONF] Request failed: (" + reader.responseCode + " ) " + reader.error + " - " + reader.downloadHandler.data);
                 contents = System.Text.Encoding.UTF8.GetString(reader.downloadHandler.data);
             }
 #else       // The others can read from System.IO       
@@ -76,10 +79,12 @@ namespace Simva
         {
             if (!string.IsNullOrEmpty(contents))
             {
-                Debug.Log("[SIMVA CONF] Simva.conf content: " + contents);
+                SimvaPlugin.Instance.Log("[SIMVA CONF] Simva.conf content: " + contents);
                 var simvaconf = JObject.Parse(contents);
                 Study = simvaconf.Value<string>("study");
+                Realm = simvaconf.Value<string>("realm");
                 Host = simvaconf.Value<string>("host");
+                HomePage = simvaconf.Value<string>("url");
                 Protocol = simvaconf.Value<string>("protocol");
                 Port = simvaconf.Value<string>("port");
                 SSO = simvaconf.Value<string>("sso");
@@ -99,7 +104,7 @@ namespace Simva
 #elif UNITY_ANDROID
             reader = UnityWebRequest.Get("jar:file://" + Application.dataPath + "!/assets/" + FileName);
 #endif
-            Debug.Log("[SIMVA CONF] Requesting simva.conf from: " + reader.uri);
+            SimvaPlugin.Instance.Log("[SIMVA CONF] Requesting simva.conf from: " + reader.uri);
             return reader;
         }
 
@@ -129,7 +134,6 @@ namespace Simva
                     ["port"] = Port,
                     ["sso"] = SSO,
                     ["client_id"] = ClientId,
-                    ["url"] = URL,
                 };
                 System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
                 System.IO.File.WriteAllText(path, simvaconf.ToString(Newtonsoft.Json.Formatting.Indented));

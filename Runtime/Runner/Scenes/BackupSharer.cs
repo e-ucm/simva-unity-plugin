@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace uAdventure.Simva
+namespace Simva
 {
     public class BackupSharer : MonoBehaviour
     {
@@ -17,7 +17,7 @@ namespace uAdventure.Simva
                 filename = Xasu.XasuTracker.Instance.TrackerConfig.BackupFileName;
                 traces = File.ReadAllText(Application.temporaryCachePath + Xasu.XasuTracker.Instance.TrackerConfig.BackupFileName);
             }
-            catch (System.Exception ex){ Debug.Log("Couldn't read traces: " + ex.Message); }
+            catch (System.Exception ex){ SimvaPlugin.Instance.Log("Couldn't read traces: " + ex.Message); }
 
             if (string.IsNullOrEmpty(traces))
             {
@@ -38,7 +38,7 @@ namespace uAdventure.Simva
 
                 new NativeShare().AddFile(filePath)
                     .SetSubject("Backup de " + filename).SetText("Backup adjunto")
-                    .SetCallback((result, shareTarget) => Debug.Log("Share result: " + result + ", selected app: " + shareTarget))
+                    .SetCallback((result, shareTarget) => SimvaPlugin.Instance.Log("Share result: " + result + ", selected app: " + shareTarget))
                     .Share();
             }
         }
