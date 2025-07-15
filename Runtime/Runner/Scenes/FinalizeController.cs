@@ -78,7 +78,7 @@ namespace Simva
                 return;
             }
 
-            string username = SimvaManager.Instance.API.Authorization.Agent.name;
+            string username = SimvaManager.Instance.API.Authorization.Agent.account.name;
             string traces = File.ReadAllText(Application.temporaryCachePath + "/" + XasuTracker.Instance.TrackerConfig.BackupFileName);
             string filePath = Path.Combine(Application.temporaryCachePath, "traces_backup_" + username + ".log");
             File.WriteAllBytes(filePath, Encoding.UTF8.GetBytes(traces));
