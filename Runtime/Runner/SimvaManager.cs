@@ -443,11 +443,11 @@ namespace Simva
                                     .Then(() => trackerStarted = true);
                                 if (activity.Details.ScormXapiByGame) {
                                     attemptId = new Guid().ToString();
-                                    ScormTracker.Instance.Initialized(activityUrl).addContextActivityParent(
+                                    ScormTracker.Instance.Initialized(activityUrl).CreateAndAddContextGroupingActivity(
                                         xasuTrackerConfig.HomePage + "/studies/" + Schedule.Study,
                                         Schedule.StudyName,
                                         "The activity representing the study" + Schedule.StudyName,
-                                        "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
+                                        "http://adlnet.gov/expapi/activities/course").CreateAndAddContextGroupingActivity(
                                         xasuTrackerConfig.HomePage + "/studies/" + Schedule.Study + "/activity/" + activityId + "?id=" + attemptId,
                                         "Attempt of activity" + currentActivity.Name,
                                         "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
@@ -475,11 +475,11 @@ namespace Simva
                     {
                         attemptId = new Guid().ToString();
                         Debug.Log("Application is in focus.");
-                        ScormTracker.Instance.Resumed(activityUrl).addContextActivityParent(
+                        ScormTracker.Instance.Resumed(activityUrl).CreateAndAddContextGroupingActivity(
                                         homePage + "/studies/" + Schedule.Study,
                                         Schedule.StudyName,
                                         "The activity representing the study" + Schedule.StudyName,
-                                        "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
+                                        "http://adlnet.gov/expapi/activities/course").CreateAndAddContextGroupingActivity(
                                         homePage + "/studies/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
                                         "Attempt of activity" + currentActivity.Name,
                                         "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
@@ -488,11 +488,11 @@ namespace Simva
                     else
                     {
                         Debug.Log("Application lost focus.");
-                        ScormTracker.Instance.Suspended(activityUrl).addContextActivityParent(
+                        ScormTracker.Instance.Suspended(activityUrl).CreateAndAddContextGroupingActivity(
                                         homePage + "/studies/" + Schedule.Study,
                                         Schedule.StudyName,
                                         "The activity representing the study" + Schedule.StudyName,
-                                        "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
+                                        "http://adlnet.gov/expapi/activities/course").CreateAndAddContextGroupingActivity(
                                         homePage + "/studies/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
                                         "Attempt of activity" + currentActivity.Name,
                                         "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
@@ -509,11 +509,11 @@ namespace Simva
             if (Schedule.Activities[CurrentActivityId].Details.ScormXapiByGame)
             {
                 SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
-                ScormTracker.Instance.Terminated(activityUrl).addContextActivityParent(
+                ScormTracker.Instance.Terminated(activityUrl).CreateAndAddContextGroupingActivity(
                                     homePage + "/studies/" + Schedule.Study,
                                     Schedule.StudyName,
                                     "The activity representing the study" + Schedule.StudyName,
-                                    "http://adlnet.gov/expapi/activities/course").addContextActivityParent(
+                                   "http://adlnet.gov/expapi/activities/course").CreateAndAddContextGroupingActivity(
                                     homePage + "/studies/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
                                     "Attempt of activity" + currentActivity.Name,
                                     "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
