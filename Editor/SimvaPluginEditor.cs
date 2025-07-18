@@ -6,7 +6,7 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 
 [CustomEditor(typeof(Simva.SimvaPlugin))]
-public class LocalizationEditor : Editor
+public class SimvaPluginEditor : Editor
 {
     private string[] languageOptions;
     private int selectedIndex = 0;
