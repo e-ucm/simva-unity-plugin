@@ -9,7 +9,7 @@
         "com.unity.editorcoroutines": "1.0.0",
         "es.e-ucm.xasu": "1.0.0"
     },
-    "unity": "2022.3",
+    "unity": "2019.4",
     "author": {
         "name": "e-UCM Learning Group",
         "email": "info@e-ucm.es",
@@ -17,9 +17,14 @@
     },
     "samples": [
         {
-            "displayName": "Demo",
-            "description": "Contains a scene and a tester.",
-            "path": "Samples~/Demo"
+            "displayName": "Demo Automatic",
+            "description": "Contains a scene that launch the plugin automatically and a tester.",
+            "path": "Samples~/DemoAuto"
+        },
+        {
+            "displayName": "Demo Manual",
+            "description": "Contains a scene that launch the plugin via a scripting and a tester.",
+            "path": "Samples~/DemoManual"
         }
     ]
 }

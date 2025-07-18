@@ -96,7 +96,7 @@ namespace Simva
             #endif
             if (!webrequestError)
             {
-                SimvaPlugin.Instance.Log(webRequest.error);
+                Debug.Log(webRequest.error);
                 op.SetException(new ApiException((int)webRequest.responseCode, webRequest.error, webRequest.downloadHandler.text));
             }
             else if (inBackground && !string.IsNullOrEmpty(backgroundError))

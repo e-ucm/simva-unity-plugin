@@ -1,0 +1,8 @@
+{
+    "LoadingText": "Loading...",
+    "SurveyTitleText":"To continue you must complete the following survey:",
+    "OpenSurveyButton":"Open Survey",
+    "ContinueButton":"Continue",
+    "NotCompletedSurveyMsg": "Survey not completed.\n\nPlease complete the survey before clicking continue.",
+    "NoScheduleMsg":"No schedule!"
+}
