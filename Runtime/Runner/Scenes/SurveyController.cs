@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityFx.Async.Promises;
+using System;
 
 namespace Simva
 {
@@ -10,12 +11,13 @@ namespace Simva
         private UnityEngine.UI.Text label;
         private bool surveyOpened;
 
-        public void OpenSurvey()
+        public void OpenSurveyPreviousVersion()
         {
             var simvaExtension = SimvaManager.Instance;
             simvaExtension.NotifyLoading(true);
+            SimvaPlugin.Instance.Log("[SIMVA]" + simvaExtension.CurrentActivityId);
             string activityId = simvaExtension.CurrentActivityId;
-            string username = simvaExtension.API.Authorization.Agent.name;
+            string username = simvaExtension.API.Authorization.Agent.account.name;
             simvaExtension.API.Api.GetActivityTarget(activityId)
                 .Then(result =>
                 {
@@ -25,9 +27,29 @@ namespace Simva
                 })
                 .Catch(error =>
                 {
+                    SimvaPlugin.Instance.Log("[SIMVA]" + error.Message);
                     simvaExtension.NotifyManagers(error.Message);
                     simvaExtension.NotifyLoading(false);
                 });
+        }
+
+        public void OpenSurvey()
+        {
+            var simvaExtension = SimvaManager.Instance;
+            simvaExtension.NotifyLoading(true);
+            string activityId = simvaExtension.CurrentActivityId;
+            string username = simvaExtension.API.Authorization.Agent.account.name;
+            var url=SimvaManager.Instance.Schedule.Url;
+            if (url != "")
+            {
+                Application.OpenURL(url);
+                simvaExtension.NotifyLoading(false);
+                surveyOpened = true;
+            }
+            else
+            {
+                OpenSurveyPreviousVersion();
+            }
         }
 
         protected void OnApplicationResume()
@@ -41,10 +63,16 @@ namespace Simva
 
         public void CheckSurvey()
         {
-            SimvaManager.Instance.ContinueSurvey();
+            SimvaManager.Instance.ContinueActivity();
         }
 
-        public override void Render() 
+        public void Back()
+        {
+            PlayerPrefs.DeleteKey("simva_auth");
+            SimvaPlugin.Instance.RunScene("Simva.Login");
+        }
+
+        public override void Render()
         {
             Ready = true;
             label.text = SimvaManager.Instance.Schedule.Activities[SimvaManager.Instance.CurrentActivityId].Name;

@@ -27,6 +27,13 @@ namespace Simva.Model {
     public string Id { get; set; }
 
     /// <summary>
+    /// Gets or Sets Version
+    /// </summary>
+    [DataMember(Name="version", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "version")]
+    public int Version { get; set; }
+
+    /// <summary>
     /// Gets or Sets Name
     /// </summary>
     [DataMember(Name="name", EmitDefaultValue=false)]

@@ -1,0 +1,10 @@
+{
+    "BackupTitle":"Uploading backup...",
+    "BackupOkText":"Successful backup ✅✅ \n\n<color=green>✔</color>",
+    "BackupErrorText":"Backup could not be performed \n\n<color=Red>✘</color>",
+    "BackupJoinedMsg":"Backup joined",
+    "BackupOfMsg": "Backup of",
+    "RetryButton": "Retry",
+    "ShareButton": "Share",
+    "NoInternetMsg": "<size=25> You need an internet connection to continue... </size> \n Make sure that your device has the connection enabled and is working properly.\n\n<b><color=red><size=20>Warning! </size></color></b>\n<i><color=yellow>If you do not restore the connection you might lose your data!</color></i>"
+}

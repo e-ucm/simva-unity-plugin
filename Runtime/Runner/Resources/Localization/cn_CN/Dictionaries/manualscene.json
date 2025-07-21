@@ -1,0 +1,6 @@
+{
+    "ManualTitleText":"To continue you must complete the following manual activity:",
+    "OpenManualButton":"Open Manual Activity",
+    "NotCompletedManualMsg": "Manual Activity not completed.\n\nPlease complete the Manual Activity before clicking continue.",
+    "NotOpenedMsg":"Please open first the manual activity !"
+}

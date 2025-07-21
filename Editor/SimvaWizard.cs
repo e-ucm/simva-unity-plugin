@@ -13,6 +13,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityFx.Async;
 using UnityFx.Async.Promises;
+using static System.Text.RegularExpressions.Regex;
 
 namespace Simva
 {
@@ -21,6 +22,7 @@ namespace Simva
 
         private const string DEFAULT_SSO = "https://sso.simva.e-ucm.es/auth/realms/simva/protocol/openid-connect";
         private const string DEFAULT_HOST = "simva-api.simva.e-ucm.es";
+        private const string DEFAULT_HOMEPAGE_HOST = "simva.e-ucm.es";
         private const string DEFAULT_PROTOCOL = "https";
         private const string DEFAULT_PORT = "443";
         private const string DEFAULT_CLIENTID = "simva-plugin";
@@ -42,6 +44,7 @@ namespace Simva
         private bool preTest, postTest, saveTraces = true, realTime, backup = true;
         private int preId, postId, participants;
         private string email, registerUser, registerPassword, user, password, name;
+        private string groupName= DateTime.Now.ToString("dd-M-yyyy");
         private bool tos;
         private List<ActivityType> activityTypes;
         private IAsyncOperation loadingPromise;
@@ -68,6 +71,7 @@ namespace Simva
                     SimvaConf.Local.SSO = DEFAULT_SSO;
                     SimvaConf.Local.Protocol = DEFAULT_PROTOCOL;
                     SimvaConf.Local.ClientId = DEFAULT_CLIENTID;
+                    SimvaConf.Local.HomePage = DEFAULT_HOMEPAGE_HOST;
                     SimvaConf.Local.Save();
                     AssetDatabase.ImportAsset("StreamingAssets/Simva.conf");
                     AssetDatabase.Refresh();
@@ -231,6 +235,13 @@ namespace Simva
                     }
                 }
 
+                DoSeparator(" GroupName ");
+                groupName = EditorGUILayout.TextField("Group name", groupName);
+                if (string.IsNullOrEmpty(groupName))
+                {
+                    EditorGUILayout.HelpBox("Please introduce a name", MessageType.Warning);
+                }
+
                 DoSeparator(" Participants ");
 
                 participants = Mathf.Clamp(1, EditorGUILayout.IntField("Participants", participants), 10000);
@@ -252,7 +263,7 @@ namespace Simva
         {
             EditorUtility.DisplayProgressBar("Simva.Study.Creation.Title", "Simva.Study.Creation.Info", 0);
             JObject creationData = null;
-            var createStudy = simvaController.CreateStudyWithTestAndUsers(name, "uAdventure", DateTime.Now.ToString("dd-M-yyyy"), participants)
+            var createStudy = simvaController.CreateStudyWithTestAndUsers(name, "uAdventure", groupName, participants)
             .Then(result => creationData = result);
 
             createStudy.ProgressChanged += (sender, args) =>
@@ -284,8 +295,7 @@ namespace Simva
                     Name = "Gameplay",
                     Type = "gameplay",
                     Backup = backup,
-                    TraceStorage = saveTraces,
-                    Realtime = realTime
+                    TraceStorage = saveTraces
                 });
             });
 
@@ -372,10 +382,15 @@ namespace Simva
         {
             DoBorderWithTitle("Dashboard", () =>
             {
+                var url = "";
+                    if(!string.IsNullOrEmpty(simvaController.SimvaConf.HomePage)) {
+                        url = simvaController.SimvaConf.HomePage;
+                    } else {
+                        var host = Replace(simvaController.SimvaConf.Host, @".*-api\.", "");
+                        url = simvaController.SimvaConf.Protocol + "://" + host  + ":" + simvaController.SimvaConf.Port;
+                    }
                 if (GUILayout.Button("Open dashboard in Simva"))
                 {
-                    var url = simvaController.SimvaConf.Host;
-                    url = "https://" + url.Substring(url.IndexOf("api.") + "api.".Length);
                     Application.OpenURL(url + "/studies/" + simvaController.SimvaConf.Study);
                 }
 
@@ -386,7 +401,6 @@ namespace Simva
                     {
                         if (study.Groups.Count <= 0)
                         {
-                            //Controller.Instance.ShowErrorDialog("No groups", "The study has no groups!");
                             Debug.LogError("The study has no groups!");
                         }
                         else if (study.Groups.Count > 1)
@@ -400,15 +414,29 @@ namespace Simva
                                     {
                                         if (EditorUtility.DisplayDialog("Download group", string.Format("Do you want to download the information of {0}", group.Name), "Yes", "Skip"))
                                         {
-                                            DownloadGroup(group.Id);
+                                            var groupPart="groups";
+                                            if(group.Version == 0) {
+                                                groupPart="previous-groups";
+                                            } 
+                                            Application.OpenURL(url + "/" + groupPart + "/" + group.Id + "/print");
                                         }
                                     }
                                 });
-
                         }
                         else
                         {
-                            DownloadGroup(study.Groups[0]);
+                            simvaController.Api.GetGroup(study.Groups[0]).Done(group => 
+                            {
+                                if (EditorUtility.DisplayDialog("Download group", string.Format("Do you want to download the information of {0}", group.Name), "Yes", "Skip"))
+                                {
+                                    var groupPart="groups";
+                                    if(group.Version == 0) {
+                                        groupPart="previous-groups";
+                                    } 
+                                    Application.OpenURL(url + "/" + groupPart + "/" + group.Id + "/print");
+                                }
+                            });
+                            
                         }
                     });
 
@@ -422,19 +450,6 @@ namespace Simva
                     simvaController.SimvaConf.Study = null;
                 }
             });
-        }
-
-
-        private void DownloadGroup(string groupId)
-        {
-            string path = EditorUtility.SaveFilePanel("Select a place to store the participants", "%user%/Documents", "participants.pdf", "pdf");
-
-            simvaController.Api.GetGroupPrintable(groupId)
-                .Done(bytes =>
-                {
-                    File.WriteAllBytes(path, bytes);
-                    OpenWithDefaultProgram(path);
-                });
         }
 
         public static void OpenWithDefaultProgram(string path)

@@ -1,0 +1,8 @@
+{
+    "LoadingText": "Cargando...",
+    "SurveyTitleText": "Para continuar debe completar la siguiente encuesta:",
+    "OpenSurveyButton": "Abrir encuesta",
+    "ContinueButton": "Continuar",
+    "NotCompletedSurveyMsg": "Encuesta no completada.\n\nPor favor completa la encuesta antes de darle a Continuar.",
+    "NoScheduleMsg":"Sin schedule!"
+}

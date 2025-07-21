@@ -40,6 +40,20 @@ namespace Simva.Model {
     [JsonProperty(PropertyName = "role")]
     public string Role { get; set; }
 
+      /// <summary>
+    /// Gets or Sets Role
+    /// </summary>
+    [DataMember(Name="token", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "token")]
+    public string Token { get; set; }
+
+    /// <summary>
+    /// Gets or Sets Username
+    /// </summary>
+    [DataMember(Name="groupid", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "groupid")]
+    public string Groupid { get; set; }
+
     /// <summary>
     /// Gets or Sets Username
     /// </summary>
@@ -47,6 +61,19 @@ namespace Simva.Model {
     [JsonProperty(PropertyName = "username")]
     public string Username { get; set; }
 
+    /// <summary>
+    /// Gets or Sets isToken
+    /// </summary>
+    [DataMember(Name="isToken", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "isToken")]
+    public bool IsToken { get; set; }
+
+    /// <summary>
+    /// Gets or Sets useNewGeneration
+    /// </summary>
+    [DataMember(Name="useNewGeneration", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "useNewGeneration")]
+    public bool UseNewGeneration { get; set; }
 
     /// <summary>
     /// Get the string presentation of the object
@@ -60,6 +87,10 @@ namespace Simva.Model {
       sb.Append("  Password: ").Append(Password).Append("\n");
       sb.Append("  Role: ").Append(Role).Append("\n");
       sb.Append("  Username: ").Append(Username).Append("\n");
+      sb.Append("  IsToken: ").Append(IsToken).Append("\n");
+      sb.Append("  Token: ").Append(Token).Append("\n");
+      sb.Append("  Groupid: ").Append(Groupid).Append("\n");
+      sb.Append("  UseNewGeneration: ").Append(UseNewGeneration).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

@@ -78,13 +78,13 @@ namespace Simva
                 return;
             }
 
-            string username = SimvaManager.Instance.API.Authorization.Agent.name;
+            string username = SimvaManager.Instance.API.Authorization.Agent.account.name;
             string traces = File.ReadAllText(Application.temporaryCachePath + "/" + XasuTracker.Instance.TrackerConfig.BackupFileName);
             string filePath = Path.Combine(Application.temporaryCachePath, "traces_backup_" + username + ".log");
             File.WriteAllBytes(filePath, Encoding.UTF8.GetBytes(traces));
 
             new NativeShare().AddFile(filePath)
-                .SetSubject("Backup de " + username).SetText("Backup adjunto")
+                .SetSubject(SimvaPlugin.Instance.GetName("BackupOfMsg") + username).SetText(SimvaPlugin.Instance.GetName("BackupJoinedMsg"))
                 .SetCallback((result, shareTarget) => SimvaPlugin.Instance.Log("Share result: " + result + ", selected app: " + shareTarget))
                 .Share();
         }
