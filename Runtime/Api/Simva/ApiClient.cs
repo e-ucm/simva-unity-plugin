@@ -74,7 +74,7 @@ namespace Simva
 
             var done = new AsyncCompletionSource();
 
-            var authorization = AuthManager.InitAuth("oauth2", new Dictionary<string, string>()
+            var authorization = AuthFactory.InitAuth("oauth2", new Dictionary<string, string>()
             {
                 { "grant_type", "code" },
                 { "auth_endpoint", authUrl },
@@ -82,7 +82,7 @@ namespace Simva
                 { "client_id", clientId },
                 { "code_challenge_method", "S256" },
                 { "scope", string.Join(scopeSeparator, scopes) }
-            }, null);
+            }, SimvaPlugin.Instance.RequestHandler, null);
 
             authorization.ContinueWith(t =>
             {
@@ -134,7 +134,7 @@ namespace Simva
             if(!string.IsNullOrEmpty(homepage)) {
                 dict.Add("homepage", homepage);
             }
-            var authorization = AuthManager.InitAuth("oauth2", dict, null);
+            var authorization = AuthFactory.InitAuth("oauth2", dict, SimvaPlugin.Instance.RequestHandler, null);
             authorization.ContinueWith(t =>
             {
                 if (t.IsFaulted)
@@ -171,7 +171,7 @@ namespace Simva
             }
 			try
 			{
-                var authorization = AuthManager.InitAuth("oauth2", dict, null);
+                var authorization = AuthFactory.InitAuth("oauth2", dict, SimvaPlugin.Instance.RequestHandler, null);
 
                 authorization.ContinueWith(t =>
                 {
@@ -240,6 +240,7 @@ namespace Simva
         /// <param name="fileParams">File parameters.</param>
         /// <param name="authSettings">Authentication settings.</param>
         /// <returns>IAsyncOperation<UnityWebRequest></returns>
+        /// TODO CHECK WITH IHttpRequestHandler requestHandler instead using SimvaPlugin.Instance.RequestHandler
         public IAsyncOperation<UnityWebRequest> CallApi(String path, string method, Dictionary<String, String> queryParams, String postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
             Dictionary<String, String> fileParams, String[] authSettings, bool inBackground = false)

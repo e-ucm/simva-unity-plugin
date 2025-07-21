@@ -10,6 +10,7 @@ using Xasu.Auth.Protocols;
 using Xasu.Auth.Protocols.OAuth2;
 using Xasu.Config;
 using UnityEngine.SceneManagement;
+using Xasu.Requests;
 
 namespace Simva
 {
@@ -36,18 +37,37 @@ namespace Simva
         private OAuth2Token lastAuth;
         private static Dictionary<string, string> myDictionary;
         private static Dictionary<string, string> defaultDictionary;
-        
+        private IHttpRequestHandler requestHandler;
+        public IHttpRequestHandler RequestHandler {
+            get { return requestHandler; }
+            set { requestHandler = value; }
+        }
+
         void Awake()
         {
             Instance = this;
             DontDestroyOnLoad(Instance.gameObject);
         }
 
-        public IEnumerator Start()
+
+#if UNITY_5_3_OR_NEWER
+    public IEnumerator Start()
+    {
+        return Start(new UnityRequestHandler());
+    }
+    
+    public IEnumerator ManualStart(string selectedLanguage = "")
+    {
+        return ManualStart(new UnityRequestHandler());
+    }
+#endif
+
+        public IEnumerator Start(IHttpRequestHandler httpRequestHandler)
         {
-            foreach(var lang in SelectedLanguages)
+            RequestHandler = httpRequestHandler;
+            foreach (var lang in SelectedLanguages)
                 Log(lang);
-            if(SimvaManager.Instance.Bridge != null)
+            if (SimvaManager.Instance.Bridge != null)
             {
                 DestroyImmediate(this.gameObject);
                 yield break;
@@ -60,9 +80,12 @@ namespace Simva
             {
                 throw new Exception("Please select one or more languages for language scene name.");
             }
-            if(AutoStart) {
+            if (AutoStart)
+            {
                 yield return ManualStart();
-            } else {
+            }
+            else
+            {
                 if (string.IsNullOrEmpty(StartScene))
                 {
                     throw new Exception("Please provide your StartScene Scene name if not Autostart.");
@@ -71,7 +94,7 @@ namespace Simva
             }
         }
 
-        public IEnumerator ManualStart(string selectedLanguage = "")
+        public IEnumerator ManualStart(string selectedLanguage = "", IHttpRequestHandler httpRequestHandler)
         {
             Log("[SIMVA] Starting...");
             if (SimvaConf.Local == null)
@@ -262,7 +285,7 @@ namespace Simva
         {
             Log("Starting Tracker");
             var result = new AsyncCompletionSource();
-            XasuTracker.Instance.Init(config, onlineProtocol, backupProtocol, EnableDebugLogging)
+            XasuTracker.Instance.Init(config, RequestHandler, onlineProtocol, backupProtocol, EnableDebugLogging)
                 .ContinueWith(t =>
                 {
                     if (t.IsFaulted)
