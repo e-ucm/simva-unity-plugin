@@ -58,7 +58,7 @@ namespace Simva
     
     public IEnumerator ManualStart(string selectedLanguage = "")
     {
-        return ManualStart(new UnityRequestHandler());
+        return ManualStart(selectedLanguage, new UnityRequestHandler());
     }
 #endif
 
@@ -94,8 +94,9 @@ namespace Simva
             }
         }
 
-        public IEnumerator ManualStart(string selectedLanguage = "", IHttpRequestHandler httpRequestHandler)
+        public IEnumerator ManualStart(string selectedLanguage, IHttpRequestHandler httpRequestHandler)
         {
+            RequestHandler = httpRequestHandler;
             Log("[SIMVA] Starting...");
             if (SimvaConf.Local == null)
             {
