@@ -11,6 +11,7 @@ namespace Simva.Model {
   /// 
   /// </summary>
   [DataContract]
+  [JsonConverter(typeof(ActivityConverter))]
   public class Activity {
     /// <summary>
     /// Gets or Sets Id

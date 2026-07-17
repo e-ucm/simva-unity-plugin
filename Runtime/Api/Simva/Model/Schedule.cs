@@ -11,6 +11,7 @@ namespace Simva.Model {
   /// 
   /// </summary>
   [DataContract]
+  [JsonConverter(typeof(ScheduleConverter))]
   public class Schedule {
     /// <summary>
     /// The next activity ID

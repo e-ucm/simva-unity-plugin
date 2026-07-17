@@ -111,26 +111,36 @@ namespace SimvaPlugin
             apiClient.InitOAuth(SimvaConf.Local.ClientId, null, SimvaConf.Local.Realm, null, ":", Application.platform != RuntimePlatform.WebGLPlayer, null, offline_access, SimvaConf.Local.HomePage)
                 .Then(() =>
                 {
+                    SimvaApi<T> simvaApi;
                     if (Inherits<T, IAdminsApi>())
                     {
-                        result.SetResult(new SimvaApi<T>((T)(IAdminsApi)new AdminsApi(apiClient)));
+                        simvaApi = new SimvaApi<T>((T)(IAdminsApi)new AdminsApi(apiClient));
                     }
                     else if (Inherits<T, ITeachersApi>())
                     {
-                        result.SetResult(new SimvaApi<T>((T)(ITeachersApi)new TeachersApi(apiClient)));
+                        simvaApi = new SimvaApi<T>((T)(ITeachersApi)new TeachersApi(apiClient));
                     }
                     else if (Inherits<T, IStudentsApi>())
                     {
-                        result.SetResult(new SimvaApi<T>((T)(IStudentsApi)new StudentsApi(apiClient)));
+                        simvaApi = new SimvaApi<T>((T)(IStudentsApi)new StudentsApi(apiClient));
                     }
                     else if (Inherits<T, IDefaultApi>())
                     {
-                        result.SetResult(new SimvaApi<T>((T)(IDefaultApi)new DefaultApi(apiClient)));
+                        simvaApi = new SimvaApi<T>((T)(IDefaultApi)new DefaultApi(apiClient));
                     }
                     else
                     {
                         throw new Exception("Unsupported api type: " + typeof(T));
                     }
+                    var versionOp = new AsyncCompletionSource<SimvaApi<T>>();
+                    simvaApi.ApiClient.GetVersion()
+                        .Then(_ => versionOp.SetResult(simvaApi))
+                        .Catch(_ => versionOp.SetResult(simvaApi));
+                    return versionOp;
+                })
+                .Then(simvaApi =>
+                {
+                    result.SetResult(simvaApi);
                 })
                 .Catch(ex =>
                 {
@@ -149,30 +159,39 @@ namespace SimvaPlugin
             };
 
             var result = new AsyncCompletionSource<SimvaApi<T>>();
-            apiClient.InitOAuth(refresh_token, SimvaConf.Local.ClientId, SimvaConf.Local.Realm, SimvaConf.Local.HomePage).
-                Then(() =>
+            apiClient.InitOAuth(refresh_token, SimvaConf.Local.ClientId, SimvaConf.Local.Realm, SimvaConf.Local.HomePage)
+                .Then(() =>
                 {
+                    SimvaApi<T> simvaApi;
                     if (Inherits<T, IAdminsApi>())
                     {
-                        result.SetResult(new SimvaApi<T>((T)(IAdminsApi)new AdminsApi(apiClient)));
+                        simvaApi = new SimvaApi<T>((T)(IAdminsApi)new AdminsApi(apiClient));
                     }
                     else if (Inherits<T, ITeachersApi>())
                     {
-                        result.SetResult(new SimvaApi<T>((T)(ITeachersApi)new TeachersApi(apiClient)));
+                        simvaApi = new SimvaApi<T>((T)(ITeachersApi)new TeachersApi(apiClient));
                     }
                     else if (Inherits<T, IStudentsApi>())
                     {
-                        result.SetResult(new SimvaApi<T>((T)(IStudentsApi)new StudentsApi(apiClient)));
+                        simvaApi = new SimvaApi<T>((T)(IStudentsApi)new StudentsApi(apiClient));
                     }
                     else if (Inherits<T, IDefaultApi>())
                     {
-                        result.SetResult(new SimvaApi<T>((T)(IDefaultApi)new DefaultApi(apiClient)));
+                        simvaApi = new SimvaApi<T>((T)(IDefaultApi)new DefaultApi(apiClient));
                     }
                     else
                     {
                         throw new Exception("Unsupported api type: " + typeof(T));
                     }
-
+                    var versionOp = new AsyncCompletionSource<SimvaApi<T>>();
+                    simvaApi.ApiClient.GetVersion()
+                        .Then(_ => versionOp.SetResult(simvaApi))
+                        .Catch(_ => versionOp.SetResult(simvaApi));
+                    return versionOp;
+                })
+                .Then(simvaApi =>
+                {
+                    result.SetResult(simvaApi);
                 })
                 .Catch(error =>
                 {
@@ -200,27 +219,36 @@ namespace SimvaPlugin
 			apiClient.InitOAuth(username, password, SimvaConf.Local.ClientId, SimvaConf.Local.Study, null, SimvaConf.Local.Realm, null, ":", true, null, true, SimvaConf.Local.HomePage)
                 .Then(() =>
 				{
+					SimvaApi<T> simvaApi;
 					if (Inherits<T, IAdminsApi>())
 					{
-						result.SetResult(new SimvaApi<T>((T)(IAdminsApi)new AdminsApi(apiClient)));
+						simvaApi = new SimvaApi<T>((T)(IAdminsApi)new AdminsApi(apiClient));
 					}
 					else if (Inherits<T, ITeachersApi>())
 					{
-						result.SetResult(new SimvaApi<T>((T)(ITeachersApi)new TeachersApi(apiClient)));
+						simvaApi = new SimvaApi<T>((T)(ITeachersApi)new TeachersApi(apiClient));
 					}
 					else if (Inherits<T, IStudentsApi>())
 					{
-						result.SetResult(new SimvaApi<T>((T)(IStudentsApi)new StudentsApi(apiClient)));
+						simvaApi = new SimvaApi<T>((T)(IStudentsApi)new StudentsApi(apiClient));
 					}
 					else if (Inherits<T, IDefaultApi>())
 					{
-						result.SetResult(new SimvaApi<T>((T)(IDefaultApi)new DefaultApi(apiClient)));
+						simvaApi = new SimvaApi<T>((T)(IDefaultApi)new DefaultApi(apiClient));
 					}
 					else
 					{
 						throw new Exception("Unsupported api type: " + typeof(T));
 					}
-
+                    var versionOp = new AsyncCompletionSource<SimvaApi<T>>();
+                    simvaApi.ApiClient.GetVersion()
+                        .Then(_ => versionOp.SetResult(simvaApi))
+                        .Catch(_ => versionOp.SetResult(simvaApi));
+                    return versionOp;
+				})
+				.Then(simvaApi =>
+				{
+					result.SetResult(simvaApi);
 				})
 				.Catch(error =>
 				{
@@ -243,27 +271,36 @@ namespace SimvaPlugin
             apiClient.ContinueOAuth(SimvaConf.Local.ClientId)
                 .Then(() =>
                 {
+                    SimvaApi<T> simvaApi;
                     if (Inherits<T, IAdminsApi>())
                     {
-                        result.SetResult(new SimvaApi<T>((T)(IAdminsApi)new AdminsApi(apiClient)));
+                        simvaApi = new SimvaApi<T>((T)(IAdminsApi)new AdminsApi(apiClient));
                     }
                     else if (Inherits<T, ITeachersApi>())
                     {
-                        result.SetResult(new SimvaApi<T>((T)(ITeachersApi)new TeachersApi(apiClient)));
+                        simvaApi = new SimvaApi<T>((T)(ITeachersApi)new TeachersApi(apiClient));
                     }
                     else if (Inherits<T, IStudentsApi>())
                     {
-                        result.SetResult(new SimvaApi<T>((T)(IStudentsApi)new StudentsApi(apiClient)));
+                        simvaApi = new SimvaApi<T>((T)(IStudentsApi)new StudentsApi(apiClient));
                     }
                     else if (Inherits<T, IDefaultApi>())
                     {
-                        result.SetResult(new SimvaApi<T>((T)(IDefaultApi)new DefaultApi(apiClient)));
+                        simvaApi = new SimvaApi<T>((T)(IDefaultApi)new DefaultApi(apiClient));
                     }
                     else
                     {
                         throw new Exception("Unsupported api type: " + typeof(T));
                     }
-
+                    var versionOp = new AsyncCompletionSource<SimvaApi<T>>();
+                    simvaApi.ApiClient.GetVersion()
+                        .Then(_ => versionOp.SetResult(simvaApi))
+                        .Catch(_ => versionOp.SetResult(simvaApi));
+                    return versionOp;
+                })
+                .Then(simvaApi =>
+                {
+                    result.SetResult(simvaApi);
                 })
                 .Catch(error =>
                 {

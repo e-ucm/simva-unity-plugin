@@ -391,7 +391,7 @@ namespace Simva
                     }
                 if (GUILayout.Button("Open dashboard in Simva"))
                 {
-                    Application.OpenURL(url + "/studies/" + simvaController.SimvaConf.Study);
+                    Application.OpenURL(url + "/simlets/" + simvaController.SimvaConf.Study);
                 }
 
                 if (GUILayout.Button("Download users in PDF"))

@@ -422,7 +422,9 @@ namespace Simva
                                 SimvaPlugin.Instance.Log("[SIMVA] Starting trace storage tracker...");
                                 xasuTrackerConfig.Online = true;
                                 xasuTrackerConfig.Fallback = true;
-                                xasuTrackerConfig.LRSEndpoint = API.SimvaConf.URL + string.Format("/activities/{0}", activityId);
+                                var lrsPath = ApiClient.HasLrsPrefix ? string.Format("/activities/{0}/lrs", activityId) : string.Format("/activities/{0}", activityId);
+                                SimvaPlugin.Instance.Log("[SIMVA] LRS endpoint: " + lrsPath + " (features: HasLrsPrefix=" + ApiClient.HasLrsPrefix + ")");
+                                xasuTrackerConfig.LRSEndpoint = API.SimvaConf.URL + lrsPath;
                             }
 
                             if (activity.Details.Backup)
@@ -438,17 +440,17 @@ namespace Simva
                             if (activity.Details.TraceStorage || activity.Details.Backup)
                             {
                                 homePage = xasuTrackerConfig.HomePage;
-                                activityUrl=xasuTrackerConfig.HomePage + "/study/" + Schedule.Study + "/activity/" + activityId;
+                                activityUrl=xasuTrackerConfig.HomePage + "/simlet/" + Schedule.Study + "/activity/" + activityId;
                                 Bridge.StartTracker(xasuTrackerConfig, API.Authorization, API.Authorization)
                                     .Then(() => trackerStarted = true);
                                 if (activity.Details.ScormXapiByGame) {
                                     attemptId = new Guid().ToString();
                                     ScormTracker.Instance.Initialized(activityUrl).CreateAndAddContextGroupingActivity(
-                                        xasuTrackerConfig.HomePage + "/studies/" + Schedule.Study,
+                                        xasuTrackerConfig.HomePage + "/simlets/" + Schedule.Study,
                                         Schedule.StudyName,
                                         "The activity representing the study" + Schedule.StudyName,
                                         "http://adlnet.gov/expapi/activities/course").CreateAndAddContextGroupingActivity(
-                                        xasuTrackerConfig.HomePage + "/studies/" + Schedule.Study + "/activity/" + activityId + "?id=" + attemptId,
+                                        xasuTrackerConfig.HomePage + "/simlets/" + Schedule.Study + "/activity/" + activityId + "?id=" + attemptId,
                                         "Attempt of activity" + currentActivity.Name,
                                         "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
                                         "http://adlnet.gov/expapi/activities/attempt");
@@ -476,11 +478,11 @@ namespace Simva
                         attemptId = new Guid().ToString();
                         Debug.Log("Application is in focus.");
                         ScormTracker.Instance.Resumed(activityUrl).CreateAndAddContextGroupingActivity(
-                                        homePage + "/studies/" + Schedule.Study,
+                                        homePage + "/simlets/" + Schedule.Study,
                                         Schedule.StudyName,
                                         "The activity representing the study" + Schedule.StudyName,
                                         "http://adlnet.gov/expapi/activities/course").CreateAndAddContextGroupingActivity(
-                                        homePage + "/studies/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
+                                        homePage + "/simlets/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
                                         "Attempt of activity" + currentActivity.Name,
                                         "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
                                         "http://adlnet.gov/expapi/activities/attempt");
@@ -489,11 +491,11 @@ namespace Simva
                     {
                         Debug.Log("Application lost focus.");
                         ScormTracker.Instance.Suspended(activityUrl).CreateAndAddContextGroupingActivity(
-                                        homePage + "/studies/" + Schedule.Study,
+                                        homePage + "/simlets/" + Schedule.Study,
                                         Schedule.StudyName,
                                         "The activity representing the study" + Schedule.StudyName,
                                         "http://adlnet.gov/expapi/activities/course").CreateAndAddContextGroupingActivity(
-                                        homePage + "/studies/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
+                                        homePage + "/simlets/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
                                         "Attempt of activity" + currentActivity.Name,
                                         "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
                                         "http://adlnet.gov/expapi/activities/attempt");
@@ -510,11 +512,11 @@ namespace Simva
             {
                 SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
                 ScormTracker.Instance.Terminated(activityUrl).CreateAndAddContextGroupingActivity(
-                                    homePage + "/studies/" + Schedule.Study,
+                                    homePage + "/simlets/" + Schedule.Study,
                                     Schedule.StudyName,
                                     "The activity representing the study" + Schedule.StudyName,
                                    "http://adlnet.gov/expapi/activities/course").CreateAndAddContextGroupingActivity(
-                                    homePage + "/studies/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
+                                    homePage + "/simlets/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
                                     "Attempt of activity" + currentActivity.Name,
                                     "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
                                     "http://adlnet.gov/expapi/activities/attempt");

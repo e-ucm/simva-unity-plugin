@@ -6,11 +6,13 @@ using System.Linq;
 using Newtonsoft.Json;
 using UnityFx.Async;
 using UnityFx.Async.Promises;
+using UnityEngine;
 using UnityEngine.Networking;
 using Xasu.Auth;
 using Xasu.Auth.Protocols;
 using Xasu.Requests;
 using System.Threading.Tasks;
+using Simva.Model;
 
 namespace Simva
 {
@@ -245,6 +247,7 @@ namespace Simva
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
             Dictionary<String, String> fileParams, String[] authSettings, bool inBackground = false)
         {
+            path = TranslateApiPath(path);
             UnityWebRequest request = null;
             var result = new AsyncCompletionSource<UnityWebRequest>();
 
@@ -341,6 +344,54 @@ namespace Simva
         public void AddDefaultHeader(string key, string value)
         {
             _defaultHeaderMap.Add(key, value);
+        }
+
+        public static VersionInfo ApiVersion { get; private set; }
+        public static bool HasSimlets => ApiVersion?.Features?.Simlets == true;
+        public static bool HasSessions => ApiVersion?.Features?.Sessions == true;
+        public static bool HasLrsPrefix => ApiVersion?.Features?.LrsPrefix == true;
+
+        public IAsyncOperation<VersionInfo> GetVersion()
+        {
+            var result = new AsyncCompletionSource<VersionInfo>();
+            var request = UnityWebRequest.Get(BasePath + "/version");
+
+            RequestsUtil.DoRequest(request)
+                .Then(webRequest =>
+                {
+                    var body = webRequest.downloadHandler.text;
+                    var versionInfo = JsonConvert.DeserializeObject<VersionInfo>(body);
+                    ApiVersion = versionInfo;
+                    Debug.Log("[SIMVA] API version: " + versionInfo.Version + " (HasSimlets=" + HasSimlets + ", HasSessions=" + HasSessions + ", HasLrsPrefix=" + HasLrsPrefix + ")");
+                    result.SetResult(versionInfo);
+                })
+                .Catch(error =>
+                {
+                    Debug.LogWarning("[SIMVA] Failed to get API version (" + error.Message + "). Falling back to v1 API paths.");
+                    ApiVersion = null;
+                    result.SetResult(null);
+                });
+
+            return result;
+        }
+
+        private static string TranslateApiPath(string path)
+        {
+            var original = path;
+            bool translated = false;
+            if (!HasSimlets)
+            {
+                path = Regex.Replace(path, "/simlets(\\/|$)", "/studies$1");
+                translated = true;
+            }
+            if (!HasSessions)
+            {
+                path = Regex.Replace(path, "/sessions(\\/|$)", "/tests$1");
+                translated = true;
+            }
+            if (translated)
+                Debug.Log("[SIMVA] Using v1 API path (feature not available): " + original + " -> " + path);
+            return path;
         }
     
         /// <summary>

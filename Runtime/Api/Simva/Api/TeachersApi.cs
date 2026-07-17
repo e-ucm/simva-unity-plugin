@@ -385,10 +385,10 @@ namespace Simva.Api
             if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling AddActivityToTest");
             
     
-            var path = "/studies/{studyid}/tests/{testid}/activities";
+            var path = "/simlets/{simletId}/sessions/{sessionId}/activities";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "studyid" + "}", ApiClient.ParameterToString(studyid));
-path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(studyid));
+path = path.Replace("{" + "sessionId" + "}", ApiClient.ParameterToString(testid));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
@@ -476,7 +476,7 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling AddStudy");
             
     
-            var path = "/studies";
+            var path = "/simlets";
             path = path.Replace("{format}", "json");
                 
             var queryParams = new Dictionary<String, String>();
@@ -525,9 +525,9 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling AddTestToStudy");
             
     
-            var path = "/studies/{id}/tests";
+            var path = "/simlets/{simletId}/sessions";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "id" + "}", ApiClient.ParameterToString(id));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(id));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
@@ -613,9 +613,9 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling DeleteStudy");
             
     
-            var path = "/studies/{id}";
+            var path = "/simlets/{simletId}";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "id" + "}", ApiClient.ParameterToString(id));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(id));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
@@ -659,10 +659,10 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (testid == null) throw new ApiException(400, "Missing required parameter 'testid' when calling DeleteTest");
             
     
-            var path = "/studies/{studyid}/tests/{testid}";
+            var path = "/simlets/{simletId}/sessions/{sessionId}";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "studyid" + "}", ApiClient.ParameterToString(studyid));
-path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(studyid));
+path = path.Replace("{" + "sessionId" + "}", ApiClient.ParameterToString(testid));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
@@ -1009,7 +1009,7 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling GetGroupStudies");
             
     
-            var path = "/groups/{id}/studies";
+            var path = "/groups/{id}/simlets";
             path = path.Replace("{format}", "json");
             path = path.Replace("{" + "id" + "}", ApiClient.ParameterToString(id));
     
@@ -1273,9 +1273,9 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling GetSchedule");
             
     
-            var path = "/studies/{id}/schedule";
+            var path = "/simlets/{simletId}/schedule";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "id" + "}", ApiClient.ParameterToString(id));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(id));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
@@ -1317,7 +1317,7 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
         {
             
     
-            var path = "/studies";
+            var path = "/simlets";
             path = path.Replace("{format}", "json");
                 
             var queryParams = new Dictionary<String, String>();
@@ -1364,9 +1364,9 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling GetStudy");
             
     
-            var path = "/studies/{id}";
+            var path = "/simlets/{simletId}";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "id" + "}", ApiClient.ParameterToString(id));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(id));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
@@ -1409,9 +1409,9 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling GetStudyAllocator");
             
     
-            var path = "/studies/{id}/allocator";
+            var path = "/simlets/{simletId}/allocator";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "id" + "}", ApiClient.ParameterToString(id));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(id));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
@@ -1454,9 +1454,9 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling GetStudyGroups");
             
     
-            var path = "/studies/{id}/groups";
+            var path = "/simlets/{simletId}/groups";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "id" + "}", ApiClient.ParameterToString(id));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(id));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
@@ -1499,9 +1499,9 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling GetStudyParticipants");
             
     
-            var path = "/studies/{id}/participants";
+            var path = "/simlets/{simletId}/participants";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "id" + "}", ApiClient.ParameterToString(id));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(id));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
@@ -1544,9 +1544,9 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling GetStudyTests");
             
     
-            var path = "/studies/{id}/tests";
+            var path = "/simlets/{simletId}/sessions";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "id" + "}", ApiClient.ParameterToString(id));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(id));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
@@ -1593,10 +1593,10 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (testid == null) throw new ApiException(400, "Missing required parameter 'testid' when calling GetTest");
             
     
-            var path = "/studies/{studyid}/tests/{testid}";
+            var path = "/simlets/{simletId}/sessions/{sessionId}";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "studyid" + "}", ApiClient.ParameterToString(studyid));
-path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(studyid));
+path = path.Replace("{" + "sessionId" + "}", ApiClient.ParameterToString(testid));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
@@ -1643,10 +1643,10 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (testid == null) throw new ApiException(400, "Missing required parameter 'testid' when calling GetTestActivities");
             
     
-            var path = "/studies/{studyid}/tests/{testid}/activities";
+            var path = "/simlets/{simletId}/sessions/{sessionId}/activities";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "studyid" + "}", ApiClient.ParameterToString(studyid));
-path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(studyid));
+path = path.Replace("{" + "sessionId" + "}", ApiClient.ParameterToString(testid));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
@@ -1820,9 +1820,9 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling SetStudyAllocator");
             
     
-            var path = "/studies/{id}/allocator";
+            var path = "/simlets/{simletId}/allocator";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "id" + "}", ApiClient.ParameterToString(id));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(id));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
@@ -1952,9 +1952,9 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling UpdateStudy");
             
     
-            var path = "/studies/{id}";
+            var path = "/simlets/{simletId}";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "id" + "}", ApiClient.ParameterToString(id));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(id));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
@@ -2000,10 +2000,10 @@ path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
             if (testid == null) throw new ApiException(400, "Missing required parameter 'testid' when calling UpdateTest");
             
     
-            var path = "/studies/{studyid}/tests/{testid}";
+            var path = "/simlets/{simletId}/sessions/{sessionId}";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "studyid" + "}", ApiClient.ParameterToString(studyid));
-path = path.Replace("{" + "testid" + "}", ApiClient.ParameterToString(testid));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(studyid));
+path = path.Replace("{" + "sessionId" + "}", ApiClient.ParameterToString(testid));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();

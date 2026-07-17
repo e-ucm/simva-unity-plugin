@@ -517,9 +517,9 @@ namespace Simva.Api
             if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling GetSchedule");
             
     
-            var path = "/studies/{id}/schedule";
+            var path = "/simlets/{simletId}/schedule";
             path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "id" + "}", ApiClient.ParameterToString(id));
+            path = path.Replace("{" + "simletId" + "}", ApiClient.ParameterToString(id));
     
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
