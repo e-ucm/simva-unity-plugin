@@ -41,9 +41,9 @@ namespace Simva
 
         public bool Finalized { get; protected set; }
 
-        public Schedule Schedule { get; private set; }
+        public Schedule Schedule { get; set; }
 
-        public SimvaApi<IStudentsApi> API { get; private set; }
+        public SimvaApi<IStudentsApi> API { get; set; }
 
         public bool IsActive
         {
@@ -202,7 +202,7 @@ namespace Simva
 
 
 
-        private IAsyncOperation<Schedule> UpdateSchedule()
+        public IAsyncOperation<Schedule> UpdateSchedule()
         {
             var result = new AsyncCompletionSource<Schedule>();
 
@@ -287,7 +287,7 @@ namespace Simva
             return API.Api.GetCompletion(CurrentActivityId, API.Authorization.Agent.account.name)
                 .Then(result =>
                 {
-                    if (result[API.Authorization.Agent.account.name])
+                    if (result.TryGetValue(API.Authorization.Agent.account.name, out var completed) && completed)
                     {
                         return UpdateSchedule();
                     }
@@ -303,9 +303,9 @@ namespace Simva
                             case "survey":
                                 res.SetException(new Exception(SimvaPlugin.Instance.GetName("NotCompletedSurveyMsg")));
                                 break;
-                            default:
-                                res.SetException(new Exception());
-                                break;
+                    default:
+                        res.SetException(new Exception(SimvaPlugin.Instance.GetName("NotCompletedMsg")));
+                        break;
                         }
                         return res;
                     }

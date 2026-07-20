@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 
 using Simva;
 using Simva.Model;
+using UnityEngine;
 
 namespace Simva.Api
 {
@@ -895,12 +896,15 @@ path = path.Replace("{" + "sessionId" + "}", ApiClient.ParameterToString(testid)
             var result = new AsyncCompletionSource();
 
             // make the HTTP request
+            Debug.Log("[SIMVA] GetCompletion (teacher): activity=" + id + " users=" + users);
             ApiClient.CallApi(path, UnityWebRequest.kHttpVerbGET, queryParams, postBody, headerParams, formParams, fileParams, authSettings)
                 .Then(webRequest => {
+                    Debug.Log("[SIMVA] GetCompletion response JSON (teacher): " + webRequest.downloadHandler.text);
                     result.SetCompleted();
                 })
                 .Catch(error => {
                     var apiEx = (ApiException)error;
+                    Debug.LogWarning("[SIMVA] GetCompletion failed (teacher): " + apiEx.Message);
                     result.SetException(new ApiException(apiEx.ErrorCode, "Error calling GetCompletion: " + apiEx.Message, apiEx.ErrorContent));
                 });
     
@@ -1751,12 +1755,15 @@ path = path.Replace("{" + "sessionId" + "}", ApiClient.ParameterToString(testid)
             var result = new AsyncCompletionSource();
 
             // make the HTTP request
+            Debug.Log("[SIMVA] SetCompletion (teacher): activity=" + id + " user=" + user);
             ApiClient.CallApi(path, UnityWebRequest.kHttpVerbPOST, queryParams, postBody, headerParams, formParams, fileParams, authSettings)
                 .Then(webRequest => {
+                    Debug.Log("[SIMVA] SetCompletion success (teacher): activity=" + id + " user=" + user + " response=" + webRequest.downloadHandler.text);
                     result.SetCompleted();
                 })
                 .Catch(error => {
                     var apiEx = (ApiException)error;
+                    Debug.LogWarning("[SIMVA] SetCompletion failed (teacher): " + apiEx.Message);
                     result.SetException(new ApiException(apiEx.ErrorCode, "Error calling SetCompletion: " + apiEx.Message, apiEx.ErrorContent));
                 });
     

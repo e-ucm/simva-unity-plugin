@@ -36,7 +36,8 @@ namespace Simva
 
         public void CheckManual()
         {
-            if (SimvaManager.Instance.Schedule.Activities[SimvaManager.Instance.CurrentActivityId].Details.Uri != null)
+            var activity = SimvaManager.Instance.Schedule.Activities[SimvaManager.Instance.CurrentActivityId];
+            if (activity.Details?.Uri != null)
             {
                 if (!manualOpened)
                 {

@@ -60,7 +60,7 @@ namespace Simva.Model {
     /// </summary>
     [DataMember(Name = "details", EmitDefaultValue = false)]
     [JsonProperty(PropertyName = "details")]
-    public ActivityDetails Details { get; set; }
+    public ActivityDetails Details { get; set; } = new ActivityDetails();
 
     /// <summary>
     /// Gets or Sets Type

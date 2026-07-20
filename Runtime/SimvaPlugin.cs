@@ -37,6 +37,9 @@ namespace Simva
         private OAuth2Token lastAuth;
         private static Dictionary<string, string> myDictionary;
         private static Dictionary<string, string> defaultDictionary;
+        private static bool myDictionaryReady;
+        private static bool defaultDictionaryReady;
+        public bool IsLanguageReady { get { return myDictionaryReady && defaultDictionaryReady; } }
         private IHttpRequestHandler requestHandler;
         public IHttpRequestHandler RequestHandler {
             get { return requestHandler; }
@@ -304,10 +307,12 @@ namespace Simva
             if (defaultDict)
             {
                 defaultDictionary = dictionary;
+                defaultDictionaryReady = true;
             }
             else
             {
                 myDictionary = dictionary;
+                myDictionaryReady = true;
             }
         }
 
@@ -316,9 +321,9 @@ namespace Simva
         public string GetName(string objectName)
         {
             bool useDefault = false;
-            if (!myDictionary.ContainsKey(objectName))
+            if (myDictionary == null || !myDictionary.ContainsKey(objectName))
             {
-                if (defaultDictionary.ContainsKey(objectName))
+                if (defaultDictionary != null && defaultDictionary.ContainsKey(objectName))
                 {
                     useDefault = true;
                 }

@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 
 using Simva;
 using Simva.Model;
+using UnityEngine;
 
 namespace Simva.Api
 {
@@ -217,7 +218,7 @@ namespace Simva.Api
             var fileParams = new Dictionary<String, String>();
             String postBody = null;
     
-             if (users != null) queryParams.Add("users", ApiClient.ParameterToString(users)); // query parameter
+             if (!ApiClient.HasSimlets && users != null) queryParams.Add("users", ApiClient.ParameterToString(users)); // query parameter (v2 uses auth token instead)
                                         
             // authentication setting, if any
             String[] authSettings = new String[] { "OAuth2" };
@@ -230,11 +231,23 @@ namespace Simva.Api
                 .Then(webRequest => {
                     var uniWebRequest = (UnityWebRequest)webRequest;
                     var headers = uniWebRequest.GetResponseHeaders().Select(kv => string.Format("{0}={1}", kv.Key, kv.Value)).ToList();
-                    var data = (Dictionary<string, bool>)ApiClient.Deserialize(webRequest.downloadHandler.text, typeof(Dictionary<string, bool>), headers);
+                    var rawJson = webRequest.downloadHandler.text;
+                    Debug.Log("[SIMVA] GetCompletion response JSON: " + rawJson);
+                    var data = new Dictionary<string, bool>();
+                    if (ApiClient.HasSimlets)
+                    {
+                        var obj = Newtonsoft.Json.Linq.JObject.Parse(rawJson);
+                        data[users] = obj["activity_completed"]?.ToObject<bool>() ?? false;
+                    }
+                    else
+                    {
+                        data = (Dictionary<string, bool>)ApiClient.Deserialize(rawJson, typeof(Dictionary<string, bool>), headers);
+                    }
                     result.SetResult(data);
                 })
                 .Catch(error => {
                     var apiEx = (ApiException)error;
+                    Debug.LogWarning("[SIMVA] GetCompletion failed: " + apiEx.Message);
                     result.SetException(new ApiException(apiEx.ErrorCode, "Error calling GetCompletion: " + apiEx.Message, apiEx.ErrorContent));
                 });
     
@@ -440,7 +453,7 @@ namespace Simva.Api
             var fileParams = new Dictionary<String, String>();
             String postBody = null;
     
-             if (users != null) queryParams.Add("users", ApiClient.ParameterToString(users)); // query parameter
+             if (!ApiClient.HasSimlets && users != null) queryParams.Add("users", ApiClient.ParameterToString(users)); // query parameter (v2 uses auth token instead)
                                         
             // authentication setting, if any
             String[] authSettings = new String[] { "OAuth2" };
@@ -484,7 +497,7 @@ namespace Simva.Api
             var fileParams = new Dictionary<String, String>();
             String postBody = null;
     
-             if (users != null) queryParams.Add("users", ApiClient.ParameterToString(users)); // query parameter
+             if (!ApiClient.HasSimlets && users != null) queryParams.Add("users", ApiClient.ParameterToString(users)); // query parameter (v2 uses auth token instead)
                                         
             // authentication setting, if any
             String[] authSettings = new String[] { "OAuth2" };
@@ -617,21 +630,24 @@ namespace Simva.Api
                 { "status", status}
             });
     
-             if (user != null) queryParams.Add("user", ApiClient.ParameterToString(user)); // query parameter
-                                        
+             if (!ApiClient.HasSimlets && user != null) queryParams.Add("user", ApiClient.ParameterToString(user)); // query parameter (v2 uses auth token instead)
+
             // authentication setting, if any
             String[] authSettings = new String[] { "OAuth2" };
-    
+
 
             var result = new AsyncCompletionSource();
 
             // make the HTTP request
+            Debug.Log("[SIMVA] SetCompletion: activity=" + id + " user=" + user + " status=" + status);
             ApiClient.CallApi(path, UnityWebRequest.kHttpVerbPOST, queryParams, postBody, headerParams, formParams, fileParams, authSettings)
                 .Then(webRequest => {
+                    Debug.Log("[SIMVA] SetCompletion success: activity=" + id + " user=" + user + " status=" + status + " response=" + webRequest.downloadHandler.text);
                     result.SetCompleted();
                 })
                 .Catch(error => {
                     var apiEx = (ApiException)error;
+                    Debug.LogWarning("[SIMVA] SetCompletion failed: " + apiEx.Message);
                     result.SetException(new ApiException(apiEx.ErrorCode, "Error calling SetCompletion: " + apiEx.Message, apiEx.ErrorContent));
                 });
     
@@ -661,11 +677,11 @@ namespace Simva.Api
             var fileParams = new Dictionary<String, String>();
             String postBody = ApiClient.Serialize(body);
     
-             if (user != null) queryParams.Add("user", ApiClient.ParameterToString(user)); // query parameter
-                                        
+             if (!ApiClient.HasSimlets && user != null) queryParams.Add("user", ApiClient.ParameterToString(user)); // query parameter (v2 uses auth token instead)
+
             // authentication setting, if any
             String[] authSettings = new String[] { "OAuth2" };
-    
+
 
             var result = new AsyncCompletionSource();
 
