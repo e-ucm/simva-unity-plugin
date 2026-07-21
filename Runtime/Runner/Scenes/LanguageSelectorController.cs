@@ -37,15 +37,24 @@ namespace Simva
         }
 
 
-        //Selects a language by flag button in Title scene
         public void FillDictionaryAndRunLoginScene(string language)
         {
-            if (!String.IsNullOrEmpty(language))
+            string langCode = language;
+            if (!string.IsNullOrEmpty(language) && language.Contains("["))
             {
-                jsonFiles = LoadLanguageJSON(language);
+                int start = language.IndexOf("[") + 1;
+                int end = language.IndexOf("]", start);
+                if (start > 0 && end > start)
+                {
+                    langCode = language.Substring(start, end - start);
+                }
+            }
+            if (!string.IsNullOrEmpty(langCode))
+            {
+                jsonFiles = LoadLanguageJSON(langCode);
                 SimvaPlugin.Instance.SetLanguageDictionary(LoadDictionary(jsonFiles), false);
             }
-            defaultJsonFiles = LoadLanguageJSON(language);
+            defaultJsonFiles = LoadLanguageJSON(langCode);
             SimvaPlugin.Instance.SetLanguageDictionary(LoadDictionary(defaultJsonFiles), true);
             SimvaPlugin.Instance.RunScene("Simva.Login");
         }
@@ -58,7 +67,6 @@ namespace Simva
 
         public void RefreshLanguageList()
         {
-            // Clear existing children
             if(languageGridLayout) {
                 foreach (Transform child in languageGridLayout.transform)
                 {
@@ -66,17 +74,16 @@ namespace Simva
                 }
             }
 
-            // Spawn one UI item per selected language
             foreach (string lang in SimvaPlugin.Instance.SelectedLanguages)
             {
                 GameObject item = Instantiate(languageItemPrefab, languageGridLayout.transform);
                 foreach(string languageCode in languages.Keys) {
                     if(languages[languageCode] == lang) {
                         item.name = languageCode;
-                        item.SetActive(true);
-                        continue;
+                        break;
                     }
                 }
+                item.SetActive(true);
             }
         }
 

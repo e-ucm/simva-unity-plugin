@@ -408,7 +408,6 @@ namespace Simva
                             SimvaPlugin.Instance.Log("[SIMVA] Getting Xasu tracker Config...");
                             var trackerStarted = false;
                             var xasuTrackerConfig = new Xasu.Config.TrackerConfig {
-                                Simva = true,
                                 Offline = true,
                                 TraceFormat = Xasu.Config.TraceFormats.XAPI,
                                 FlushInterval = 3,
@@ -436,6 +435,7 @@ namespace Simva
                                 xasuTrackerConfig.BackupFileName = auth.Username + "_" + activityId + "_backup.log";
                                 xasuTrackerConfig.BackupTraceFormat = Xasu.Config.TraceFormats.XAPI;
                             }
+                            SimvaPlugin.Instance.Log("[SIMVA] Xasu tracker Config : " + JsonConvert.SerializeObject(xasuTrackerConfig));
                             
                             if (activity.Details.TraceStorage || activity.Details.Backup)
                             {

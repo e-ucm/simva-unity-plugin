@@ -23,13 +23,13 @@ namespace Simva
 
             if(img == null)
             {
-                SimvaPlugin.Instance.LogError("The component " + img.GetType().ToString() + " doesn't exit (Object " + this.gameObject.name + ")");
+                SimvaPlugin.Instance.LogError("Image component doesn't exist (Object " + this.gameObject.name + ")");
                 return;
             }
 
             if(button == null)
             {
-                SimvaPlugin.Instance.LogError("The component " + button.GetType().ToString() + " doesn't exit (Object " + this.gameObject.name + ")");
+                SimvaPlugin.Instance.LogError("Button component doesn't exist (Object " + this.gameObject.name + ")");
                 return;
             }
 
@@ -41,16 +41,17 @@ namespace Simva
             
             import = Resources.Load(path) as Texture2D;
 
-            if (import == null)
+            button.onClick.AddListener(SelectLanguage);
+
+            if (import != null)
             {
-                SimvaPlugin.Instance.LogError("Error: " + path+ " doesn't exit (Object " + gameObject.name + ")");
-                return;
-            } else {
                 img.sprite = Sprite.Create(import, new Rect(0, 0, import.width, import.height), Vector2.zero);
                 SimvaPlugin.Instance.Log("Resources/" + path + " found and loaded");
             }
-            
-            button.onClick.AddListener(SelectLanguage);
+            else
+            {
+                SimvaPlugin.Instance.LogError("Error: " + path+ " doesn't exist (Object " + gameObject.name + ")");
+            }
 
         }
 

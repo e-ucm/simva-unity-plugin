@@ -118,6 +118,21 @@ namespace Simva
                 if (RunGameIfSimvaIsNotConfigured)
                 {
                     Log("Study is not set! Running the game without Simva...");
+                    if (XasuTracker.Instance.Status.State == TrackerState.Uninitialized)
+                    {
+                        var config = new TrackerConfig
+                        {
+                            Offline = true,
+                            TraceFormat = TraceFormats.XAPI,
+                            FileName = "traces.log",
+                            HomePage = "https://articoding/"
+                        };
+                        XasuTracker.Instance.Init(config, RequestHandler)
+                            .ContinueWith(t => {
+                                if (t.IsFaulted)
+                                    LogWarning("Tracker fallback init failed: " + t.Exception);
+                            }, TaskScheduler.FromCurrentSynchronizationContext());
+                    }
                     StartGameplay();
                 }
                 else
