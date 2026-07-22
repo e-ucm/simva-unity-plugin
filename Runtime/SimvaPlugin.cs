@@ -133,7 +133,15 @@ namespace Simva
                                     LogWarning("Tracker fallback init failed: " + t.Exception);
                             }, TaskScheduler.FromCurrentSynchronizationContext());
                     }
-                    StartGameplay();
+                    if (EnableLanguageScene)
+                    {
+                        Log("[SIMVA] Simva not configured, but showing language scene...");
+                        RunScene("Simva.Language");
+                    }
+                    else
+                    {
+                        StartGameplay();
+                    }
                 }
                 else
                 {

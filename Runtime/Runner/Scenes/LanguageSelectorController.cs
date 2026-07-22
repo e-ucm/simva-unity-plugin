@@ -14,6 +14,8 @@ namespace Simva
         private static List<TextAsset> defaultJsonFiles;
         private static Dictionary<string, string> languages;
 
+        public static event Action<string, string> LanguageSelected;
+
         private void Awake()
         {
             if (instance == null)
@@ -56,7 +58,21 @@ namespace Simva
             }
             defaultJsonFiles = LoadLanguageJSON(langCode);
             SimvaPlugin.Instance.SetLanguageDictionary(LoadDictionary(defaultJsonFiles), true);
-            SimvaPlugin.Instance.RunScene("Simva.Login");
+
+            if (LanguageSelected != null)
+            {
+                string unityCode = langCode.Contains("_") ? langCode.Substring(0, langCode.IndexOf("_")) : langCode;
+                LanguageSelected(langCode, unityCode);
+            }
+
+            if (SimvaManager.Instance != null && SimvaManager.Instance.IsEnabled)
+            {
+                SimvaPlugin.Instance.RunScene("Simva.Login");
+            }
+            else
+            {
+                SimvaPlugin.Instance.StartGameplay();
+            }
         }
 
 
