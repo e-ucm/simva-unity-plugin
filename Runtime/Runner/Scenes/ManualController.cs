@@ -36,7 +36,7 @@ namespace Simva
 
         public void CheckManual()
         {
-            var activity = SimvaManager.Instance.Schedule.Activities[SimvaManager.Instance.CurrentActivityId];
+            var activity = SimvaManager.Instance.GetActivity(SimvaManager.Instance.CurrentActivityId);
             if (activity.Details?.Uri != null)
             {
                 if (!manualOpened)
@@ -63,7 +63,7 @@ namespace Simva
         public override void Render()
         {
             Ready = true;
-            label.text = SimvaManager.Instance.Schedule.Activities[SimvaManager.Instance.CurrentActivityId].Name;
+            label.text = SimvaManager.Instance.GetActivity(SimvaManager.Instance.CurrentActivityId)?.Name;
         }
 
         public override void Destroy()

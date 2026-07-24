@@ -30,6 +30,11 @@ namespace Simva.Model
                 schedule.Activities = obj["activities"].ToObject<Dictionary<string, Activity>>(serializer);
             }
 
+            if (obj["replayableActivities"] != null)
+            {
+                schedule.ReplayableActivities = obj["replayableActivities"].ToObject<List<string>>();
+            }
+
             return schedule;
         }
 
@@ -62,6 +67,10 @@ namespace Simva.Model
                     activitiesObj[kv.Key] = activityObj;
                 }
                 obj["activities"] = activitiesObj;
+            }
+            if (value.ReplayableActivities != null)
+            {
+                obj["replayableActivities"] = JArray.FromObject(value.ReplayableActivities);
             }
             obj.WriteTo(writer);
         }

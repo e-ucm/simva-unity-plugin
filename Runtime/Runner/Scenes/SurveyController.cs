@@ -75,7 +75,7 @@ namespace Simva
         public override void Render()
         {
             Ready = true;
-            label.text = SimvaManager.Instance.Schedule.Activities[SimvaManager.Instance.CurrentActivityId].Name;
+            label.text = SimvaManager.Instance.GetActivity(SimvaManager.Instance.CurrentActivityId)?.Name;
             //var background = GameObject.Find("background").GetComponent<Image>();
             /*var backgroundPath = 
             var backgroundSprite = Game.Instance.ResourceManager.getSprite();

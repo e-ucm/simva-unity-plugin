@@ -49,6 +49,13 @@ namespace Simva.Model {
     public bool ScormXapiByGame { get; set; }
 
     /// <summary>
+    /// Gets or Sets whether the activity can be restarted
+    /// </summary>
+    [DataMember(Name = "activity_can_be_restarted", EmitDefaultValue = false)]
+    [JsonProperty(PropertyName = "activity_can_be_restarted")]
+    public bool ActivityCanBeRestarted { get; set; }
+
+    /// <summary>
     /// Get the string presentation of the object
     /// </summary>
     /// <returns>String presentation of the object</returns>

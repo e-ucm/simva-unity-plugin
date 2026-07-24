@@ -205,7 +205,7 @@ namespace Simva.Api
         {
             
             // verify the required parameter 'id' is set
-            if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling GetCompletion");
+            if (string.IsNullOrEmpty(id)) throw new ApiException(400, "Missing required parameter 'id' when calling GetCompletion");
             
     
             var path = "/activities/{id}/completion";
@@ -226,30 +226,62 @@ namespace Simva.Api
 
             var result = new AsyncCompletionSource<Dictionary<string, bool>>();
 
-            // make the HTTP request
-            ApiClient.CallApi(path, UnityWebRequest.kHttpVerbGET, queryParams, postBody, headerParams, formParams, fileParams, authSettings)
-                .Then(webRequest => {
-                    var uniWebRequest = (UnityWebRequest)webRequest;
-                    var headers = uniWebRequest.GetResponseHeaders().Select(kv => string.Format("{0}={1}", kv.Key, kv.Value)).ToList();
-                    var rawJson = webRequest.downloadHandler.text;
-                    Debug.Log("[SIMVA] GetCompletion response JSON: " + rawJson);
-                    var data = new Dictionary<string, bool>();
-                    if (ApiClient.HasSimlets)
-                    {
-                        var obj = Newtonsoft.Json.Linq.JObject.Parse(rawJson);
-                        data[users] = obj["activity_completed"]?.ToObject<bool>() ?? false;
-                    }
-                    else
-                    {
-                        data = (Dictionary<string, bool>)ApiClient.Deserialize(rawJson, typeof(Dictionary<string, bool>), headers);
-                    }
-                    result.SetResult(data);
-                })
-                .Catch(error => {
-                    var apiEx = (ApiException)error;
-                    Debug.LogWarning("[SIMVA] GetCompletion failed: " + apiEx.Message);
-                    result.SetException(new ApiException(apiEx.ErrorCode, "Error calling GetCompletion: " + apiEx.Message, apiEx.ErrorContent));
-                });
+            if (ApiClient.HasSimlets)
+            {
+                // First get the user's numeric ID from /users/me
+                var mePath = "/users/me";
+                var meQueryParams = new Dictionary<String, String>();
+                var meHeaderParams = new Dictionary<String, String>();
+                var meFormParams = new Dictionary<String, String>();
+                var meFileParams = new Dictionary<String, String>();
+
+                ApiClient.CallApi(mePath, UnityWebRequest.kHttpVerbGET, meQueryParams, null, meHeaderParams, meFormParams, meFileParams, authSettings)
+                    .Then(meResponse => {
+                        var meRaw = meResponse.downloadHandler.text;
+                        Debug.Log("[SIMVA] GetCompletion /users/me response: " + meRaw);
+                        var meJson = Newtonsoft.Json.Linq.JObject.Parse(meRaw);
+                        var userId = meJson["id"]?.ToString();
+                        Debug.Log("[SIMVA] GetCompletion extracted userId: " + userId);
+
+                        // Now call the completion endpoint
+                        ApiClient.CallApi(path, UnityWebRequest.kHttpVerbGET, queryParams, postBody, headerParams, formParams, fileParams, authSettings)
+                            .Then(completionResponse => {
+                                var rawJson = completionResponse.downloadHandler.text;
+                                Debug.Log("[SIMVA] GetCompletion response JSON: " + rawJson);
+                                var data = new Dictionary<string, bool>();
+                                var obj = Newtonsoft.Json.Linq.JObject.Parse(rawJson);
+                                data[users] = obj[userId]?.ToObject<bool>() ?? false;
+                                result.SetResult(data);
+                            })
+                            .Catch(error => {
+                                var apiEx = (ApiException)error;
+                                Debug.LogWarning("[SIMVA] GetCompletion failed: " + apiEx.Message);
+                                result.SetException(new ApiException(apiEx.ErrorCode, "Error calling GetCompletion: " + apiEx.Message, apiEx.ErrorContent));
+                            });
+                    })
+                    .Catch(error => {
+                        var apiEx = (ApiException)error;
+                        Debug.LogWarning("[SIMVA] GetMe failed: " + apiEx.Message);
+                        result.SetException(new ApiException(apiEx.ErrorCode, "Error calling GetMe: " + apiEx.Message, apiEx.ErrorContent));
+                    });
+            }
+            else
+            {
+                ApiClient.CallApi(path, UnityWebRequest.kHttpVerbGET, queryParams, postBody, headerParams, formParams, fileParams, authSettings)
+                    .Then(webRequest => {
+                        var uniWebRequest = (UnityWebRequest)webRequest;
+                        var headers = uniWebRequest.GetResponseHeaders().Select(kv => string.Format("{0}={1}", kv.Key, kv.Value)).ToList();
+                        var rawJson = webRequest.downloadHandler.text;
+                        Debug.Log("[SIMVA] GetCompletion response JSON: " + rawJson);
+                        var data = (Dictionary<string, bool>)ApiClient.Deserialize(rawJson, typeof(Dictionary<string, bool>), headers);
+                        result.SetResult(data);
+                    })
+                    .Catch(error => {
+                        var apiEx = (ApiException)error;
+                        Debug.LogWarning("[SIMVA] GetCompletion failed: " + apiEx.Message);
+                        result.SetException(new ApiException(apiEx.ErrorCode, "Error calling GetCompletion: " + apiEx.Message, apiEx.ErrorContent));
+                    });
+            }
     
             return result;
         }
@@ -551,6 +583,7 @@ namespace Simva.Api
             ApiClient.CallApi(path, UnityWebRequest.kHttpVerbGET, queryParams, postBody, headerParams, formParams, fileParams, authSettings)
                 .Then(webRequest => {
                     var uniWebRequest = (UnityWebRequest)webRequest;
+                    Debug.Log("[SIMVA] GetSchedule response JSON: " + webRequest.downloadHandler.text);
                     var headers = uniWebRequest.GetResponseHeaders().Select(kv => string.Format("{0}={1}", kv.Key, kv.Value)).ToList();
                     var data = (Schedule)ApiClient.Deserialize(webRequest.downloadHandler.text, typeof(Schedule), headers);
                     result.SetResult(data);
@@ -615,7 +648,7 @@ namespace Simva.Api
         {
 
             // verify the required parameter 'id' is set
-            if (id == null) throw new ApiException(400, "Missing required parameter 'id' when calling SetCompletion");
+            if (string.IsNullOrEmpty(id)) throw new ApiException(400, "Missing required parameter 'id' when calling SetCompletion");
 
 
             var path = "/activities/{id}/completion";

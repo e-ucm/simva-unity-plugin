@@ -51,6 +51,13 @@ namespace Simva.Model {
     [JsonProperty(PropertyName = "studyName")]
     public string StudyName { get; set; }
 
+    /// <summary>
+    /// Activity IDs that can be replayed before advancing to the next activity
+    /// </summary>
+    [DataMember(Name = "replayableActivities", EmitDefaultValue = false)]
+    [JsonProperty(PropertyName = "replayableActivities")]
+    public List<string> ReplayableActivities { get; set; }
+
 
     /// <summary>
     /// Get the string presentation of the object

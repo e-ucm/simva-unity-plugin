@@ -17,6 +17,8 @@ namespace Simva
     public class SimvaManager : MonoBehaviour
     {
         private static SimvaManager instance;
+        private bool replayableProcessed;
+        private string replayableActivityId;
 
         public static SimvaManager Instance 
         { 
@@ -41,7 +43,15 @@ namespace Simva
 
         public bool Finalized { get; protected set; }
 
-        public Schedule Schedule { get; set; }
+        private Schedule schedule;
+        public Schedule Schedule
+        {
+            get => schedule;
+            set
+            {
+                schedule = value;
+            }
+        }
 
         public SimvaApi<IStudentsApi> API { get; set; }
 
@@ -57,11 +67,7 @@ namespace Simva
         {
             get
             {
-                if (Schedule != null)
-                {
-                    return Schedule.Next;
-                }
-                return null;
+                return currentActivity?.Id;
             }
         }
 
@@ -114,9 +120,7 @@ namespace Simva
                     })
                     .Then(schedule =>
                     {
-                        var result = new AsyncCompletionSource();
-                        StartCoroutine(AsyncCoroutine(LaunchActivity(schedule.Next), result));
-                        return result;
+                        return LaunchActivityById(schedule.Next);
                     })
                     .Catch(error =>
                     {
@@ -137,9 +141,7 @@ namespace Simva
                 })
                 .Then(schedule =>
                 {
-                    var result = new AsyncCompletionSource();
-                    StartCoroutine(AsyncCoroutine(LaunchActivity(schedule.Next), result));
-                    return result;
+                    return LaunchActivityById(schedule.Next);
                 })
                 .Catch(error =>
                 {
@@ -164,9 +166,7 @@ namespace Simva
                 })
                 .Then(schedule =>
                 {
-                    var result = new AsyncCompletionSource();
-                    StartCoroutine(AsyncCoroutine(LaunchActivity(schedule.Next), result));
-                    return result;
+                    return LaunchActivityById(schedule.Next);
                 })
                 .Catch(error =>
                 {
@@ -187,22 +187,19 @@ namespace Simva
                     this.API.Authorization.RegisterAuthInfoUpdate(OnAuthInfoUpdate);
                     return UpdateSchedule();
                 })
-                .Then(schedule =>
-                {
-                    var result = new AsyncCompletionSource();
-                    StartCoroutine(AsyncCoroutine(LaunchActivity(schedule.Next), result));
-                    return result;
-                })
-                .Catch(error =>
-                {
-                    NotifyLoading(false);
-                    NotifyManagers(error.Message);
-                });
-        }
+                    .Then(schedule =>
+                    {
+                        return LaunchActivityById(schedule.Next);
+                    })
+                    .Catch(error =>
+                    {
+                        NotifyLoading(false);
+                        NotifyManagers(error.Message);
+                    });
+            }
 
 
-
-        public IAsyncOperation<Schedule> UpdateSchedule()
+            public IAsyncOperation<Schedule> UpdateSchedule()
         {
             var result = new AsyncCompletionSource<Schedule>();
 
@@ -258,6 +255,10 @@ namespace Simva
 
         public IAsyncOperation Continue(string activityId, bool completed)
         {
+            if (string.IsNullOrEmpty(activityId))
+            {
+                return UpdateSchedule();
+            }
             NotifyLoading(true);
             return API.Api.SetCompletion(activityId, API.Authorization.Agent.account.name, completed)
                 .Then(() =>
@@ -266,9 +267,7 @@ namespace Simva
                 })
                 .Then(schedule =>
                 {
-                    var result = new AsyncCompletionSource();
-                    StartCoroutine(AsyncCoroutine(LaunchActivity(schedule.Next), result));
-                    return result;
+                    return LaunchActivityById(schedule.Next);
                 })
                 .Finally(() =>
                 {
@@ -283,26 +282,70 @@ namespace Simva
 
         public IAsyncOperation ContinueActivity()
         {
+            if (string.IsNullOrEmpty(CurrentActivityId))
+            {
+                return UpdateSchedule().Then(_ =>
+                {
+                    if (Schedule != null)
+                    {
+                        return LaunchActivityById(Schedule.Next);
+                    }
+                    else
+                    {
+                        var result = new AsyncCompletionSource();
+                        result.SetException(new Exception(SimvaPlugin.Instance.GetName("NoScheduleMsg")));
+                        return result;
+                    }
+                });
+            }
+
             NotifyLoading(true);
             return API.Api.GetCompletion(CurrentActivityId, API.Authorization.Agent.account.name)
                 .Then(result =>
                 {
-                    if (result.TryGetValue(API.Authorization.Agent.account.name, out var completed) && completed)
+                    Schedule.Activities.TryGetValue(CurrentActivityId, out var activity);
+                    if (result.TryGetValue(API.Authorization.Agent.account.name, out var completed) && completed && activity != null)
                     {
+                        NotifyLoading(false);
+                        if (CurrentActivityId == replayableActivityId)
+                        {
+                            replayableProcessed = true;
+                            replayableActivityId = null;
+                            return UpdateSchedule();
+                        }
+                        if (!replayableProcessed && Schedule.ReplayableActivities?.Count > 0)
+                        {
+                            var replayable = Schedule.ReplayableActivities
+                                .FirstOrDefault(id => Schedule.Activities.TryGetValue(id, out var a) && a.Type == "gameplay");
+                            if (replayable != null)
+                            {
+                                Schedule.ReplayableActivities.Remove(replayable);
+                                replayableActivityId = replayable;
+                                var restartRes = new AsyncCompletionSource<Schedule>();
+                                StartCoroutine(AsyncCoroutine(LaunchActivity(replayable), (IAsyncCompletionSource)restartRes));
+                                return restartRes;
+                            }
+                        }
+                        replayableProcessed = true;
                         return UpdateSchedule();
                     }
                     else
                     {
                         NotifyLoading(false);
                         var res = new AsyncCompletionSource<Schedule>();
-                        switch (Schedule.Activities[CurrentActivityId].Type)
+                        if (!Schedule.Activities.TryGetValue(CurrentActivityId, out var act))
+                        {
+                            res.SetException(new Exception(SimvaPlugin.Instance.GetName("NoScheduleMsg")));
+                            return res;
+                        }
+                        switch (act.Type)
                         {
                             case "manual":
                                 res.SetException(new Exception(SimvaPlugin.Instance.GetName("NotCompletedManualMsg")));
                                 break;
                             case "survey":
-                                res.SetException(new Exception(SimvaPlugin.Instance.GetName("NotCompletedSurveyMsg")));
-                                break;
+                                NotifyManagers(SimvaPlugin.Instance.GetName("NotCompletedSurveyMsg"));
+                                return res;
                     default:
                         res.SetException(new Exception(SimvaPlugin.Instance.GetName("NotCompletedMsg")));
                         break;
@@ -312,16 +355,16 @@ namespace Simva
                 })
                 .Then(schedule =>
                 {
-                    var result = new AsyncCompletionSource();
                     if (schedule != null)
                     {
-                        StartCoroutine(AsyncCoroutine(LaunchActivity(schedule.Next), result));
+                        return LaunchActivityById(schedule.Next);
                     }
                     else
                     {
+                        var result = new AsyncCompletionSource();
                         result.SetException(new Exception(SimvaPlugin.Instance.GetName("NoScheduleMsg")));
+                        return result;
                     }
-                    return result;
                 })
                 .Catch(error =>
                 {
@@ -334,6 +377,10 @@ namespace Simva
         public IAsyncOperation SetCompletionAndUpdateSchedule()
         {
             NotifyLoading(true);
+            if (string.IsNullOrEmpty(CurrentActivityId))
+            {
+                return UpdateSchedule();
+            }
             return API.Api.SetCompletion(CurrentActivityId, API.Authorization.Agent.account.name, true)
                 .Then(() =>
                 {
@@ -341,16 +388,16 @@ namespace Simva
                 })
                 .Then(schedule =>
                 {
-                    var result = new AsyncCompletionSource();
                     if (schedule != null)
                     {
-                        StartCoroutine(AsyncCoroutine(LaunchActivity(schedule.Next), result));
+                        return LaunchActivityById(schedule.Next);
                     }
                     else
                     {
+                        var result = new AsyncCompletionSource();
                         result.SetException(new Exception(SimvaPlugin.Instance.GetName("NoScheduleMsg")));
+                        return result;
                     }
-                    return result;
                 })
                 .Catch(error =>
                 {
@@ -362,9 +409,10 @@ namespace Simva
 
         public Activity GetActivity(string activityId)
         {
-            if (Schedule != null)
+            if (Schedule != null && !string.IsNullOrEmpty(activityId))
             {
-                return Schedule.Activities[activityId];
+                Schedule.Activities.TryGetValue(activityId, out var activity);
+                return activity;
             }
             return null;
         }
@@ -379,7 +427,7 @@ namespace Simva
 
         private IEnumerator LaunchActivity(string activityId)
         {
-            if (activityId == null)
+            if (string.IsNullOrEmpty(activityId))
             {
                 Bridge.RunScene("Simva.End");
                 PlayerPrefs.DeleteKey("simva_auth");
@@ -468,47 +516,43 @@ namespace Simva
 
         public void OnApplicationFocus(bool hasFocus)
         {
-            if (CurrentActivityId != null)
+            if (!string.IsNullOrEmpty(CurrentActivityId) && Schedule.Activities.TryGetValue(CurrentActivityId, out var activity) && activity.Details.ScormXapiByGame)
             {
-                if (Schedule.Activities[CurrentActivityId].Details.ScormXapiByGame)
+                SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
+                if (hasFocus)
                 {
-                    SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
-                    if (hasFocus)
-                    {
-                        attemptId = new Guid().ToString();
-                        Debug.Log("Application is in focus.");
-                        ScormTracker.Instance.Resumed(activityUrl).CreateAndAddContextGroupingActivity(
-                                        homePage + "/simlets/" + Schedule.Study,
-                                        Schedule.StudyName,
-                                        "The activity representing the study" + Schedule.StudyName,
-                                        "http://adlnet.gov/expapi/activities/course").CreateAndAddContextGroupingActivity(
-                                        homePage + "/simlets/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
-                                        "Attempt of activity" + currentActivity.Name,
-                                        "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
-                                        "http://adlnet.gov/expapi/activities/attempt");
-                    }
-                    else
-                    {
-                        Debug.Log("Application lost focus.");
-                        ScormTracker.Instance.Suspended(activityUrl).CreateAndAddContextGroupingActivity(
-                                        homePage + "/simlets/" + Schedule.Study,
-                                        Schedule.StudyName,
-                                        "The activity representing the study" + Schedule.StudyName,
-                                        "http://adlnet.gov/expapi/activities/course").CreateAndAddContextGroupingActivity(
-                                        homePage + "/simlets/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
-                                        "Attempt of activity" + currentActivity.Name,
-                                        "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
-                                        "http://adlnet.gov/expapi/activities/attempt");
-                    }
+                    attemptId = new Guid().ToString();
+                    Debug.Log("Application is in focus.");
+                    ScormTracker.Instance.Resumed(activityUrl).CreateAndAddContextGroupingActivity(
+                                    homePage + "/simlets/" + Schedule.Study,
+                                    Schedule.StudyName,
+                                    "The activity representing the study" + Schedule.StudyName,
+                                    "http://adlnet.gov/expapi/activities/course").CreateAndAddContextGroupingActivity(
+                                    homePage + "/simlets/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
+                                    "Attempt of activity" + currentActivity.Name,
+                                    "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
+                                    "http://adlnet.gov/expapi/activities/attempt");
+                }
+                else
+                {
+                    Debug.Log("Application lost focus.");
+                    ScormTracker.Instance.Suspended(activityUrl).CreateAndAddContextGroupingActivity(
+                                    homePage + "/simlets/" + Schedule.Study,
+                                    Schedule.StudyName,
+                                    "The activity representing the study" + Schedule.StudyName,
+                                    "http://adlnet.gov/expapi/activities/course").CreateAndAddContextGroupingActivity(
+                                    homePage + "/simlets/" + Schedule.Study + "/activity/" + currentActivity.Id + "?id=" + attemptId,
+                                    "Attempt of activity" + currentActivity.Name,
+                                    "The activity representing an attempt of activity" + currentActivity.Name + " in study " + Schedule.StudyName,
+                                    "http://adlnet.gov/expapi/activities/attempt");
                 }
             }
-            
         }
 
         public IAsyncOperation OnGameFinished()
         {
             Debug.Log("GamePlay terminated.");
-            if (Schedule.Activities[CurrentActivityId].Details.ScormXapiByGame)
+            if (!string.IsNullOrEmpty(CurrentActivityId) && Schedule.Activities.TryGetValue(CurrentActivityId, out var activity) && activity.Details.ScormXapiByGame)
             {
                 SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
                 ScormTracker.Instance.Terminated(activityUrl).CreateAndAddContextGroupingActivity(
@@ -576,6 +620,46 @@ namespace Simva
 
             var value = propertyInfo.GetValue(details);
             return value is bool v && v;
+        }
+
+        private IAsyncOperation LaunchActivityById(string activityId)
+        {
+            if (string.IsNullOrEmpty(activityId) && !replayableProcessed && Schedule.ReplayableActivities?.Count > 0)
+            {
+                var replayable = Schedule.ReplayableActivities
+                    .FirstOrDefault(id => Schedule.Activities.TryGetValue(id, out var a) && a.Type == "gameplay");
+                if (replayable != null)
+                {
+                    Schedule.ReplayableActivities.Remove(replayable);
+                    replayableProcessed = true;
+                    activityId = replayable;
+                    SimvaPlugin.Instance.Log("[SIMVA] LaunchActivityById used replayable instead of null next: " + activityId);
+                }
+            }
+
+            if (string.IsNullOrEmpty(activityId))
+            {
+                SimvaPlugin.Instance.Log("[SIMVA] LaunchActivityById no valid activity to launch");
+                var errResult = new AsyncCompletionSource();
+                errResult.SetException(new Exception(SimvaPlugin.Instance.GetName("NoScheduleMsg")));
+                return errResult;
+            }
+
+            if (Schedule.Activities.TryGetValue(activityId, out var activity) &&
+                activity.Type == "gameplay" &&
+                activity.Details != null &&
+                activity.Details.ActivityCanBeRestarted)
+            {
+                SimvaPlugin.Instance.Log("[SIMVA] LaunchActivityById saving replayableActivityId: " + activityId + " (ActivityCanBeRestarted=true, gameplay)");
+                replayableActivityId = activityId;
+            }
+            else
+            {
+                SimvaPlugin.Instance.Log("[SIMVA] LaunchActivityById NOT saving replayable (" + activityId + "): type=" + (activity?.Type ?? "null") + ", canRestart=" + (activity?.Details?.ActivityCanBeRestarted ?? false));
+            }
+            var launchResult = new AsyncCompletionSource();
+            StartCoroutine(AsyncCoroutine(LaunchActivity(activityId), launchResult));
+            return launchResult;
         }
 
         internal IEnumerator AsyncCoroutine(IEnumerator coroutine, IAsyncCompletionSource op)
