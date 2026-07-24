@@ -639,10 +639,13 @@ namespace Simva
 
             if (string.IsNullOrEmpty(activityId))
             {
-                SimvaPlugin.Instance.Log("[SIMVA] LaunchActivityById no valid activity to launch");
-                var errResult = new AsyncCompletionSource();
-                errResult.SetException(new Exception(SimvaPlugin.Instance.GetName("NoScheduleMsg")));
-                return errResult;
+                SimvaPlugin.Instance.Log("[SIMVA] LaunchActivityById — no next activity, showing End scene");
+                Bridge.RunScene("Simva.End");
+                PlayerPrefs.DeleteKey("simva_auth");
+                Schedule = null;
+                var result = new AsyncCompletionSource();
+                result.SetCompleted();
+                return result;
             }
 
             if (Schedule.Activities.TryGetValue(activityId, out var activity) &&
