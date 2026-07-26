@@ -56,6 +56,19 @@ namespace Simva
         /// <value>The authorization path</value>
         public OAuth2Protocol Authorization { get; private set; }
 
+        private IHttpRequestHandler requestHandler;
+        public IHttpRequestHandler RequestHandler
+        {
+            get
+            {
+                if (requestHandler == null)
+                {
+                    requestHandler = SimvaPlugin.Instance?.RequestHandler ?? new UnityRequestHandler();
+                }
+                return requestHandler;
+            }
+        }
+
         public IAsyncOperation InitOAuth(string clientId, string clientSecret = null,
             string realm = null, string appName = null, string scopeSeparator = ":", bool usePKCE = false,
             Dictionary<string, string> aditionalQueryStringParams = null , bool scope_offline = false, string homepage=null)
@@ -84,7 +97,7 @@ namespace Simva
                 { "client_id", clientId },
                 { "code_challenge_method", "S256" },
                 { "scope", string.Join(scopeSeparator, scopes) }
-            }, SimvaPlugin.Instance.RequestHandler, null);
+            }, RequestHandler, null);
 
             authorization.ContinueWith(t =>
             {
@@ -136,7 +149,7 @@ namespace Simva
             if(!string.IsNullOrEmpty(homepage)) {
                 dict.Add("homepage", homepage);
             }
-            var authorization = AuthFactory.InitAuth("oauth2", dict, SimvaPlugin.Instance.RequestHandler, null);
+            var authorization = AuthFactory.InitAuth("oauth2", dict, RequestHandler, null);
             authorization.ContinueWith(t =>
             {
                 if (t.IsFaulted)
@@ -173,7 +186,7 @@ namespace Simva
             }
 			try
 			{
-                var authorization = AuthFactory.InitAuth("oauth2", dict, SimvaPlugin.Instance.RequestHandler, null);
+                var authorization = AuthFactory.InitAuth("oauth2", dict, RequestHandler, null);
 
                 authorization.ContinueWith(t =>
                 {

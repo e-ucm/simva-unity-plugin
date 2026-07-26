@@ -15,6 +15,7 @@ namespace Simva
         }
         void FillName()
         {
+            if (SimvaPlugin.Instance == null) return;
             var name = SimvaPlugin.Instance.GetName(languageKey);
             if (name == null)
             {

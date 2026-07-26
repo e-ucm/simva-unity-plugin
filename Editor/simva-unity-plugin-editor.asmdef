@@ -1,9 +1,9 @@
 {
     "name": "simva-unity-plugin-editor",
     "references": [
-        "GUID:478a2357cc57436488a56e564b08d223",
-        "GUID:9306cfd555be57946b7a89e8f2d873e3",
-        "GUID:08e346b04c3ec374b8a3849fcc6b467c"
+        "GUID:6f9c8a74c36eeb54e983c80f2d427ae3",
+        "GUID:500f88a29034f3742ba0b7cc77c92b21",
+        "GUID:478a2357cc57436488a56e564b08d223"
     ],
     "includePlatforms": [
         "Editor"

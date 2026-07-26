@@ -18,7 +18,24 @@ namespace Simva
     public class SimvaPlugin : MonoBehaviour, ISimvaBridge
     {
         public const string SIMVA_DISCLAIMER_ACCEPTED = "simva_disclaimer_accepted";
-        public static SimvaPlugin Instance { get; private set; }
+        private static SimvaPlugin instance;
+        public static SimvaPlugin Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<SimvaPlugin>();
+                    if (instance == null)
+                    {
+                        instance = new GameObject("SimvaPlugin").AddComponent<SimvaPlugin>();
+                    }
+                    DontDestroyOnLoad(instance.gameObject);
+                }
+                return instance;
+            }
+            private set { instance = value; }
+        }
         public bool SaveAuthUntilCompleted = true;
         public bool ShowLoginOnStartup = true;
         public bool RunGameIfSimvaIsNotConfigured = true;
@@ -48,8 +65,8 @@ namespace Simva
 
         void Awake()
         {
-            Instance = this;
-            DontDestroyOnLoad(Instance.gameObject);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
 

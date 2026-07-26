@@ -1,8 +1,8 @@
 {
     "name": "simva-unity-plugin",
     "references": [
-        "GUID:64ffea4da2c3cc4429bde50a331b07c5",
-        "GUID:08e346b04c3ec374b8a3849fcc6b467c",
+        "GUID:23e01ff9264b44f4cbe305b7d645c5c9",
+        "GUID:500f88a29034f3742ba0b7cc77c92b21",
         "GUID:2ace7ebb826df10459d12b4f3c4a9407"
     ],
     "includePlatforms": [],
