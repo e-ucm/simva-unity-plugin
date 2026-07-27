@@ -22,7 +22,6 @@ namespace Simva.Model
                 {
                     TraceStorage =  obj["activity_trace_storage"]?.Value<bool>() ?? false,
                     Backup = obj["game_backup"]?.Value<bool>() ?? false,
-                    ScormXapiByGame = obj["game_scorm_xapi"]?.Value<bool>() ?? false,
                     Uri = obj["game_url"]?.ToString(),
                     ActivityCanBeRestarted = obj["activity_can_be_restarted"]?.Value<bool>() ?? false
                 };
@@ -61,7 +60,6 @@ namespace Simva.Model
                 {
                     if(value.Details.TraceStorage) obj["activity_trace_storage"] = true;
                     if(value.Details.Backup) obj["game_backup"] = true;
-                    if (value.Details.ScormXapiByGame) obj["game_scorm_xapi"] = true;
                     if (!string.IsNullOrEmpty(value.Details.Uri)) obj["game_url"] = value.Details.Uri;
                     if (value.Details.ActivityCanBeRestarted) obj["activity_can_be_restarted"] = true;
                 }

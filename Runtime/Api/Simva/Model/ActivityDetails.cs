@@ -39,14 +39,6 @@ namespace Simva.Model {
     [DataMember(Name = "trace_storage", EmitDefaultValue = false)]
     [JsonProperty(PropertyName = "trace_storage")]
     public bool TraceStorage { get; set; }
-    
-    
-    /// <summary>
-    /// Gets or Sets Type
-    /// </summary>
-    [DataMember(Name = "scorm_xapi_by_game", EmitDefaultValue = false)]
-    [JsonProperty(PropertyName = "scorm_xapi_by_game")]
-    public bool ScormXapiByGame { get; set; }
 
     /// <summary>
     /// Gets or Sets whether the activity can be restarted

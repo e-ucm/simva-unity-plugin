@@ -48,6 +48,7 @@ namespace Simva
         public string StartScene;
         public string GamePlayScene;
         public bool SaveDisclaimerAccepted=false;
+        public bool BasicScormXAPIDataManagementByGame = false;
         public bool EnableDebugLogging = false;
         private SimvaSceneController previousController;
         private LanguageSelectorController languageSelector;

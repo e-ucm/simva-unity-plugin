@@ -491,7 +491,7 @@ namespace Simva
                                 activityUrl=xasuTrackerConfig.HomePage + "/simlet/" + Schedule.Study + "/activity/" + activityId;
                                 Bridge.StartTracker(xasuTrackerConfig, API.Authorization, API.Authorization)
                                     .Then(() => trackerStarted = true);
-                                if (activity.Details.ScormXapiByGame) {
+                                if (SimvaPlugin.Instance.BasicScormXAPIDataManagementByGame) {
                                     attemptId = new Guid().ToString();
                                     ScormTracker.Instance.Initialized(activityUrl).CreateAndAddContextGroupingActivity(
                                         xasuTrackerConfig.HomePage + "/simlets/" + Schedule.Study,
@@ -516,7 +516,7 @@ namespace Simva
 
         public void OnApplicationFocus(bool hasFocus)
         {
-            if (!string.IsNullOrEmpty(CurrentActivityId) && Schedule.Activities.TryGetValue(CurrentActivityId, out var activity) && activity.Details.ScormXapiByGame)
+            if (!string.IsNullOrEmpty(CurrentActivityId) && Schedule.Activities.TryGetValue(CurrentActivityId, out var activity) && SimvaPlugin.Instance.BasicScormXAPIDataManagementByGame)
             {
                 SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
                 if (hasFocus)
@@ -552,7 +552,7 @@ namespace Simva
         public IAsyncOperation OnGameFinished()
         {
             Debug.Log("GamePlay terminated.");
-            if (!string.IsNullOrEmpty(CurrentActivityId) && Schedule.Activities.TryGetValue(CurrentActivityId, out var activity) && activity.Details.ScormXapiByGame)
+            if (!string.IsNullOrEmpty(CurrentActivityId) && Schedule.Activities.TryGetValue(CurrentActivityId, out var activity) && SimvaPlugin.Instance.BasicScormXAPIDataManagementByGame)
             {
                 SimvaPlugin.Instance.Log("[SIMVA] " + activityUrl);
                 ScormTracker.Instance.Terminated(activityUrl).CreateAndAddContextGroupingActivity(
