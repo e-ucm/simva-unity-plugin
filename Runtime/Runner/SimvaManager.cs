@@ -147,8 +147,8 @@ namespace Simva
                 {
                     NotifyLoading(false);
                     var msg = SimvaPlugin.Instance.GetName("InvalidLoginMsg");
+                    SimvaPlugin.Instance.LogError(msg + ": " + error.ToString());
                     NotifyManagers(msg);
-                    SimvaPlugin.Instance.LogError(msg);
                 });
         }
 
@@ -172,8 +172,8 @@ namespace Simva
                 {
                     NotifyLoading(false);
                     var msg = SimvaPlugin.Instance.GetName("InvalidLoginMsg");
+                    SimvaPlugin.Instance.LogError(msg + ": " + error.ToString());
                     NotifyManagers(msg);
-                    SimvaPlugin.Instance.LogError(msg);
                 });
         }
 

@@ -240,7 +240,7 @@ namespace Simva.Api
                         var meRaw = meResponse.downloadHandler.text;
                         Debug.Log("[SIMVA] GetCompletion /users/me response: " + meRaw);
                         var meJson = Newtonsoft.Json.Linq.JObject.Parse(meRaw);
-                        var userId = meJson["id"]?.ToString();
+                        var userId = meJson["user_id"]?.ToString();
                         Debug.Log("[SIMVA] GetCompletion extracted userId: " + userId);
 
                         // Now call the completion endpoint

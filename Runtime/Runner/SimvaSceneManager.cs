@@ -15,6 +15,7 @@ namespace Simva
                 case "Simva.Language":
                     form = GameObject.Instantiate(Resources.Load<GameObject>("SimvaLanguage"));
                     break;
+                case "Simva.Login.Demo":
                 case "Simva.Login":
                     form = GameObject.Instantiate(Resources.Load<GameObject>("SimvaLogin"));
                     break;
@@ -45,6 +46,11 @@ namespace Simva
 
             // Load the new scene additively
             AsyncOperation loadOp = SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
+            if (loadOp == null)
+            {
+                Debug.LogError($"Scene '{name}' could not be loaded. Ensure it is added to Build Settings.");
+                yield break;
+            }
             yield return new WaitUntil(() => loadOp.isDone);
 
             // Set the newly loaded scene as active
