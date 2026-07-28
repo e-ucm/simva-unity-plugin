@@ -231,7 +231,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224498056981172502}
-  - component: {fileID: 5231692510774662759}
+  - component: {fileID: 6726338030948833734}
   m_Layer: 5
   m_Name: LoadingManager
   m_TagString: Untagged
@@ -260,7 +260,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -27.2}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5231692510774662759
+--- !u!114 &6726338030948833734
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1137494892783728}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68aadb0b8ac86e4478c01eb00ff377f1, type: 3}
+  m_Script: {fileID: 11500000, guid: c804a47e44044564cbdbaa650c38e2a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Loading: {fileID: 1915394580998662}
@@ -401,7 +401,7 @@ GameObject:
   - component: {fileID: 224409489966010194}
   - component: {fileID: 222589611993443982}
   - component: {fileID: 114661738368877652}
-  - component: {fileID: 114913261617510882}
+  - component: {fileID: 8887564791099431759}
   m_Layer: 5
   m_Name: ResponseText
   m_TagString: Untagged
@@ -470,7 +470,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
---- !u!114 &114913261617510882
+--- !u!114 &8887564791099431759
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -479,7 +479,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1310977194042612}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f3af5fbd5220d24e9d187cb77041055, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f0345adb3994f347ad5d0c792b754d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Response: {fileID: 114661738368877652}
@@ -604,7 +604,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5920813848899172622}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Simva.SurveyController, simva-unity-plugin
         m_MethodName: Back
         m_Mode: 1
@@ -737,7 +737,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5920813848899172622}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: OpenSurvey
         m_Mode: 1
@@ -761,7 +761,7 @@ GameObject:
   - component: {fileID: 223878951080438798}
   - component: {fileID: 114293266653176236}
   - component: {fileID: 114244203685167288}
-  - component: {fileID: 5920813848899172622}
+  - component: {fileID: 6448282965874490954}
   m_Layer: 5
   m_Name: SimvaSurvey
   m_TagString: Untagged
@@ -854,7 +854,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5920813848899172622
+--- !u!114 &6448282965874490954
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1674,7 +1674,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5920813848899172622}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Simva.SurveyController, simva-unity-plugin
         m_MethodName: CheckSurvey
         m_Mode: 1
@@ -1938,8 +1938,8 @@ GameObject:
   - component: {fileID: 4273724914403595412}
   - component: {fileID: 2170932418368900905}
   - component: {fileID: 999194976594053202}
-  - component: {fileID: 1304097817802729507}
   - component: {fileID: 3258715450758801516}
+  - component: {fileID: 7491230203438809968}
   m_Layer: 5
   m_Name: HiddenShare
   m_TagString: Untagged
@@ -2018,7 +2018,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1304097817802729507}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: Share
         m_Mode: 1
@@ -2045,18 +2045,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
---- !u!114 &1304097817802729507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8595136891868598527}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4691084e8829c684f98492c7010a77b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3258715450758801516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2087,3 +2075,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7491230203438809968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8595136891868598527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 097ab1a48a489f844be5f9c67df1304a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
