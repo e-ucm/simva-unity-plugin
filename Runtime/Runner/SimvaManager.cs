@@ -754,7 +754,7 @@ namespace Simva
             {
                 try
                 {
-                    ((Action<string>)d)(message);
+                    ((ResponseDelegate)d)(message);
                 }
                 catch (Exception ex)
                 {
@@ -774,7 +774,7 @@ namespace Simva
             {
                 try
                 {
-                    ((Action<bool>)d)(state);
+                    ((LoadingDelegate)d)(state);
                 }
                 catch (Exception ex)
                 {
