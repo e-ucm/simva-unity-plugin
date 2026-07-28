@@ -175,6 +175,8 @@ MonoBehaviour:
   back: {fileID: 7701439342122408443}
   adviceDemo: {fileID: 3507395793834817277}
   token: {fileID: 2768850628478712478}
+  password: {fileID: 0}
+  credentialFields: {fileID: 0}
 --- !u!1 &144246912846162063
 GameObject:
   m_ObjectHideFlags: 0

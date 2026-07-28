@@ -745,12 +745,42 @@ namespace Simva
 
         public void NotifyManagers(string message)
         {
-            responseListeners?.Invoke(message);
+            if (responseListeners == null)
+            {
+                Debug.LogError("[Simva] No response listeners — error: " + message);
+                return;
+            }
+            foreach (var d in responseListeners.GetInvocationList())
+            {
+                try
+                {
+                    ((Action<string>)d)(message);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError("[Simva] Response delegate error: " + ex.Message);
+                }
+            }
         }
 
         public void NotifyLoading(bool state)
         {
-            loadingListeners?.Invoke(state);
+            if (loadingListeners == null)
+            {
+                Debug.LogError("[Simva] No loading listeners — state: " + state);
+                return;
+            }
+            foreach (var d in loadingListeners.GetInvocationList())
+            {
+                try
+                {
+                    ((Action<bool>)d)(state);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError("[Simva] Loading delegate error: " + ex.Message);
+                }
+            }
         }
 
         #endregion
