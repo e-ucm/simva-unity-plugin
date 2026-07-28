@@ -177,6 +177,31 @@ namespace Simva
                 });
         }
 
+        public IAsyncOperation LoginAndSchedule(string username, string password)
+        {
+            NotifyLoading(true);
+            return SimvaApi<IStudentsApi>.LoginWithCredentials(username, password)
+                .Then(simvaController =>
+                {
+                    this.API = simvaController;
+                    this.API.Authorization.RegisterAuthInfoUpdate(OnAuthInfoUpdate);
+                    PlayerPrefs.SetString("simva_auth", JsonConvert.SerializeObject(auth));
+                    PlayerPrefs.Save();
+                    return UpdateSchedule();
+                })
+                .Then(schedule =>
+                {
+                    return LaunchActivityById(schedule.Next);
+                })
+                .Catch(error =>
+                {
+                    NotifyLoading(false);
+                    var msg = SimvaPlugin.Instance.GetName("InvalidLoginMsg");
+                    SimvaPlugin.Instance.LogError(msg + ": " + error.ToString());
+                    NotifyManagers(msg);
+                });
+        }
+
         public IAsyncOperation ContinueLoginAndSchedule()
         {
             NotifyLoading(true);

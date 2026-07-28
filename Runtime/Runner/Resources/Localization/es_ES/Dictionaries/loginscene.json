@@ -8,7 +8,13 @@
     "TokenInputPlaceHolder":"Introduce tu clave",
     "ConnectButton": "Lanzar",
     "BackButton": "Volver",
+    "EmptyPasswordMsg": "Introduzca una contraseña",
+    "EmptyUsernameMsg": "Introduzca un usuario",
     "EmptyLoginMsg": "Introduzca una clave por favor",
     "InvalidLoginMsg": "Error al iniciar sesión con este token",
-    "DemoButton": "Demo"
+    "DemoButton": "Demo",
+    "PasswordLabel": "Contraseña:",
+    "PasswordPlaceholder": "Introduce tu contraseña",
+    "UsernameLabel": "Usuario:",
+    "UsernamePlaceholder": "Introduce tu usuario"
 }

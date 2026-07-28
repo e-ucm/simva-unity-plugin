@@ -149,18 +149,25 @@ namespace Simva
             if(!string.IsNullOrEmpty(homepage)) {
                 dict.Add("homepage", homepage);
             }
-            var authorization = AuthFactory.InitAuth("oauth2", dict, RequestHandler, null);
-            authorization.ContinueWith(t =>
-            {
-                if (t.IsFaulted)
+			try
+			{
+                var authorization = AuthFactory.InitAuth("oauth2", dict, RequestHandler, null);
+                authorization.ContinueWith(t =>
                 {
-                    done.SetException(t.Exception);
-                    return;
-                }
+                    if (t.IsFaulted)
+                    {
+                        done.SetException(t.Exception);
+                        return;
+                    }
 
-                Authorization = (OAuth2Protocol)t.Result;
-                done.SetCompleted();
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+                    Authorization = (OAuth2Protocol)t.Result;
+                    done.SetCompleted();
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+			}
+			catch(System.Exception ex)
+			{
+				done.SetException(ex);
+			}
 
 			return done;
 		}

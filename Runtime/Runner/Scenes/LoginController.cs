@@ -20,6 +20,10 @@ namespace Simva
 
         public InputField token;
 
+        public InputField password;
+        public GameObject credentialFields;
+        private bool credentialsMode;
+
         public bool DisclaimerAccepted 
         { 
             get 
@@ -56,22 +60,76 @@ namespace Simva
             gameObject.SetActive(active);
         }
 
+        public void ToggleCredentialsMode()
+        {
+            credentialsMode = !credentialsMode;
+            UpdateTokenLabels(credentialsMode);
+            SetupCredentialFields();
+            if (credentialFields != null)
+            {
+                credentialFields.SetActive(credentialsMode);
+            }
+        }
+
+        private void UpdateTokenLabels(bool isCredentials)
+        {
+            if (login == null) return;
+            var tokenLabelObj = login.transform.Find("TokenText");
+            if (tokenLabelObj != null)
+            {
+                var tokenLabel = tokenLabelObj.GetComponent<Text>();
+                var tokenLabelRt = tokenLabelObj.GetComponent<RectTransform>();
+                if (tokenLabel != null && tokenLabelRt != null)
+                {
+                    tokenLabel.text = isCredentials ? SimvaPlugin.Instance.GetName("UsernameLabel") : SimvaPlugin.Instance.GetName("TokenText");
+                    if (isCredentials)
+                    {
+                        var settings = tokenLabel.GetGenerationSettings(Vector2.zero);
+                        float prefWidth = tokenLabel.cachedTextGeneratorForLayout.GetPreferredWidth(tokenLabel.text, settings);
+                        tokenLabelRt.sizeDelta = new Vector2(prefWidth + 10f, 58.6f);
+                    }
+                    else
+                    {
+                        tokenLabelRt.sizeDelta = new Vector2(106.8f, 58.6f);
+                    }
+                }
+            }
+            if (token != null && token.placeholder != null)
+            {
+                var ph = token.placeholder as Text;
+                if (ph != null)
+                {
+                    ph.text = isCredentials ? SimvaPlugin.Instance.GetName("UsernamePlaceholder") : SimvaPlugin.Instance.GetName("TokenInputPlaceHolder");
+                }
+            }
+        }
+
         public void Login()
         {
             var simvaExtension = SimvaManager.Instance;
-            if (token == null || string.IsNullOrEmpty(token.text))
+            if (credentialsMode)
             {
-                simvaExtension.NotifyManagers(SimvaPlugin.Instance.GetName("EmptyLoginMsg"));
+                if (token == null || string.IsNullOrEmpty(token.text))
+                {
+                    simvaExtension.NotifyManagers(SimvaPlugin.Instance.GetName("EmptyUsernameMsg"));
+                    return;
+                }
+                if (password == null || string.IsNullOrEmpty(password.text))
+                {
+                    simvaExtension.NotifyManagers(SimvaPlugin.Instance.GetName("EmptyPasswordMsg"));
+                    return;
+                }
+                simvaExtension.LoginAndSchedule(token.text, password.text);
                 return;
-            }
-
-            if(token.text.ToLower() == "demo")
-            {
+            } else if(SimvaPlugin.Instance.EnableLoginDemoButton && token.text.ToLower() == "demo") {
                 Demo();
-            }
-            else
-            {
-                simvaExtension.LoginAndSchedule(token.text);
+            } else {
+                if (token == null || string.IsNullOrEmpty(token.text)) {
+                    simvaExtension.NotifyManagers(SimvaPlugin.Instance.GetName("EmptyUsernameMsg"));
+                    return;
+                } else {
+                    simvaExtension.LoginAndSchedule(token.text);
+                }
             }
         }
 
@@ -95,6 +153,150 @@ namespace Simva
             SimvaManager.Instance.Demo();
         }
 
+        public void SetupCredentialFields()
+        {
+            if (credentialFields != null && password != null) return;
+
+            if (password == null)
+            {
+                var loginPanel = login ?? gameObject;
+                credentialFields = new GameObject("CredentialFields");
+                credentialFields.transform.SetParent(loginPanel.transform, false);
+
+                var fieldsRt = credentialFields.AddComponent<RectTransform>();
+                fieldsRt.anchorMin = Vector2.zero;
+                fieldsRt.anchorMax = Vector2.one;
+                fieldsRt.offsetMin = Vector2.zero;
+                fieldsRt.offsetMax = Vector2.zero;
+
+                var passLabel = new GameObject("PasswordLabel");
+                passLabel.transform.SetParent(credentialFields.transform, false);
+                var labelRt = passLabel.AddComponent<RectTransform>();
+                labelRt.anchorMin = new Vector2(0.5f, 0.5f);
+                labelRt.anchorMax = new Vector2(0.5f, 0.5f);
+                labelRt.anchoredPosition = new Vector2(-132.4f, -83f);
+                labelRt.sizeDelta = new Vector2(140f, 58.6f);
+                var labelText = passLabel.AddComponent<Text>();
+                var tokenLabel = loginPanel.transform.Find("TokenText")?.GetComponent<Text>();
+                if (tokenLabel != null)
+                {
+                    labelText.font = tokenLabel.font;
+                    labelText.fontSize = tokenLabel.fontSize;
+                    labelText.fontStyle = tokenLabel.fontStyle;
+                    labelText.color = tokenLabel.color;
+                    labelText.lineSpacing = tokenLabel.lineSpacing;
+                }
+                else if (token != null && token.textComponent != null)
+                {
+                    labelText.font = token.textComponent.font;
+                    labelText.fontSize = token.textComponent.fontSize;
+                }
+                else
+                {
+                    labelText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+                    labelText.fontSize = 26;
+                }
+                labelText.alignment = TextAnchor.MiddleLeft;
+                labelText.text = SimvaPlugin.Instance.GetName("PasswordLabel");
+                var labelSettings = labelText.GetGenerationSettings(Vector2.zero);
+                float labelPrefWidth = labelText.cachedTextGeneratorForLayout.GetPreferredWidth(labelText.text, labelSettings);
+                labelRt.sizeDelta = new Vector2(labelPrefWidth + 10f, 58.6f);
+
+                var passInput = new GameObject("PasswordInput");
+                passInput.transform.SetParent(credentialFields.transform, false);
+                var inputRt = passInput.AddComponent<RectTransform>();
+                inputRt.anchorMin = new Vector2(0.5f, 0.5f);
+                inputRt.anchorMax = new Vector2(0.5f, 0.5f);
+                inputRt.anchoredPosition = new Vector2(55.5f, -83f);
+                inputRt.sizeDelta = new Vector2(274f, 51.4f);
+
+                var bgImage = passInput.AddComponent<Image>();
+                bgImage.type = Image.Type.Sliced;
+                if (token != null)
+                {
+                    var tokenBg = token.GetComponent<Image>();
+                    if (tokenBg != null)
+                    {
+                        bgImage.sprite = tokenBg.sprite;
+                        bgImage.color = tokenBg.color;
+                    }
+                }
+
+                var passInputField = passInput.AddComponent<InputField>();
+                passInputField.contentType = InputField.ContentType.Password;
+
+                var placeholder = new GameObject("Placeholder");
+                placeholder.transform.SetParent(passInput.transform, false);
+                var phRt = placeholder.AddComponent<RectTransform>();
+                phRt.anchorMin = new Vector2(0, 0);
+                phRt.anchorMax = new Vector2(1, 1);
+                phRt.offsetMin = new Vector2(10, 0);
+                phRt.offsetMax = new Vector2(-10, 0);
+                var phText = placeholder.AddComponent<Text>();
+                phText.font = labelText.font;
+                phText.fontSize = 18;
+                phText.fontStyle = FontStyle.Italic;
+                phText.color = new Color(0.196f, 0.196f, 0.196f, 0.5f);
+                phText.alignment = TextAnchor.MiddleLeft;
+                phText.text = SimvaPlugin.Instance.GetName("PasswordPlaceholder");
+
+                var textComp = new GameObject("Text");
+                textComp.transform.SetParent(passInput.transform, false);
+                var tRt = textComp.AddComponent<RectTransform>();
+                tRt.anchorMin = new Vector2(0, 0);
+                tRt.anchorMax = new Vector2(1, 1);
+                tRt.offsetMin = new Vector2(10, 0);
+                tRt.offsetMax = new Vector2(-10, 0);
+                var txt = textComp.AddComponent<Text>();
+                txt.font = labelText.font;
+                txt.fontSize = labelText.fontSize;
+                txt.color = new Color(0.196f, 0.196f, 0.196f, 1f);
+                txt.alignment = TextAnchor.MiddleLeft;
+                txt.supportRichText = false;
+
+                passInputField.textComponent = txt;
+                passInputField.placeholder = phText;
+
+                password = passInputField;
+            }
+
+            credentialFields.SetActive(credentialsMode);
+        }
+
+        public void SetupHiddenToggleButton()
+        {
+            var existing = transform.Find("CredentialToggleBtn");
+            if (existing != null) return;
+
+            var simvaTitle = transform.Find("Title/SimvaTitle");
+            if (simvaTitle == null) return;
+            var simvaRt = simvaTitle.GetComponent<RectTransform>();
+
+            var btnGo = new GameObject("CredentialToggleBtn");
+            btnGo.transform.SetParent(transform, false);
+            btnGo.transform.SetAsLastSibling();
+
+            var rt = btnGo.AddComponent<RectTransform>();
+            rt.anchorMin = new Vector2(0.5f, 0.5f);
+            rt.anchorMax = new Vector2(0.5f, 0.5f);
+            float dotX = simvaRt.anchoredPosition.x - 45f;
+            float dotY = simvaRt.anchoredPosition.y + simvaRt.rect.height * 0.4f;
+            rt.anchoredPosition = new Vector2(dotX, dotY);
+            rt.sizeDelta = new Vector2(60, 60);
+
+            var img = btnGo.AddComponent<Image>();
+            img.color = new Color(1, 1, 1, 0);
+            img.raycastTarget = true;
+
+            var btn = btnGo.AddComponent<Button>();
+            btn.targetGraphic = img;
+            btn.transition = Selectable.Transition.None;
+            var nav = new Navigation();
+            nav.mode = Navigation.Mode.None;
+            btn.navigation = nav;
+            btn.onClick.AddListener(ToggleCredentialsMode);
+        }
+
         public override void Destroy()
         {
             GameObject.DestroyImmediate(this.gameObject);
@@ -113,6 +315,11 @@ namespace Simva
             var backgroundSprite = Game.Instance.ResourceManager.getSprite();
             background.sprite = Game.Instance.ResourceManager.getSprite()*/
             Ready = true;
+            SetupHiddenToggleButton();
+            if (credentialsMode)
+            {
+                SetupCredentialFields();
+            }
             if(SimvaPlugin.Instance.EnableLoginDemoButton) {
                 if(adviceDemo) {
                     adviceDemo.SetActive(true);

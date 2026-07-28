@@ -8,7 +8,13 @@
     "TokenInputPlaceHolder":"Introduce your token",
     "ConnectButton": "Start",
     "BackButton": "Back",
+    "EmptyPasswordMsg": "Please enter a password",
+    "EmptyUsernameMsg": "Please enter a username",
     "EmptyLoginMsg": "Please insert a token",
     "InvalidLoginMsg": "Failed to Login with this token",
-    "DemoButton": "Demo"
+    "DemoButton": "Demo",
+    "PasswordLabel": "Password:",
+    "PasswordPlaceholder": "Enter your password",
+    "UsernameLabel": "Username:",
+    "UsernamePlaceholder": "Enter your username"
 }

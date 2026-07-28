@@ -8,7 +8,13 @@
     "TokenInputPlaceHolder":"Inscris ton jeton",
     "ConnectButton": "Démarrer",
     "BackButton": "Retour",
+    "EmptyPasswordMsg": "Veuillez saisir un mot de passe",
+    "EmptyUsernameMsg": "Veuillez saisir un identifiant",
     "EmptyLoginMsg": "Veuillez saisir un jeton",
     "InvalidLoginMsg": "Erreur de connexion avec ce jeton",
-    "DemoButton": "Demo"
+    "DemoButton": "Demo",
+    "PasswordLabel": "Mot de passe:",
+    "PasswordPlaceholder": "Entrez votre mot de passe",
+    "UsernameLabel": "Identifiant:",
+    "UsernamePlaceholder": "Entrez votre identifiant"
 }

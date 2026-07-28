@@ -8,7 +8,13 @@
     "TokenInputPlaceHolder":"輸入你既用戶鑰匙",
     "ConnectButton": "開始",
     "BackButton": "返回",
+    "EmptyPasswordMsg": "請輸入密碼",
+    "EmptyUsernameMsg": "請輸入用戶名",
     "EmptyLoginMsg": "Please insert a token",
     "InvalidLoginMsg": "Failed to Login with this token",
-    "DemoButton": "Demo"
+    "DemoButton": "Demo",
+    "PasswordLabel": "密碼:",
+    "PasswordPlaceholder": "輸入密碼",
+    "UsernameLabel": "用戶名:",
+    "UsernamePlaceholder": "輸入用戶名"
 }

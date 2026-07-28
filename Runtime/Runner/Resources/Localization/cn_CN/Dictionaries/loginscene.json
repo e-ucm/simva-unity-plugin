@@ -8,7 +8,13 @@
     "TokenInputPlaceHolder":"输入会话密钥",
     "ConnectButton": "开始",
     "BackButton": "返回",
+    "EmptyPasswordMsg": "请输入密码",
+    "EmptyUsernameMsg": "请输入用户名",
     "EmptyLoginMsg": "Please insert a token",
     "InvalidLoginMsg": "Failed to Login with this token",
-    "DemoButton": "Demo"
+    "DemoButton": "Demo",
+    "PasswordLabel": "密码:",
+    "PasswordPlaceholder": "输入密码",
+    "UsernameLabel": "用户名:",
+    "UsernamePlaceholder": "输入用户名"
 }
