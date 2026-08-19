@@ -21,7 +21,7 @@ namespace SimvaPlugin
         public T Api { get; private set; }
         public ApiClient ApiClient { get; private set; }
 
-        public OAuth2Protocol Authorization
+        public IAuthProtocol Authorization
         {
             get
             {
@@ -110,6 +110,75 @@ namespace SimvaPlugin
             var result = new AsyncCompletionSource<SimvaApi<T>>();
             apiClient.InitOAuth(SimvaConf.Local.ClientId, null, SimvaConf.Local.Realm, null, ":", Application.platform != RuntimePlatform.WebGLPlayer, null, offline_access, SimvaConf.Local.HomePage)
                 .Then(() =>
+                {
+                    SimvaApi<T> simvaApi;
+                    if (Inherits<T, IAdminsApi>())
+                    {
+                        simvaApi = new SimvaApi<T>((T)(IAdminsApi)new AdminsApi(apiClient));
+                    }
+                    else if (Inherits<T, ITeachersApi>())
+                    {
+                        simvaApi = new SimvaApi<T>((T)(ITeachersApi)new TeachersApi(apiClient));
+                    }
+                    else if (Inherits<T, IStudentsApi>())
+                    {
+                        simvaApi = new SimvaApi<T>((T)(IStudentsApi)new StudentsApi(apiClient));
+                    }
+                    else if (Inherits<T, IDefaultApi>())
+                    {
+                        simvaApi = new SimvaApi<T>((T)(IDefaultApi)new DefaultApi(apiClient));
+                    }
+                    else
+                    {
+                        throw new Exception("Unsupported api type: " + typeof(T));
+                    }
+                    var versionOp = new AsyncCompletionSource<SimvaApi<T>>();
+                    simvaApi.ApiClient.GetVersion()
+                        .Then(_ => versionOp.SetResult(simvaApi))
+                        .Catch(_ => versionOp.SetResult(simvaApi));
+                    return versionOp;
+                })
+                .Then(simvaApi =>
+                {
+                    result.SetResult(simvaApi);
+                })
+                .Catch(ex =>
+                {
+                    result.SetException(ex);
+                });
+            return result;
+        }
+
+        public static IAsyncOperation<SimvaApi<T>> LoginDevice(string scope = null)
+        {
+            var apiClient = new ApiClient
+            {
+                BasePath = SimvaConf.Local.URL,
+                AuthPath = string.IsNullOrEmpty(SimvaConf.Local.SSO) ? null : SimvaConf.Local.SSO + "/auth",
+                TokenPath = string.IsNullOrEmpty(SimvaConf.Local.SSO) ? null : SimvaConf.Local.SSO + "/token",
+                DeviceAuthPath = string.IsNullOrEmpty(SimvaConf.Local.SSO) ? null : SimvaConf.Local.SSO + "/auth/device"
+            };
+
+            var result = new AsyncCompletionSource<SimvaApi<T>>();
+
+            IAsyncOperation init;
+            var authProtocol = SimvaConf.Local.AuthProtocol;
+            var authParameters = SimvaConf.Local.AuthParameters;
+            if (!string.IsNullOrEmpty(authProtocol) && authParameters != null)
+            {
+                var parameters = new Dictionary<string, string>(authParameters);
+                if (!parameters.ContainsKey("homepage") && !string.IsNullOrEmpty(SimvaConf.Local.HomePage))
+                {
+                    parameters["homepage"] = SimvaConf.Local.HomePage;
+                }
+                init = apiClient.InitAuth(authProtocol, parameters);
+            }
+            else
+            {
+                init = apiClient.InitOAuthDevice(SimvaConf.Local.ClientId, scope, SimvaConf.Local.Realm, null, SimvaConf.Local.HomePage);
+            }
+
+            init.Then(() =>
                 {
                     SimvaApi<T> simvaApi;
                     if (Inherits<T, IAdminsApi>())

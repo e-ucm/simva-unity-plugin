@@ -138,6 +138,11 @@ namespace Simva
             SimvaManager.Instance.LoginAndSchedule();
         }
 
+        public void LoginWithDevice()
+        {
+            SimvaManager.Instance.LoginAndScheduleDevice();
+        }
+
         public void AcceptDisclaimer()
         {
             DisclaimerAccepted = true;
@@ -263,6 +268,76 @@ namespace Simva
             credentialFields.SetActive(credentialsMode);
         }
 
+        public void SetupDeviceLoginButton()
+        {
+            var loginPanel = login != null ? login.transform : transform;
+            if (transform.Find("DeviceLoginButton") != null || loginPanel.Find("DeviceLoginButton") != null) return;
+
+            var connectButton = loginPanel.Find("ConnectButton");
+
+            var btnGo = new GameObject("DeviceLoginButton");
+            btnGo.transform.SetParent(loginPanel, false);
+            btnGo.transform.SetAsLastSibling();
+
+            var rt = btnGo.AddComponent<RectTransform>();
+            rt.anchorMin = new Vector2(0.5f, 0.5f);
+            rt.anchorMax = new Vector2(0.5f, 0.5f);
+            if (connectButton != null)
+            {
+                var connectRt = connectButton.GetComponent<RectTransform>();
+                rt.anchoredPosition = new Vector2(connectRt.anchoredPosition.x, connectRt.anchoredPosition.y - 80f);
+                rt.sizeDelta = new Vector2(connectRt.sizeDelta.x, connectRt.sizeDelta.y);
+            }
+            else
+            {
+                rt.anchoredPosition = new Vector2(14f, -80f);
+                rt.sizeDelta = new Vector2(403.9f, 80f);
+            }
+
+            var bgImage = btnGo.AddComponent<Image>();
+            bgImage.type = Image.Type.Sliced;
+            var tokenBg = token != null ? token.GetComponent<Image>() : null;
+            if (tokenBg != null)
+            {
+                bgImage.sprite = tokenBg.sprite;
+                bgImage.color = tokenBg.color;
+            }
+            else
+            {
+                bgImage.color = new Color(1, 0.69803923f, 0.058823533f, 1);
+            }
+
+            var btn = btnGo.AddComponent<Button>();
+            btn.targetGraphic = bgImage;
+            btn.onClick.AddListener(LoginWithDevice);
+
+            var textComp = new GameObject("Text");
+            textComp.transform.SetParent(btnGo.transform, false);
+            var tRt = textComp.AddComponent<RectTransform>();
+            tRt.anchorMin = Vector2.zero;
+            tRt.anchorMax = Vector2.one;
+            tRt.offsetMin = Vector2.zero;
+            tRt.offsetMax = Vector2.zero;
+            var txt = textComp.AddComponent<Text>();
+            var refText = connectButton != null ? connectButton.GetComponentInChildren<Text>() : null;
+            if (refText != null)
+            {
+                txt.font = refText.font;
+                txt.fontSize = refText.fontSize;
+                txt.fontStyle = refText.fontStyle;
+                txt.color = refText.color;
+            }
+            else
+            {
+                txt.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+                txt.fontSize = 26;
+                txt.color = new Color(1, 1, 1, 1);
+            }
+            txt.alignment = TextAnchor.MiddleCenter;
+            txt.supportRichText = false;
+            txt.text = SimvaPlugin.Instance.GetName("DeviceLoginButton");
+        }
+
         public void SetupHiddenToggleButton()
         {
             var existing = transform.Find("CredentialToggleBtn");
@@ -316,6 +391,7 @@ namespace Simva
             background.sprite = Game.Instance.ResourceManager.getSprite()*/
             Ready = true;
             SetupHiddenToggleButton();
+            SetupDeviceLoginButton();
             if (credentialsMode)
             {
                 SetupCredentialFields();

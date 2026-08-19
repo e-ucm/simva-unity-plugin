@@ -14,6 +14,7 @@ using UnityEngine;
 using UnityFx.Async;
 using UnityFx.Async.Promises;
 using static System.Text.RegularExpressions.Regex;
+using Xasu.Auth.Protocols;
 
 namespace Simva
 {
@@ -118,7 +119,7 @@ namespace Simva
                     this.simvaController = simvaController;
                     this.simvaConf = simvaController.SimvaConf;
                     var apiClient = ((TeachersApi)this.simvaController.Api).ApiClient;
-                    apiClient.Authorization.RegisterAuthInfoUpdate(auth => PlayerPrefs.SetString("Simva.RefreshToken", auth.RefreshToken));
+                    ((OAuth2Protocol)apiClient.Authorization).RegisterAuthInfoUpdate(auth => PlayerPrefs.SetString("Simva.RefreshToken", auth.RefreshToken));
                     PlayerPrefs.Save();
                 })
                     .Catch(error =>
@@ -480,7 +481,7 @@ namespace Simva
                                     {
                                         this.simvaController = simvaController;
                                         var apiClient = ((TeachersApi)this.simvaController.Api).ApiClient;
-                                        apiClient.Authorization.RegisterAuthInfoUpdate(auth => PlayerPrefs.SetString("Simva.RefreshToken", auth.RefreshToken));
+                                        ((OAuth2Protocol)apiClient.Authorization).RegisterAuthInfoUpdate(auth => PlayerPrefs.SetString("Simva.RefreshToken", auth.RefreshToken));
                                         PlayerPrefs.Save();
                                     }
                                 })

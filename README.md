@@ -38,19 +38,23 @@ The configuration file must be placed in:
 Assets/StreamingAssets/simva.conf
 ```
 
-The following configuration file represents the study configuration required to process the study using oauth2 authentication via keycloak.
+The following configuration file represents the simlet configuration required to process the simlet using oauth2 authentication via keycloak.
 
 ```json
  {
-  "study": "<study-id>",
-  "host": "<simva-hostname>",
+  "simlet": "<simlet-id>",
+  "api_url": "<simva-api-url>",
   "url": "<simva-homePageUrl-for-actor-in-traces>",
-  "protocol": "<simva-protocol>",
-  "port": "<simva-port>",
-  "sso": "<sso-openid-url>",
-  "client_id": "<client-id>"
+  "auth_protocol": "device",
+  "auth_parameters": {
+    "device_authorization_endpoint": "<device-authorization-endpoint>",
+    "token_endpoint": "<token-endpoint>",
+    "client_id": "<client-id>"
+  }
 }
 ```
+
+The `auth_protocol` and `auth_parameters` keys mirror Xasu's `tracker_config.json`. When present, the plugin passes them directly to Xasu's `AuthFactory` (supported protocols: `device`, `oauth2`, `basic`, ...). The legacy `host`, `protocol`, `port` and `sso`/`client_id` keys are still supported as a fallback.
 
 ### Simva Wizard Window
 

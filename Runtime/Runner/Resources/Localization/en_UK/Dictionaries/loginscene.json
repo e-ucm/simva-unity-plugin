@@ -7,6 +7,7 @@
     "TokenText":"Token :",
     "TokenInputPlaceHolder":"Introduce your token",
     "ConnectButton": "Start",
+    "DeviceLoginButton": "Login with device code",
     "BackButton": "Back",
     "EmptyPasswordMsg": "Please enter a password",
     "EmptyUsernameMsg": "Please enter a username",

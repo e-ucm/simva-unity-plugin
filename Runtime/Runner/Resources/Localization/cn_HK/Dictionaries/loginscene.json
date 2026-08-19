@@ -7,6 +7,7 @@
     "TokenText":"鑰匙",
     "TokenInputPlaceHolder":"輸入你既用戶鑰匙",
     "ConnectButton": "開始",
+    "DeviceLoginButton": "使用設備代碼登入",
     "BackButton": "返回",
     "EmptyPasswordMsg": "請輸入密碼",
     "EmptyUsernameMsg": "請輸入用戶名",

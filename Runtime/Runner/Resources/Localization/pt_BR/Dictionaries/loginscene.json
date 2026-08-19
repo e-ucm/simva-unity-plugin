@@ -7,6 +7,7 @@
     "TokenText":"Chave",
     "TokenInputPlaceHolder":"Insira sua chave de usuário",
     "ConnectButton": "Começar",
+    "DeviceLoginButton": "Entrar com código de dispositivo",
     "BackButton": "Voltar",
     "EmptyPasswordMsg": "Insira uma senha",
     "EmptyUsernameMsg": "Insira um usuário",

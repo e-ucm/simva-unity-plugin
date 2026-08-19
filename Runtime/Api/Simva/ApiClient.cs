@@ -51,10 +51,16 @@ namespace Simva
         public string TokenPath { get; set; }
 
         /// <summary>
+        /// Gets or sets the device authorization path.
+        /// </summary>
+        /// <value>The device authorization path</value>
+        public string DeviceAuthPath { get; set; }
+
+        /// <summary>
         /// Gets or sets the base path.
         /// </summary>
         /// <value>The authorization path</value>
-        public OAuth2Protocol Authorization { get; private set; }
+        public IAuthProtocol Authorization { get; private set; }
 
         private IHttpRequestHandler requestHandler;
         public IHttpRequestHandler RequestHandler
@@ -107,9 +113,80 @@ namespace Simva
                     return;
                 }
 
-                Authorization = (OAuth2Protocol)t.Result;
+                Authorization = (IAuthProtocol)t.Result;
                 done.SetCompleted();
             }, TaskScheduler.FromCurrentSynchronizationContext());
+
+            return done;
+        }
+
+        public IAsyncOperation InitAuth(string authName, Dictionary<string, string> parameters)
+        {
+            var done = new AsyncCompletionSource();
+
+            try
+            {
+                var authorization = AuthFactory.InitAuth(authName, parameters, RequestHandler, null);
+
+                authorization.ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        done.SetException(t.Exception);
+                        return;
+                    }
+
+                    Authorization = (IAuthProtocol)t.Result;
+                    done.SetCompleted();
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            catch(System.Exception ex)
+            {
+                done.SetException(ex);
+            }
+
+            return done;
+        }
+
+        public IAsyncOperation InitOAuthDevice(string clientId, string scope = null, string realm = null, string appName = null, string homepage=null)
+        {
+            var deviceAuthUrl = DeviceAuthPath ?? "https://sso.simva.e-ucm.es/auth/realms/simva/protocol/openid-connect/auth/device";
+            var tokenUrl = TokenPath ?? "https://sso.simva.e-ucm.es/auth/realms/simva/protocol/openid-connect/token";
+
+            var done = new AsyncCompletionSource();
+
+            var dict = new Dictionary<string, string>()
+            {
+                { "device_authorization_endpoint", deviceAuthUrl },
+                { "token_endpoint", tokenUrl },
+                { "client_id", clientId }
+            };
+            if (!string.IsNullOrEmpty(scope)) {
+                dict.Add("scope", scope);
+            }
+            if (!string.IsNullOrEmpty(homepage)) {
+                dict.Add("homepage", homepage);
+            }
+            try
+            {
+                var authorization = AuthFactory.InitAuth("device", dict, RequestHandler, null);
+
+                authorization.ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        done.SetException(t.Exception);
+                        return;
+                    }
+
+                    Authorization = (IAuthProtocol)t.Result;
+                    done.SetCompleted();
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            catch(System.Exception ex)
+            {
+                done.SetException(ex);
+            }
 
             return done;
         }
@@ -161,7 +238,7 @@ namespace Simva
                         return;
                     }
 
-                    Authorization = (OAuth2Protocol)t.Result;
+                    Authorization = (IAuthProtocol)t.Result;
                     done.SetCompleted();
                 }, TaskScheduler.FromCurrentSynchronizationContext());
 			}
@@ -204,7 +281,7 @@ namespace Simva
                         return;
                     }
 
-                    Authorization = (OAuth2Protocol)t.Result;
+                    Authorization = (IAuthProtocol)t.Result;
                     done.SetCompleted();
                 }, TaskScheduler.FromCurrentSynchronizationContext());
 			}

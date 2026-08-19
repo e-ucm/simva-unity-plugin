@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
 using Newtonsoft.Json;
+using Xasu.Auth.Protocols;
 using Xasu.Auth.Protocols.OAuth2;
 using Xasu.HighLevel;
 
@@ -42,6 +43,7 @@ namespace Simva
         public ISimvaBridge Bridge { get; set; }
 
         public bool Finalized { get; protected set; }
+        public bool HasStartedGameplay { get; set; }
 
         private Schedule schedule;
         public Schedule Schedule
@@ -115,7 +117,7 @@ namespace Simva
                     .Then(simvaController =>
                     {
                         this.API = simvaController;
-                        this.API.Authorization.RegisterAuthInfoUpdate(OnAuthInfoUpdate);
+                        RegisterAuthInfoUpdate();
                         return UpdateSchedule();
                     })
                     .Then(schedule =>
@@ -136,7 +138,30 @@ namespace Simva
                 .Then(simvaController =>
                 {
                     this.API = simvaController;
-                    this.API.Authorization.RegisterAuthInfoUpdate(OnAuthInfoUpdate);
+                    RegisterAuthInfoUpdate();
+                    return UpdateSchedule();
+                })
+                .Then(schedule =>
+                {
+                    return LaunchActivityById(schedule.Next);
+                })
+                .Catch(error =>
+                {
+                    NotifyLoading(false);
+                    var msg = SimvaPlugin.Instance.GetName("InvalidLoginMsg");
+                    SimvaPlugin.Instance.LogError(msg + ": " + error.ToString());
+                    NotifyManagers(msg);
+                });
+        }
+
+        public IAsyncOperation LoginAndScheduleDevice()
+        {
+            NotifyLoading(true);
+            return SimvaApi<IStudentsApi>.LoginDevice()
+                .Then(simvaController =>
+                {
+                    this.API = simvaController;
+                    RegisterAuthInfoUpdate();
                     return UpdateSchedule();
                 })
                 .Then(schedule =>
@@ -159,7 +184,7 @@ namespace Simva
                 .Then(simvaController =>
                 {
                     this.API = simvaController;
-                    this.API.Authorization.RegisterAuthInfoUpdate(OnAuthInfoUpdate);
+                    RegisterAuthInfoUpdate();
                     PlayerPrefs.SetString("simva_auth", JsonConvert.SerializeObject(auth));
                     PlayerPrefs.Save();
                     return UpdateSchedule();
@@ -184,7 +209,7 @@ namespace Simva
                 .Then(simvaController =>
                 {
                     this.API = simvaController;
-                    this.API.Authorization.RegisterAuthInfoUpdate(OnAuthInfoUpdate);
+                    RegisterAuthInfoUpdate();
                     PlayerPrefs.SetString("simva_auth", JsonConvert.SerializeObject(auth));
                     PlayerPrefs.Save();
                     return UpdateSchedule();
@@ -209,7 +234,7 @@ namespace Simva
                 .Then(simvaController =>
                 {
                     this.API = simvaController;
-                    this.API.Authorization.RegisterAuthInfoUpdate(OnAuthInfoUpdate);
+                    RegisterAuthInfoUpdate();
                     return UpdateSchedule();
                 })
                     .Then(schedule =>
@@ -446,7 +471,20 @@ namespace Simva
         private void OnAuthInfoUpdate(OAuth2Token token)
         {
             this.auth = token;
+            SimvaPlugin.Instance.Log("[SIMVA] Retrieved JWT: " + token.AccessToken + ". Username found: " + token.Username);
             Bridge.OnAuthUpdated(token);
+        }
+
+        private void RegisterAuthInfoUpdate()
+        {
+            if (API.Authorization is OAuth2Protocol oauth)
+            {
+                oauth.RegisterAuthInfoUpdate(OnAuthInfoUpdate);
+            }
+            else if (API.Authorization is OAuth2DeviceProtocol device)
+            {
+                device.RegisterAuthInfoUpdate(OnAuthInfoUpdate);
+            }
         }
 
 
@@ -485,7 +523,7 @@ namespace Simva
                                 TraceFormat = Xasu.Config.TraceFormats.XAPI,
                                 FlushInterval = 3,
                                 BatchSize = 256
-                            };                            
+                            };
                             if (API.SimvaConf.HomePage != null){
                                 xasuTrackerConfig.HomePage = API.SimvaConf.HomePage;
                             }

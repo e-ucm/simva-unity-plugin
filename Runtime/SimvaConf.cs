@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -36,10 +37,20 @@ namespace Simva
 
         public string Realm { get; set; }
 
+        public string ApiUrl { get; set; }
+
+        public string AuthProtocol { get; set; }
+
+        public Dictionary<string, string> AuthParameters { get; set; }
+
         public string URL
         {
             get
             {
+                if (!string.IsNullOrEmpty(ApiUrl))
+                {
+                    return ApiUrl;
+                }
                 return Protocol + "://" + Host + ":" + Port;
             }
         }
@@ -83,12 +94,19 @@ namespace Simva
                 var simvaconf = JObject.Parse(contents);
                 Simlet = simvaconf.Value<string>("simlet") ?? simvaconf.Value<string>("study");
                 Realm = simvaconf.Value<string>("realm");
+                ApiUrl = simvaconf.Value<string>("api_url");
                 Host = simvaconf.Value<string>("host");
                 HomePage = simvaconf.Value<string>("url");
                 Protocol = simvaconf.Value<string>("protocol");
                 Port = simvaconf.Value<string>("port");
                 SSO = simvaconf.Value<string>("sso");
                 ClientId = simvaconf.Value<string>("client_id");
+                AuthProtocol = simvaconf.Value<string>("auth_protocol");
+                var authParameters = simvaconf["auth_parameters"];
+                if (authParameters != null)
+                {
+                    AuthParameters = authParameters.ToObject<Dictionary<string, string>>();
+                }
             }
         }
 
@@ -130,11 +148,14 @@ namespace Simva
                 {
                     ["simlet"] = Simlet,
                     ["realm"] = Realm,
+                    ["api_url"] = ApiUrl,
                     ["host"] = Host,
                     ["protocol"] = Protocol,
                     ["port"] = Port,
                     ["sso"] = SSO,
                     ["client_id"] = ClientId,
+                    ["auth_protocol"] = AuthProtocol,
+                    ["auth_parameters"] = AuthParameters != null ? JObject.FromObject(AuthParameters) : null,
                 };
                 System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
                 System.IO.File.WriteAllText(path, simvaconf.ToString(Newtonsoft.Json.Formatting.Indented));

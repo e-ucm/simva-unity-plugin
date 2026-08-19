@@ -135,7 +135,7 @@ namespace Simva
             {
                 if (RunGameIfSimvaIsNotConfigured)
                 {
-                    Log("Study is not set! Running the game without Simva...");
+                    Log("Simlet is not set! Running the game without Simva...");
                     if (XasuTracker.Instance.Status.State == TrackerState.Uninitialized)
                     {
                         var config = new TrackerConfig
@@ -163,7 +163,7 @@ namespace Simva
                 }
                 else
                 {
-                    Log("Study is not set! Stopping...");
+                    Log("Simlet is not set! Stopping...");
                     if (Application.isEditor)
                     {
 #if UNITY_EDITOR
@@ -234,7 +234,7 @@ namespace Simva
         
         public bool WantsToQuit()
         {
-            if (SimvaManager.Instance.IsActive)
+            if (SimvaManager.Instance.IsActive && SimvaManager.Instance.HasStartedGameplay)
             {
                 SimvaManager.Instance.OnGameFinished();
                 return false;
@@ -321,6 +321,7 @@ namespace Simva
 
         public void StartGameplay()
         {
+            SimvaManager.Instance.HasStartedGameplay = true;
             DestroyPreviousSimvaScene();
             Log("Starting Gameplay");
             RunScene("Gameplay");
