@@ -150,7 +150,7 @@ namespace Simva
                 // Login Form
                 DoRegisterAndLogin();
             }
-            else if (string.IsNullOrEmpty(simvaController.SimvaConf.Study))
+            else if (string.IsNullOrEmpty(simvaController.SimvaConf.Simlet))
             {
                 // Wizard
                 DoWizard();
@@ -321,7 +321,7 @@ namespace Simva
             .Then(study =>
             {
                 EditorUtility.ClearProgressBar();
-                simvaController.SimvaConf.Study = study.Id;
+                simvaController.SimvaConf.Simlet = study.Id;
                 simvaController.SimvaConf.Save();
             })
             .Catch(error =>
@@ -391,12 +391,12 @@ namespace Simva
                     }
                 if (GUILayout.Button("Open dashboard in Simva"))
                 {
-                    Application.OpenURL(url + "/simlets/" + simvaController.SimvaConf.Study);
+                    Application.OpenURL(url + "/simlets/" + simvaController.SimvaConf.Simlet);
                 }
 
                 if (GUILayout.Button("Download users in PDF"))
                 {
-                    simvaController.Api.GetStudy(simvaController.SimvaConf.Study)
+                    simvaController.Api.GetStudy(simvaController.SimvaConf.Simlet)
                     .Then(study =>
                     {
                         if (study.Groups.Count <= 0)
@@ -445,9 +445,9 @@ namespace Simva
                 DoSeparator(" or ");
 
 
-                if (GUILayout.Button("Set up a new study") && EditorUtility.DisplayDialog("Warning", "Are you sure you wan't to unset the study?", "Yes", "Cancel"))
+                if (GUILayout.Button("Set up a new Simlet") && EditorUtility.DisplayDialog("Warning", "Are you sure you wan't to unset the study?", "Yes", "Cancel"))
                 {
-                    simvaController.SimvaConf.Study = null;
+                    simvaController.SimvaConf.Simlet = null;
                 }
             });
         }

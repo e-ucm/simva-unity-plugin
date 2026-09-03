@@ -32,7 +32,7 @@ namespace Simva
 
         public string ClientId { get; set; }
 
-        public string Study { get; set; }
+        public string Simlet { get; set; }
 
         public string Realm { get; set; }
 
@@ -81,7 +81,7 @@ namespace Simva
             {
                 Debug.Log("[SIMVA CONF] Simva.conf content: " + contents);
                 var simvaconf = JObject.Parse(contents);
-                Study = simvaconf.Value<string>("study");
+                Simlet = simvaconf.Value<string>("simlet") ?? simvaconf.Value<string>("study");
                 Realm = simvaconf.Value<string>("realm");
                 Host = simvaconf.Value<string>("host");
                 HomePage = simvaconf.Value<string>("url");
@@ -128,7 +128,8 @@ namespace Simva
             {
                 var simvaconf = new JObject
                 {
-                    ["study"] = Study,
+                    ["simlet"] = Simlet,
+                    ["realm"] = Realm,
                     ["host"] = Host,
                     ["protocol"] = Protocol,
                     ["port"] = Port,

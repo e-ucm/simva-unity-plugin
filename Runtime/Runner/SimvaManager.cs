@@ -83,7 +83,7 @@ namespace Simva
         {
             get
             {
-                return !string.IsNullOrEmpty(SimvaConf.Local.Study);
+                return !string.IsNullOrEmpty(SimvaConf.Local.Simlet);
             }
         }
 
@@ -228,7 +228,7 @@ namespace Simva
         {
             var result = new AsyncCompletionSource<Schedule>();
 
-            API.Api.GetSchedule(API.SimvaConf.Study)
+            API.Api.GetSchedule(API.SimvaConf.Simlet)
                 .Then(schedule =>
                 {
                     this.Schedule = schedule;

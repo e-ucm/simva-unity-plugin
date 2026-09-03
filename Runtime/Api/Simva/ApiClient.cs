@@ -84,8 +84,8 @@ namespace Simva
             }
 
 
-            var tokenUrl = TokenPath ?? "https://sso.simva.e-ucm.es/auth/realms/simva/protocol/openid-connect/token";
-            var authUrl = AuthPath ?? "https://sso.simva.e-ucm.es/auth/realms/simva/protocol/openid-connect/auth";
+            var tokenUrl = TokenPath ?? "https://sso.simva.e-ucm.es/realms/simva/protocol/openid-connect/token";
+            var authUrl = AuthPath ?? "https://sso.simva.e-ucm.es/realms/simva/protocol/openid-connect/auth";
 
             var done = new AsyncCompletionSource();
 
@@ -129,8 +129,9 @@ namespace Simva
 			}
 
 
-			var tokenUrl = TokenPath ?? "https://sso.simva.e-ucm.es/auth/realms/simva/protocol/openid-connect/token";
-			var authUrl = AuthPath ?? "https://sso.simva.e-ucm.es/auth/realms/simva/protocol/openid-connect/auth";
+
+			var tokenUrl = TokenPath ?? "https://sso.simva.e-ucm.es/realms/simva/protocol/openid-connect/token";
+			var authUrl = AuthPath ?? "https://sso.simva.e-ucm.es/realms/simva/protocol/openid-connect/auth";
 
 			var done = new AsyncCompletionSource();
             var dict = new Dictionary<string, string>()
@@ -176,8 +177,8 @@ namespace Simva
         {
             var scopes = new string[] { };
 
-            var tokenUrl = TokenPath ?? "https://sso.simva.e-ucm.es/auth/realms/simva/protocol/openid-connect/token";
-            var authUrl = AuthPath ?? "https://sso.simva.e-ucm.es/auth/realms/simva/protocol/openid-connect/auth";
+            var tokenUrl = TokenPath ?? "https://sso.simva.e-ucm.es/realms/simva/protocol/openid-connect/token";
+            var authUrl = AuthPath ?? "https://sso.simva.e-ucm.es/realms/simva/protocol/openid-connect/auth";
 
             var done = new AsyncCompletionSource();
 
@@ -221,8 +222,8 @@ namespace Simva
             /*
             var scopes = new string[] { };
 
-            var tokenUrl = TokenPath ?? "https://sso.simva.e-ucm.es/auth/realms/simva/protocol/openid-connect/token";
-            var authUrl = AuthPath ?? "https://sso.simva.e-ucm.es/auth/realms/simva/protocol/openid-connect/auth";
+            var tokenUrl = TokenPath ?? "https://sso.simva.e-ucm.es/realms/simva/protocol/openid-connect/token";
+            var authUrl = AuthPath ?? "https://sso.simva.e-ucm.es/realms/simva/protocol/openid-connect/auth";
 
             var done = new AsyncCompletionSource();
             try
