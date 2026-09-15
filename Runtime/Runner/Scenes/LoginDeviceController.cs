@@ -224,10 +224,6 @@ namespace Simva
             {
                 Application.OpenURL(deviceCompleteUrl);
             }
-            else
-            {
-                LoginWithDevice();
-            }
         }
 
         public void Demo()
@@ -251,11 +247,6 @@ namespace Simva
                 AcceptDisclaimer();
             }
             Ready = true;
-            login.SetActive(true);
-            if (lastDeviceAuth != null)
-            {
-                OnDeviceAuthorizationReceived(lastDeviceAuth);
-            }
             if (SimvaPlugin.Instance.EnableLoginDemoButton)
             {
                 if (adviceDemo)

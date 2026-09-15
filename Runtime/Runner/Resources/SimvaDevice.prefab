@@ -184,6 +184,7 @@ MonoBehaviour:
   loginDeviceCodeCopyButton: {fileID: 1390551857084883392}
   StatusText: {fileID: 536907192386217843}
   timerText: {fileID: 4603453662813765702}
+  login: {fileID: 5606526045401039045}
 --- !u!1 &144246912846162063
 GameObject:
   m_ObjectHideFlags: 0

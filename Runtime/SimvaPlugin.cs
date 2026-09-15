@@ -263,7 +263,16 @@ namespace Simva
             switch (sceneName)
             {
                 case "Simva.Login":
-                    name = EnableLoginDemoButton ? "Simva.Login.Demo" : "Simva.Login";
+                    if (SimvaConf.Local != null &&
+                        !string.IsNullOrEmpty(SimvaConf.Local.AuthProtocol) &&
+                        SimvaConf.Local.AuthProtocol.Equals("device", StringComparison.OrdinalIgnoreCase))
+                    {
+                        name = "Simva.Device";
+                    }
+                    else
+                    {
+                        name = EnableLoginDemoButton ? "Simva.Login.Demo" : "Simva.Login";
+                    }
                     break;
 
                 case "Gameplay":

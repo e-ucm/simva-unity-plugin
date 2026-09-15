@@ -19,6 +19,9 @@ namespace Simva
                 case "Simva.Login":
                     form = GameObject.Instantiate(Resources.Load<GameObject>("SimvaLogin"));
                     break;
+                case "Simva.Device":
+                    form = GameObject.Instantiate(Resources.Load<GameObject>("SimvaDevice"));
+                    break;
                 case "Simva.Survey":
                     form = GameObject.Instantiate(Resources.Load<GameObject>("SimvaSurvey"));
                     break;
