@@ -3117,7 +3117,7 @@ GameObject:
   - component: {fileID: 6629675079052225739}
   - component: {fileID: 6204327738232348937}
   m_Layer: 5
-  m_Name: deviceURLdeviceCodeOption
+  m_Name: deviceURLdeviceCodeOptionC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3240,7 +3240,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000019073, y: -60.552406}
+  m_AnchoredPosition: {x: 0, y: -60.552406}
   m_SizeDelta: {x: 210.6387, y: 39.2574}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3620899849719205054
@@ -6155,7 +6155,7 @@ GameObject:
   - component: {fileID: 2434021730611456888}
   - component: {fileID: 494673584562218939}
   m_Layer: 5
-  m_Name: fullDeviceURLOption
+  m_Name: fullDeviceURLOptionB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6179,8 +6179,8 @@ RectTransform:
   - {fileID: 4429122610693813604}
   - {fileID: 6432580723236320534}
   - {fileID: 6265592297898232746}
-  - {fileID: 4116047459779095940}
   - {fileID: 782776203459375185}
+  - {fileID: 4116047459779095940}
   - {fileID: 5029678997253435443}
   m_Father: {fileID: 151612359748814302}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6253,7 +6253,7 @@ GameObject:
   - component: {fileID: 5102831524947123133}
   - component: {fileID: 7232402863539628426}
   m_Layer: 5
-  m_Name: QRCodeOption
+  m_Name: QRCodeOptionA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6274,8 +6274,8 @@ RectTransform:
   - {fileID: 2358650552933260564}
   - {fileID: 8003073328324326311}
   - {fileID: 1647028871868421762}
-  - {fileID: 2109351567468444806}
   - {fileID: 7145767649012468412}
+  - {fileID: 2109351567468444806}
   m_Father: {fileID: 151612359748814302}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
