@@ -64,7 +64,7 @@ GameObject:
   - component: {fileID: 223298590345940728}
   - component: {fileID: 114758179462936092}
   - component: {fileID: 114437378224641564}
-  - component: {fileID: 114569020186524680}
+  - component: {fileID: 4701958827265459971}
   m_Layer: 5
   m_Name: SimvaDevice
   m_TagString: Untagged
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114569020186524680
+--- !u!114 &4701958827265459971
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,17 +166,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1674110468084272}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ee0c95ca8f02504c8795e7a62a73f8e, type: 3}
+  m_Script: {fileID: 11500000, guid: 879311a3c6fc4664eac5060431fb8f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   disclaimer: {fileID: 3175411207788331359}
-  login: {fileID: 9046868364057465734}
-  preview: {fileID: 3220597356208727169}
-  back: {fileID: 7701439342122408443}
+  preview: {fileID: 1624838759662095155}
+  back: {fileID: 4698334553765079694}
   adviceDemo: {fileID: 3507395793834817277}
-  token: {fileID: 0}
-  password: {fileID: 0}
-  credentialFields: {fileID: 0}
+  QRCodeImage: {fileID: 8173274404082649253}
+  DeviceCompleteUrlValue: {fileID: 0}
+  loginDeviceCompleteUrlButton: {fileID: 6001652829397851969}
+  loginDeviceCompleteUrlCopyButton: {fileID: 5781770404015842976}
+  DeviceUrlValue: {fileID: 0}
+  loginDeviceUrlButton: {fileID: 2439951992602095751}
+  loginDeviceUrlCopyButton: {fileID: 6215917987324123994}
+  deviceCodeValue: {fileID: 0}
+  loginDeviceCodeCopyButton: {fileID: 1390551857084883392}
+  StatusText: {fileID: 536907192386217843}
+  timerText: {fileID: 4603453662813765702}
 --- !u!1 &144246912846162063
 GameObject:
   m_ObjectHideFlags: 0
@@ -1223,9 +1230,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114569020186524680}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: Login
+      - m_Target: {fileID: 4701958827265459971}
+        m_TargetAssemblyTypeName: Simva.LoginDeviceController, simva-unity-plugin
+        m_MethodName: copySignInWithDeviceCode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1562,7 +1569,7 @@ GameObject:
   - component: {fileID: 5972947122993152229}
   - component: {fileID: 4314260224565594776}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SignInCButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1670,9 +1677,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114569020186524680}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: Login
+      - m_Target: {fileID: 4701958827265459971}
+        m_TargetAssemblyTypeName: Simva.LoginDeviceController, simva-unity-plugin
+        m_MethodName: openSignInWithDeviceUrl
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2332,7 +2339,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8661002027818852378
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3433,7 +3440,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &151612359748814302
 Transform:
   m_ObjectHideFlags: 0
@@ -3469,7 +3476,7 @@ GameObject:
   - component: {fileID: 1259197266975580192}
   - component: {fileID: 2120471417172199916}
   m_Layer: 5
-  m_Name: CopyButton
+  m_Name: CopyFullURLBButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3577,9 +3584,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114569020186524680}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: Login
+      - m_Target: {fileID: 4701958827265459971}
+        m_TargetAssemblyTypeName: Simva.LoginDeviceController, simva-unity-plugin
+        m_MethodName: copySignInWithDeviceCompleteUrl
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3713,7 +3720,7 @@ GameObject:
   - component: {fileID: 7917938183721049066}
   - component: {fileID: 8184422775065829052}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SignInFullBButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3821,9 +3828,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114569020186524680}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: Login
+      - m_Target: {fileID: 4701958827265459971}
+        m_TargetAssemblyTypeName: Simva.LoginDeviceController, simva-unity-plugin
+        m_MethodName: openSignInWithDeviceCompleteUrl
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4176,9 +4183,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114569020186524680}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: Login
+      - m_Target: {fileID: 4701958827265459971}
+        m_TargetAssemblyTypeName: Simva.LoginDeviceController, simva-unity-plugin
+        m_MethodName: copySignInWithDeviceUrl
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4642,8 +4649,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114569020186524680}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 4701958827265459971}
+        m_TargetAssemblyTypeName: Simva.LoginDeviceController, simva-unity-plugin
         m_MethodName: Demo
         m_Mode: 1
         m_Arguments:
@@ -4912,7 +4919,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4069565220500932521
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5015,8 +5022,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114569020186524680}
-        m_TargetAssemblyTypeName: Simva.LoginController, simva-unity-plugin
+      - m_Target: {fileID: 4701958827265459971}
+        m_TargetAssemblyTypeName: Simva.LoginDeviceController, simva-unity-plugin
         m_MethodName: Back
         m_Mode: 1
         m_Arguments:
@@ -6010,8 +6017,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114569020186524680}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 4701958827265459971}
+        m_TargetAssemblyTypeName: Simva.LoginDeviceController, simva-unity-plugin
         m_MethodName: AcceptDisclaimer
         m_Mode: 1
         m_Arguments:
