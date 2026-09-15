@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using Xasu.Auth.Protocols;
 using Xasu.Auth.Protocols.OAuth2;
 
@@ -205,6 +206,14 @@ namespace Simva
 
         public void LoginWithDevice()
         {
+            if (SimvaConf.Local != null)
+            {
+                if (SimvaConf.Local.AuthParameters == null)
+                {
+                    SimvaConf.Local.AuthParameters = new Dictionary<string, string>();
+                }
+                SimvaConf.Local.AuthParameters["auto_open_device_url"] = "false";
+            }
             SimvaManager.Instance.LoginAndScheduleDevice();
         }
 
@@ -216,6 +225,8 @@ namespace Simva
             {
                 preview.SetActive(true);
             }
+            login.SetActive(true);
+            LoginWithDevice();
         }
 
         public void Login()
