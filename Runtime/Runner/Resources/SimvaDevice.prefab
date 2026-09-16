@@ -808,7 +808,6 @@ GameObject:
   - component: {fileID: 3503971929181547119}
   - component: {fileID: 5564943145220141723}
   - component: {fileID: 5970825452442302267}
-  - component: {fileID: 2612068226630275968}
   m_Layer: 5
   m_Name: FullURLCValue
   m_TagString: Untagged
@@ -892,21 +891,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.509}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
---- !u!114 &2612068226630275968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1291076065101505592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textComponent: {fileID: 5564943145220141723}
-  textMeshComponent: {fileID: 0}
-  languageKey: 
 --- !u!1 &1347101912976994994
 GameObject:
   m_ObjectHideFlags: 0
@@ -1685,7 +1669,6 @@ GameObject:
   - component: {fileID: 8652360386564361956}
   - component: {fileID: 2022266756465078391}
   - component: {fileID: 7962467687071370934}
-  - component: {fileID: 4550242032789030814}
   m_Layer: 5
   m_Name: FullURLBValue
   m_TagString: Untagged
@@ -1769,21 +1752,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.509}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
---- !u!114 &4550242032789030814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2458942210193915923}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textComponent: {fileID: 2022266756465078391}
-  textMeshComponent: {fileID: 0}
-  languageKey: 
 --- !u!1 &2588234334191758291
 GameObject:
   m_ObjectHideFlags: 0
@@ -2018,7 +1986,6 @@ GameObject:
   - component: {fileID: 6345053058130671236}
   - component: {fileID: 309268525024733180}
   - component: {fileID: 1668741055562358033}
-  - component: {fileID: 6848902797173476820}
   m_Layer: 5
   m_Name: DeviceCodeValue
   m_TagString: Untagged
@@ -2102,21 +2069,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.509}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
---- !u!114 &6848902797173476820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3164880959210259405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textComponent: {fileID: 309268525024733180}
-  textMeshComponent: {fileID: 0}
-  languageKey: 
 --- !u!1 &3175411207788331359
 GameObject:
   m_ObjectHideFlags: 0
