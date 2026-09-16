@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Xasu.Auth.Protocols;
@@ -34,6 +35,7 @@ namespace Simva
         private string deviceCompleteUrl;
         private OAuth2DeviceAuthorization lastDeviceAuth;
         private Coroutine countdownCoroutine;
+        private GameObject qrFallbackNoteGo;
 
         public bool DisclaimerAccepted
         {
@@ -86,7 +88,127 @@ namespace Simva
                 if (text != null) text.text = deviceCode;
             }
 
+            SetStatus("DeviceWaiting", "Waiting… finish on the other screen and the game starts by itself.");
+            UpdateQrDisplay(deviceCompleteUrl);
             StartCountdown(info.ExpiresIn);
+        }
+
+        private string L(string key, string hardcodedFallback)
+        {
+            string value = SimvaPlugin.Instance != null ? SimvaPlugin.Instance.GetName(key) : null;
+            return string.IsNullOrEmpty(value) ? hardcodedFallback : value;
+        }
+
+        private void SetStatus(string key, string hardcodedFallback)
+        {
+            if (StatusText == null) return;
+            var text = StatusText.GetComponent<Text>();
+            if (text == null) return;
+            text.text = L(key, hardcodedFallback);
+        }
+
+        private void ShowDeviceError(string technical = null)
+        {
+            if (StatusText == null) return;
+            var text = StatusText.GetComponent<Text>();
+            if (text == null) return;
+            string friendly = SimvaPlugin.Instance != null ? SimvaPlugin.Instance.GetName("DeviceErrorFriendly") : null;
+            if (!string.IsNullOrEmpty(friendly))
+            {
+                text.text = friendly;
+            }
+            else
+            {
+                text.text = L("DeviceErrorFallback", "Something went wrong.");
+            }
+            if (!string.IsNullOrEmpty(technical) && SimvaPlugin.Instance != null)
+            {
+                SimvaPlugin.Instance.LogError(technical);
+            }
+        }
+
+        private bool HasQrTexture()
+        {
+            if (QRCodeImage == null) return false;
+            var raw = QRCodeImage.GetComponent<RawImage>();
+            if (raw != null && raw.texture != null) return true;
+            var image = QRCodeImage.GetComponent<Image>();
+            if (image != null && image.sprite != null) return true;
+            var childRaw = QRCodeImage.GetComponentInChildren<RawImage>();
+            if (childRaw != null && childRaw.texture != null) return true;
+            var childImage = QRCodeImage.GetComponentInChildren<Image>();
+            if (childImage != null && childImage.sprite != null && (qrFallbackNoteGo == null || childImage.gameObject != qrFallbackNoteGo)) return true;
+            return false;
+        }
+
+        private void UpdateQrDisplay(string url)
+        {
+            if (QRCodeImage == null) return;
+            var parent = QRCodeImage.transform.parent;
+            if (parent != null) parent.gameObject.SetActive(true);
+            QRCodeImage.SetActive(true);
+            if (string.IsNullOrEmpty(url) || !HasQrTexture())
+            {
+                ShowQrFallbackNote();
+            }
+            else
+            {
+                ClearQrFallbackNote();
+            }
+        }
+
+        private void ShowQrFallbackNote()
+        {
+            if (QRCodeImage == null) return;
+            var parent = QRCodeImage.transform.parent;
+            if (parent != null) parent.gameObject.SetActive(true);
+            QRCodeImage.SetActive(true);
+            if (qrFallbackNoteGo == null)
+            {
+                var existing = QRCodeImage.transform.Find("QrFallbackNote");
+                if (existing != null) qrFallbackNoteGo = existing.gameObject;
+            }
+            if (qrFallbackNoteGo == null)
+            {
+                qrFallbackNoteGo = new GameObject("QrFallbackNote");
+                qrFallbackNoteGo.transform.SetParent(QRCodeImage.transform, false);
+                var rt = qrFallbackNoteGo.AddComponent<RectTransform>();
+                rt.anchorMin = Vector2.zero;
+                rt.anchorMax = Vector2.one;
+                rt.offsetMin = Vector2.zero;
+                rt.offsetMax = Vector2.zero;
+                var note = qrFallbackNoteGo.AddComponent<Text>();
+                Font font = null;
+                if (StatusText != null)
+                {
+                    var statusText = StatusText.GetComponent<Text>();
+                    if (statusText != null) font = statusText.font;
+                }
+                note.font = font != null ? font : Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+                note.fontSize = 16;
+                note.alignment = TextAnchor.MiddleCenter;
+                note.horizontalOverflow = HorizontalWrapMode.Wrap;
+                note.verticalOverflow = VerticalWrapMode.Truncate;
+            }
+            qrFallbackNoteGo.SetActive(true);
+            var noteText = qrFallbackNoteGo.GetComponent<Text>();
+            if (noteText != null)
+            {
+                noteText.text = L("DeviceQrFailedNote", "The square did not load — no problem, use Option B or C below.");
+            }
+        }
+
+        private void ClearQrFallbackNote()
+        {
+            if (qrFallbackNoteGo != null)
+            {
+                qrFallbackNoteGo.SetActive(false);
+            }
+            else if (QRCodeImage != null)
+            {
+                var existing = QRCodeImage.transform.Find("QrFallbackNote");
+                if (existing != null) existing.gameObject.SetActive(false);
+            }
         }
 
         private void StartCountdown(int seconds)
@@ -217,7 +339,15 @@ namespace Simva
                 }
                 SimvaConf.Local.AuthParameters["auto_open_device_url"] = "false";
             }
-            SimvaManager.Instance.LoginAndScheduleDevice();
+            SetStatus("DeviceLoadingSubtitle", "Hold on, getting your sign-in ready…");
+            try
+            {
+                SimvaManager.Instance.LoginAndScheduleDevice();
+            }
+            catch (Exception ex)
+            {
+                ShowDeviceError(ex.ToString());
+            }
         }
 
         public void AcceptDisclaimer()
