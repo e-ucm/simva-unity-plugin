@@ -19,6 +19,21 @@ namespace Simva
                 case "Simva.Login":
                     form = GameObject.Instantiate(Resources.Load<GameObject>("SimvaLogin"));
                     break;
+                case "Simva.Device":
+                    var devicePrefab = Resources.Load<GameObject>("SimvaDevice");
+                    if (devicePrefab != null)
+                    {
+                        form = GameObject.Instantiate(devicePrefab);
+                        if (form.GetComponent<DeviceCodeController>() == null)
+                        {
+                            form.AddComponent<DeviceCodeController>();
+                        }
+                    }
+                    else
+                    {
+                        form = new GameObject("Simva.Device", typeof(DeviceCodeController));
+                    }
+                    break;
                 case "Simva.Survey":
                     form = GameObject.Instantiate(Resources.Load<GameObject>("SimvaSurvey"));
                     break;

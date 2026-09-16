@@ -100,14 +100,75 @@ namespace Simva
         }
 
 
+        public bool IsDeviceLoginMode
+        {
+            get
+            {
+                return SimvaConf.Local != null
+                    && string.Equals(SimvaConf.Local.AuthProtocol, "device", StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
         public IAsyncOperation InitUser()
         {
+            if (IsDeviceLoginMode)
+            {
+                return LoginAndScheduleDevice();
+            }
             return LoginAndSchedule();
         }
 
         public void Demo()
         {
             Bridge.Demo();
+        }
+
+        public void ShowDeviceLogin()
+        {
+            NotifyLoading(false);
+            Bridge.RunScene("Simva.Device");
+            if (DeviceCodeController.Active != null)
+            {
+                DeviceCodeController.Active.ShowLoading();
+            }
+        }
+
+        public void UpdateDeviceInfo(DeviceAuthInfo info)
+        {
+            NotifyLoading(false);
+            if (DeviceCodeController.Active == null)
+            {
+                Bridge.RunScene("Simva.Device");
+            }
+            if (DeviceCodeController.Active != null)
+            {
+                DeviceCodeController.Active.ShowDeviceInfo(info);
+            }
+        }
+
+        public void ShowDeviceError(string message)
+        {
+            NotifyLoading(false);
+            if (DeviceCodeController.Active == null)
+            {
+                Bridge.RunScene("Simva.Device");
+            }
+            if (DeviceCodeController.Active != null)
+            {
+                DeviceCodeController.Active.ShowError(message);
+            }
+            else
+            {
+                NotifyManagers(message);
+            }
+        }
+
+        public void DismissDevice()
+        {
+            if (DeviceCodeController.Active != null)
+            {
+                DeviceCodeController.Active.Dismiss();
+            }
         }
 
         public IAsyncOperation LoginWithRefreshToken(string refreshToken)
@@ -156,12 +217,15 @@ namespace Simva
 
         public IAsyncOperation LoginAndScheduleDevice()
         {
-            NotifyLoading(true);
+            ShowDeviceLogin();
+            AttachDeviceListener();
             return SimvaApi<IStudentsApi>.LoginDevice()
                 .Then(simvaController =>
                 {
                     this.API = simvaController;
                     RegisterAuthInfoUpdate();
+                    DetachDeviceListener();
+                    DismissDevice();
                     return UpdateSchedule();
                 })
                 .Then(schedule =>
@@ -170,11 +234,53 @@ namespace Simva
                 })
                 .Catch(error =>
                 {
+                    DetachDeviceListener();
                     NotifyLoading(false);
                     var msg = SimvaPlugin.Instance.GetName("InvalidLoginMsg");
                     SimvaPlugin.Instance.LogError(msg + ": " + error.ToString());
-                    NotifyManagers(msg);
+                    ShowDeviceError(msg + ": " + error.Message);
                 });
+        }
+
+        private DeviceAuthInfo pendingDeviceInfo;
+        private bool deviceListenerAttached;
+
+        private void Update()
+        {
+            if (pendingDeviceInfo != null)
+            {
+                var info = pendingDeviceInfo;
+                pendingDeviceInfo = null;
+                UpdateDeviceInfo(info);
+            }
+        }
+
+        private void AttachDeviceListener()
+        {
+            if (deviceListenerAttached) return;
+            OAuth2DeviceProtocol.DeviceAuthorizationReceived += OnDeviceAuthorizationReceived;
+            deviceListenerAttached = true;
+        }
+
+        private void DetachDeviceListener()
+        {
+            if (!deviceListenerAttached) return;
+            OAuth2DeviceProtocol.DeviceAuthorizationReceived -= OnDeviceAuthorizationReceived;
+            deviceListenerAttached = false;
+        }
+
+        private void OnDeviceAuthorizationReceived(OAuth2DeviceAuthorization info)
+        {
+            if (info == null) return;
+            pendingDeviceInfo = new DeviceAuthInfo
+            {
+                device_code = info.DeviceCode,
+                user_code = info.UserCode,
+                verification_uri = info.VerificationUri,
+                verification_uri_complete = info.VerificationUriComplete,
+                interval = info.Interval,
+                expires_in = info.ExpiresIn
+            };
         }
 
         public IAsyncOperation LoginAndSchedule(string token)

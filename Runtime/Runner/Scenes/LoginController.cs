@@ -138,6 +138,11 @@ namespace Simva
             SimvaManager.Instance.LoginAndSchedule();
         }
 
+        public void LoginWithDeviceCode()
+        {
+            SimvaManager.Instance.LoginAndScheduleDevice();
+        }
+
         public void LoginWithDevice()
         {
             SimvaManager.Instance.LoginAndScheduleDevice();

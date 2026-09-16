@@ -67,7 +67,14 @@ namespace Simva
 
             if (SimvaManager.Instance != null && SimvaManager.Instance.IsEnabled)
             {
-                SimvaPlugin.Instance.RunScene("Simva.Login");
+                if (SimvaManager.Instance.IsDeviceLoginMode)
+                {
+                    SimvaManager.Instance.LoginAndScheduleDevice();
+                }
+                else
+                {
+                    SimvaPlugin.Instance.RunScene("Simva.Login");
+                }
             }
             else
             {
