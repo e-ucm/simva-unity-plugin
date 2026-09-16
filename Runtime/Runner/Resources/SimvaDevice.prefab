@@ -169,17 +169,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disclaimer: {fileID: 3175411207788331359}
-  preview: {fileID: 1624838759662095155}
-  back: {fileID: 4698334553765079694}
+  preview: {fileID: 3220597356208727169}
+  back: {fileID: 7701439342122408443}
   adviceDemo: {fileID: 3507395793834817277}
   QRCodeImage: {fileID: 8173274404082649253}
-  DeviceCompleteUrlValue: {fileID: 0}
+  DeviceCompleteUrlValue: {fileID: 2458942210193915923}
   loginDeviceCompleteUrlButton: {fileID: 6001652829397851969}
   loginDeviceCompleteUrlCopyButton: {fileID: 5781770404015842976}
-  DeviceUrlValue: {fileID: 0}
+  DeviceUrlValue: {fileID: 1291076065101505592}
   loginDeviceUrlButton: {fileID: 2439951992602095751}
   loginDeviceUrlCopyButton: {fileID: 6215917987324123994}
-  deviceCodeValue: {fileID: 0}
+  deviceCodeValue: {fileID: 3164880959210259405}
   loginDeviceCodeCopyButton: {fileID: 1390551857084883392}
   StatusText: {fileID: 536907192386217843}
   timerText: {fileID: 4603453662813765702}
@@ -865,11 +865,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 12
+    m_FontSize: 8
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 40
+    m_MaxSize: 300
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1742,11 +1742,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 12
+    m_FontSize: 8
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 40
+    m_MaxSize: 300
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
