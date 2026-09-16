@@ -29,7 +29,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 417624850846844253}
   - {fileID: 8705094409380666007}
   m_Father: {fileID: 224287742386370230}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -50,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c804a47e44044564cbdbaa650c38e2a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Loading: {fileID: 1088068307313258064}
+  Loading: {fileID: 0}
   Form: {fileID: 9046868364057465734}
 --- !u!1 &1674110468084272
 GameObject:
@@ -370,7 +369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 4830072357933148733}
   textMeshComponent: {fileID: 0}
-  languageKey: loadingSubtitle
+  languageKey: DeviceLoadingSubtitle
 --- !u!1 &765009759489622028
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,7 +480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 5660574422763906137}
   textMeshComponent: {fileID: 0}
-  languageKey: ConnectButton
+  languageKey: DeviceOpenButton
 --- !u!1 &993884877824962925
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,134 +591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 1445609611682459562}
   textMeshComponent: {fileID: 0}
-  languageKey: optionB
---- !u!1 &1088068307313258064
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 417624850846844253}
-  - component: {fileID: 1658095396377061028}
-  - component: {fileID: 4056826450818921616}
-  - component: {fileID: 4512583229019442488}
-  - component: {fileID: 2051001250934535471}
-  - component: {fileID: 7662599580841137086}
-  m_Layer: 5
-  m_Name: LoadingUserText
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &417624850846844253
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1088068307313258064}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 224904990406369308}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -13.999981, y: 14.399984}
-  m_SizeDelta: {x: 396.9, y: 87.3}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &1658095396377061028
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1088068307313258064}
-  m_CullTransparentMesh: 0
---- !u!114 &4056826450818921616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1088068307313258064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.69803923, b: 0.058823533, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 40
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 43
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: Loading user...
---- !u!114 &4512583229019442488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1088068307313258064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.434}
-  m_EffectDistance: {x: 1.54, y: 1.61}
-  m_UseGraphicAlpha: 1
---- !u!114 &2051001250934535471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1088068307313258064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.184}
-  m_EffectDistance: {x: 3.1, y: -2.57}
-  m_UseGraphicAlpha: 1
---- !u!114 &7662599580841137086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1088068307313258064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4aff51807fcab49b516a0da135d059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textComponent: {fileID: 4056826450818921616}
-  textMeshComponent: {fileID: 0}
-  languageKey: LoadingUserText
+  languageKey: DeviceOptionB
 --- !u!1 &1216272074388110982
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,7 +795,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 2157871395355417099}
   textMeshComponent: {fileID: 0}
-  languageKey: optionC
+  languageKey: DeviceOptionC
 --- !u!1 &1291076065101505592
 GameObject:
   m_ObjectHideFlags: 0
@@ -1034,7 +906,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 5564943145220141723}
   textMeshComponent: {fileID: 0}
-  languageKey: TokenText
+  languageKey: 
 --- !u!1 &1347101912976994994
 GameObject:
   m_ObjectHideFlags: 0
@@ -1465,7 +1337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 2999437464427877133}
   textMeshComponent: {fileID: 0}
-  languageKey: TokenText
+  languageKey: DeviceCopyLinkHint
 --- !u!1 &2322506768597250892
 GameObject:
   m_ObjectHideFlags: 0
@@ -1800,7 +1672,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 1423905456243227320}
   textMeshComponent: {fileID: 0}
-  languageKey: copyLinkButton
+  languageKey: DeviceCopyLinkButton
 --- !u!1 &2458942210193915923
 GameObject:
   m_ObjectHideFlags: 0
@@ -1911,7 +1783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 2022266756465078391}
   textMeshComponent: {fileID: 0}
-  languageKey: TokenText
+  languageKey: 
 --- !u!1 &2588234334191758291
 GameObject:
   m_ObjectHideFlags: 0
@@ -2022,7 +1894,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 5306957785445125542}
   textMeshComponent: {fileID: 0}
-  languageKey: deviceTitle
+  languageKey: DeviceTitle
 --- !u!1 &3111458514261281541
 GameObject:
   m_ObjectHideFlags: 0
@@ -2133,7 +2005,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 1326126336759882533}
   textMeshComponent: {fileID: 0}
-  languageKey: stepA3
+  languageKey: DeviceStepA3
 --- !u!1 &3164880959210259405
 GameObject:
   m_ObjectHideFlags: 0
@@ -2244,7 +2116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 309268525024733180}
   textMeshComponent: {fileID: 0}
-  languageKey: TokenText
+  languageKey: 
 --- !u!1 &3175411207788331359
 GameObject:
   m_ObjectHideFlags: 0
@@ -2621,7 +2493,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 5881287176532369684}
   textMeshComponent: {fileID: 0}
-  languageKey: copyLinkButton
+  languageKey: DeviceCopyLinkButton
 --- !u!1 &4098933624371244269
 GameObject:
   m_ObjectHideFlags: 0
@@ -2770,7 +2642,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 479647749900989482}
   textMeshComponent: {fileID: 0}
-  languageKey: stepA2
+  languageKey: DeviceStepA2
 --- !u!1 &4603453662813765702
 GameObject:
   m_ObjectHideFlags: 0
@@ -2881,7 +2753,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 3053347221290176176}
   textMeshComponent: {fileID: 0}
-  languageKey: codeValidFor
+  languageKey: DeviceCodeValidFor
 --- !u!1 &4698334553765079694
 GameObject:
   m_ObjectHideFlags: 0
@@ -3103,7 +2975,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 5811943536209034896}
   textMeshComponent: {fileID: 0}
-  languageKey: stepC2
+  languageKey: DeviceStepC3
 --- !u!1 &5435348144467862800
 GameObject:
   m_ObjectHideFlags: 0
@@ -3314,7 +3186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 2933759268656933122}
   textMeshComponent: {fileID: 0}
-  languageKey: stepA2
+  languageKey: DeviceStepA2
 --- !u!1 &5521397993330367692
 GameObject:
   m_ObjectHideFlags: 0
@@ -3707,7 +3579,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 8057806060146962406}
   textMeshComponent: {fileID: 0}
-  languageKey: subtitlePick
+  languageKey: DeviceSubtitlePick
 --- !u!1 &6001652829397851969
 GameObject:
   m_ObjectHideFlags: 0
@@ -3951,7 +3823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 4414674285323268440}
   textMeshComponent: {fileID: 0}
-  languageKey: stepA3
+  languageKey: DeviceStepA3
 --- !u!1 &6213422412721542410
 GameObject:
   m_ObjectHideFlags: 0
@@ -4062,7 +3934,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 94866941447770360}
   textMeshComponent: {fileID: 0}
-  languageKey: optionA
+  languageKey: DeviceOptionA
 --- !u!1 &6215917987324123994
 GameObject:
   m_ObjectHideFlags: 0
@@ -4306,7 +4178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 5658774920879025684}
   textMeshComponent: {fileID: 0}
-  languageKey: stepA3
+  languageKey: DeviceStepA3
 --- !u!1 &6525312727603287661
 GameObject:
   m_ObjectHideFlags: 0
@@ -4417,7 +4289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 1984389163732160051}
   textMeshComponent: {fileID: 0}
-  languageKey: stepA1
+  languageKey: DeviceStepA1
 --- !u!1 &6602923776738341413
 GameObject:
   m_ObjectHideFlags: 0
@@ -4528,7 +4400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 855336720003756304}
   textMeshComponent: {fileID: 0}
-  languageKey: openButton
+  languageKey: DeviceOpenButton
 --- !u!1 &6720853339701442500
 GameObject:
   m_ObjectHideFlags: 0
@@ -5145,7 +5017,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 7172441060514628535}
   textMeshComponent: {fileID: 0}
-  languageKey: copyButton
+  languageKey: DeviceCopyButton
 --- !u!1 &7810948662842891064
 GameObject:
   m_ObjectHideFlags: 0
@@ -5256,7 +5128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 7968895335387183541}
   textMeshComponent: {fileID: 0}
-  languageKey: stepC1
+  languageKey: DeviceStepB1
 --- !u!1 &7859920112656121455
 GameObject:
   m_ObjectHideFlags: 0
@@ -5367,7 +5239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 4240344398360673918}
   textMeshComponent: {fileID: 0}
-  languageKey: stepB1
+  languageKey: DeviceStepB1
 --- !u!1 &8061144768519222129
 GameObject:
   m_ObjectHideFlags: 0
@@ -5785,7 +5657,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 9057452705019829932}
   textMeshComponent: {fileID: 0}
-  languageKey: TokenText
+  languageKey: DeviceStepA2
 --- !u!1 &8612129898800815323
 GameObject:
   m_ObjectHideFlags: 0
@@ -5896,7 +5768,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 9041929567005728188}
   textMeshComponent: {fileID: 0}
-  languageKey: noTypingNote
+  languageKey: DeviceNoTypingNote
 --- !u!1 &8878863907519952284
 GameObject:
   m_ObjectHideFlags: 0
@@ -6141,7 +6013,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 3678672560399905572}
   textMeshComponent: {fileID: 0}
-  languageKey: copyLinkHint
+  languageKey: DeviceCopyLinkHint
 --- !u!1 &9024345208631257296
 GameObject:
   m_ObjectHideFlags: 0
