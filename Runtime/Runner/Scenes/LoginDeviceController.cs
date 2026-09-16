@@ -115,21 +115,24 @@ namespace Simva
             int remaining = totalSeconds;
             while (remaining > 0)
             {
-                int minutes = remaining / 60;
-                int secs = remaining % 60;
-                if (timerText != null)
-                {
-                    var text = timerText.GetComponent<Text>();
-                    if (text != null) text.text = string.Format("{0:00}:{1:00}", minutes, secs);
-                }
+                UpdateTimerText(remaining);
                 yield return new WaitForSeconds(1f);
                 remaining--;
             }
-            if (timerText != null)
-            {
-                var text = timerText.GetComponent<Text>();
-                if (text != null) text.text = "Expired";
-            }
+            // Code expired, request a new one
+            LoginWithDevice();
+        }
+
+        private void UpdateTimerText(int remaining)
+        {
+            if (timerText == null) return;
+            var text = timerText.GetComponent<Text>();
+            if (text == null) return;
+            int minutes = remaining / 60;
+            int secs = remaining % 60;
+            string time = string.Format("{0:00}:{1:00}", minutes, secs);
+            string template = SimvaPlugin.Instance != null ? SimvaPlugin.Instance.GetName("DeviceCodeValidFor") : null;
+            text.text = string.IsNullOrEmpty(template) ? time : template.Replace("{time}", time);
         }
 
         public void openSignInWithDeviceUrl()
