@@ -70,6 +70,14 @@ namespace Simva
             DontDestroyOnLoad(gameObject);
         }
 
+        void OnDestroy()
+        {
+            if (instance == this)
+            {
+                instance = null;
+            }
+        }
+
 
 #if UNITY_5_3_OR_NEWER
     public IEnumerator Start()
@@ -90,7 +98,6 @@ namespace Simva
                 Log(lang);
             if (SimvaManager.Instance.Bridge != null)
             {
-                DestroyImmediate(this.gameObject);
                 yield break;
             }
             if (string.IsNullOrEmpty(GamePlayScene))

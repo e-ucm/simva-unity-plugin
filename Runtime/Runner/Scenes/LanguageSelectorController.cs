@@ -41,23 +41,14 @@ namespace Simva
 
         public void FillDictionaryAndRunLoginScene(string language)
         {
-            string langCode = language;
-            if (!string.IsNullOrEmpty(language) && language.Contains("["))
-            {
-                int start = language.IndexOf("[") + 1;
-                int end = language.IndexOf("]", start);
-                if (start > 0 && end > start)
-                {
-                    langCode = language.Substring(start, end - start);
-                }
-            }
+            string langCode = SimvaLanguageLoader.ExtractLangCode(language);
             if (!string.IsNullOrEmpty(langCode))
             {
-                jsonFiles = LoadLanguageJSON(langCode);
-                SimvaPlugin.Instance.SetLanguageDictionary(LoadDictionary(jsonFiles), false);
+                jsonFiles = SimvaLanguageLoader.LoadLanguageJSON(langCode);
+                SimvaPlugin.Instance.SetLanguageDictionary(SimvaLanguageLoader.LoadDictionary(jsonFiles), false);
             }
-            defaultJsonFiles = LoadLanguageJSON(langCode);
-            SimvaPlugin.Instance.SetLanguageDictionary(LoadDictionary(defaultJsonFiles), true);
+            defaultJsonFiles = SimvaLanguageLoader.LoadLanguageJSON(langCode);
+            SimvaPlugin.Instance.SetLanguageDictionary(SimvaLanguageLoader.LoadDictionary(defaultJsonFiles), true);
 
             if (LanguageSelected != null)
             {
@@ -124,48 +115,6 @@ namespace Simva
             }
             SimvaPlugin.Instance.Log("Languages : " + languages.Count);
             return languages;
-        }
-
-        List<TextAsset> LoadLanguageJSON(string language)
-        {
-            SimvaPlugin.Instance.Log("Loading Dictionaries directory (Localization/" + language + "/" + "Dictionaries)...");
-            UnityEngine.Object[] filler = Resources.LoadAll("Localization/" + language + "/" + "Dictionaries", typeof(TextAsset));
-            if (filler == null || filler.Length == 0)
-            {
-                SimvaPlugin.Instance.LogError("No JSON Files in Dictionaries directory found (Localization/" + language + "/" + "Dictionaries) !");
-            }
-
-            List<TextAsset> json = new List<TextAsset>();
-            foreach (UnityEngine.Object file in filler)
-            {
-                json.Add((TextAsset)file);
-            }
-#if UNITY_EDITOR
-            foreach (var t in json)
-                SimvaPlugin.Instance.Log("JSON File added for Language " + language + " : " + t.name);
-#endif
-            return json;
-        }
-
-        Dictionary<string, string> LoadDictionary(List<TextAsset> json)
-        {
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            string fileContents;
-            foreach (var jsonFile in json)
-            {
-                SimvaPlugin.Instance.Log("JSON File added : " + jsonFile.name);
-                fileContents = jsonFile.text;
-
-                JObject jObject = JObject.Parse(fileContents);
-                foreach (var entry in jObject)
-                {
-                    if (!dictionary.ContainsKey(entry.Key))
-                    {
-                        dictionary.Add(entry.Key, (string)entry.Value);
-                    }
-                }
-            }
-            return dictionary;
         }
 
         public override void Render()
